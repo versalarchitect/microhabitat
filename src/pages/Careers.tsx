@@ -41,25 +41,36 @@ export function Careers(_props: CareersProps) {
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Careers</p>
-          <h1 className="heading-display mb-8">
-            Grow your career with <span className="text-primary">MicroHabitat</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Join our team of urban farmers, sustainability experts, and community builders.
-            We're on a mission to transform cities one rooftop at a time.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="mailto:careers@microhabitat.com"
-              className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-primary hover:bg-primary/90 transition-colors"
-            >
-              View Open Positions
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-            <Link to="/about" className="btn-outline">
-              Learn About Us
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Careers</p>
+              <h1 className="heading-display mb-8">
+                Grow your career with <span className="text-primary">MicroHabitat</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Join our team of urban farmers, sustainability experts, and community builders.
+                We're on a mission to transform cities one rooftop at a time.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="mailto:careers@microhabitat.com"
+                  className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-primary hover:bg-primary/90 transition-colors"
+                >
+                  View Open Positions
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+                <Link to="/about" className="btn-outline">
+                  Learn About Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
+                alt="MicroHabitat Team"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

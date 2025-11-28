@@ -53,36 +53,49 @@ function ServiceCard({
       }}
     >
       {/* Card - border only, no shadows */}
-      <div className="h-full border border-border rounded-md bg-card p-6 hover:border-foreground/20 transition-colors">
-        {/* Icon */}
-        <div className="mb-4">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-md border border-border bg-card">
-            <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+      <div className="h-full border border-border rounded-md bg-card overflow-hidden hover:border-foreground/20 transition-colors">
+        {/* Image */}
+        {service.image && (
+          <div className="aspect-video w-full overflow-hidden">
+            <img
+              src={service.image}
+              alt={service.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
           </div>
+        )}
+
+        <div className="p-6">
+          {/* Icon */}
+          <div className="mb-4">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-md border border-border bg-card">
+              <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <h3 className="mb-3 text-xl font-medium text-foreground">
+            {service.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-sm leading-relaxed text-muted-foreground mb-4">
+            {service.description}
+          </p>
+
+          {/* Features list */}
+          <ul className="space-y-2">
+            {service.features.map((feature) => (
+              <li
+                key={feature}
+                className="flex items-center gap-2 text-sm text-muted-foreground"
+              >
+                <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                {feature}
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {/* Title */}
-        <h3 className="mb-3 text-xl font-medium text-foreground">
-          {service.title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-sm leading-relaxed text-muted-foreground mb-4">
-          {service.description}
-        </p>
-
-        {/* Features list */}
-        <ul className="space-y-2">
-          {service.features.map((feature) => (
-            <li
-              key={feature}
-              className="flex items-center gap-2 text-sm text-muted-foreground"
-            >
-              <Check className="h-4 w-4 text-primary flex-shrink-0" />
-              {feature}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

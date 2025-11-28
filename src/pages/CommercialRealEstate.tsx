@@ -61,23 +61,34 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">For Commercial Real Estate</p>
-          <h1 className="heading-display mb-8">
-            Urban Farming for <span className="text-primary">Commercial Real Estate</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Transform your properties into sustainable, community-focused assets. Our turnkey
-            urban farming solutions help you achieve green certifications, engage tenants,
-            and differentiate your portfolio.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book a Demo
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">For Commercial Real Estate</p>
+              <h1 className="heading-display mb-8">
+                Urban Farming for <span className="text-primary">Commercial Real Estate</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Transform your properties into sustainable, community-focused assets. Our turnkey
+                urban farming solutions help you achieve green certifications, engage tenants,
+                and differentiate your portfolio.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book a Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/d7453f90-694b-48ed-af1f-5c16b806db70/Rhapsody_425+Wellington+St+W-0438_MicroHabitat+2024+%281%29.jpg"
+                alt="Commercial Real Estate Urban Farm"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -39,21 +39,30 @@ function TestimonialCard({
 
           {/* Author */}
           <div className="mt-8 pt-6 border-t border-border">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                <span className="text-primary-foreground font-medium text-lg">
-                  {testimonial.author.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <div className="font-medium text-foreground">
-                  {testimonial.author}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary-foreground font-medium text-lg">
+                    {testimonial.author.charAt(0)}
+                  </span>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  {testimonial.role && `${testimonial.role}, `}
-                  {testimonial.company}
+                <div>
+                  <div className="font-medium text-foreground">
+                    {testimonial.author}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {testimonial.role && `${testimonial.role}, `}
+                    {testimonial.company}
+                  </div>
                 </div>
               </div>
+              {testimonial.companyLogo && (
+                <img
+                  src={testimonial.companyLogo}
+                  alt={testimonial.company}
+                  className="h-10 w-auto object-contain"
+                />
+              )}
             </div>
           </div>
         </div>

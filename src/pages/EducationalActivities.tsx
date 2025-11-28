@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, MapPin, Monitor, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 interface EducationalActivitiesProps {
@@ -9,7 +9,6 @@ interface EducationalActivitiesProps {
 export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps) {
   const activities = [
     {
-      icon: MapPin,
       title: "Garden Visits",
       subtitle: "Immersive Farm Tours",
       description: "Take the experience home. Complete your tour with a MicroHabitat tote bag filled with seed packets—your first step toward growing change in your own space.",
@@ -19,9 +18,9 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
         "Take-home seed packets and tote bag",
         "Perfect for team outings and client events",
       ],
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg",
     },
     {
-      icon: Monitor,
       title: "Kiosks",
       subtitle: "Interactive Display Stations",
       description: "Inspire collective action. Spark curiosity and motivate change as guests discover how they can take part in the movement toward greener, more resilient cities.",
@@ -31,9 +30,9 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
         "Seasonal produce tastings",
         "Perfect for lobbies and common areas",
       ],
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c4b9e4e9-eeb4-4408-bd49-492033a12fec/educational-activities.jpg",
     },
     {
-      icon: BookOpen,
       title: "Workshops",
       subtitle: "Transformative Learning Sessions",
       description: "Discover transformative workshops that bridge your community with urban agriculture. In just one hour, our interactive sessions foster meaningful connections with sustainable food practices.",
@@ -43,6 +42,7 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
         "Customizable to your organization's needs",
         "All age groups welcome",
       ],
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5969186f-511a-4d62-a903-bedd8e8e7f85/Enfant+fille+6.jpg",
     },
   ];
 
@@ -62,23 +62,34 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Services</p>
-          <h1 className="heading-display mb-8">
-            Educational <span className="text-primary">Team Building</span> Activities
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Engage your community with hands-on learning experiences that connect people
-            to sustainable urban agriculture. From guided farm tours to interactive workshops,
-            we bring the joy of growing to everyone.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book an Activity
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Services</p>
+              <h1 className="heading-display mb-8">
+                Educational <span className="text-primary">Team Building</span> Activities
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Engage your community with hands-on learning experiences that connect people
+                to sustainable urban agriculture. From guided farm tours to interactive workshops,
+                we bring the joy of growing to everyone.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book an Activity
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg"
+                alt="Educational Activity"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -88,37 +99,35 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       {/* Activities Section */}
       <section className="section">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="space-y-16">
+          <div className="space-y-20">
             {activities.map((activity, index) => (
-              <div key={index}>
-                <div className="grid md:grid-cols-2 gap-12 items-start">
-                  <div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <activity.icon className="w-8 h-8 text-primary" />
-                      <p className="label">{activity.subtitle}</p>
-                    </div>
-                    <h2 className="heading-section mb-6">{activity.title}</h2>
-                    <p className="text-muted-foreground text-lg mb-8">
-                      {activity.description}
-                    </p>
-                    <Button onClick={onBookDemo}>
-                      Book Now
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="card-minimal p-6">
-                    <h3 className="font-medium mb-4">What's Included</h3>
-                    <ul className="space-y-3">
-                      {activity.features.map((feature, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
-                          <span className="text-muted-foreground">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <div key={index} className="grid md:grid-cols-2 gap-12 items-center">
+                <div className={index % 2 === 1 ? 'md:order-2' : ''}>
+                  <p className="label mb-4">{activity.subtitle}</p>
+                  <h2 className="heading-section mb-6">{activity.title}</h2>
+                  <p className="text-muted-foreground text-lg mb-6">
+                    {activity.description}
+                  </p>
+                  <ul className="space-y-3 mb-8">
+                    {activity.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button onClick={onBookDemo}>
+                    Book Now
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
-                {index < activities.length - 1 && <div className="divider mt-16" />}
+                <div className={`aspect-video rounded-md overflow-hidden ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+                  <img
+                    src={activity.image}
+                    alt={activity.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -160,41 +169,34 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
 
       <div className="divider" />
 
-      {/* For Organizations */}
+      {/* Gallery Section */}
       <section className="section">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">For Organizations</p>
-          <h2 className="heading-section mb-12">
-            Activities for every setting
+          <p className="label mb-4 text-center">Our Activities</p>
+          <h2 className="heading-section mb-12 text-center">
+            Engaging communities through learning
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="card-minimal p-6">
-              <Users className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Corporate Teams</h3>
-              <p className="text-muted-foreground">
-                Build team cohesion with engaging activities that get people
-                out of the office and into the garden. Perfect for team building
-                days and sustainability initiatives.
-              </p>
-            </div>
-            <div className="card-minimal p-6">
-              <BookOpen className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Schools</h3>
-              <p className="text-muted-foreground">
-                Support curriculum goals with hands-on learning that covers
-                biology, environmental science, nutrition, and more. Activities
-                designed for all grade levels.
-              </p>
-            </div>
-            <div className="card-minimal p-6">
-              <MapPin className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Building Tenants</h3>
-              <p className="text-muted-foreground">
-                Create community among building occupants with shared experiences
-                around growing and harvesting. A unique amenity that sets your
-                property apart.
-              </p>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg"
+              alt="Educational Activity 1"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c4b9e4e9-eeb4-4408-bd49-492033a12fec/educational-activities.jpg"
+              alt="Educational Activity 2"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5969186f-511a-4d62-a903-bedd8e8e7f85/Enfant+fille+6.jpg"
+              alt="Educational Activity 3"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
+              alt="Educational Activity 4"
+              className="w-full aspect-square object-cover rounded-md"
+            />
           </div>
         </div>
       </section>
@@ -202,7 +204,7 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       <div className="divider" />
 
       {/* Stats */}
-      <section className="section">
+      <section className="section bg-muted/30">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-3 gap-8 text-center">
             <div>

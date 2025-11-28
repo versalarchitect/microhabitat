@@ -61,23 +61,34 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">For Corporations</p>
-          <h1 className="heading-display mb-8">
-            Urban Farming for <span className="text-primary">Corporations</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Transform your corporate environment with sustainable urban agriculture.
-            Engage employees, support CSR goals, and create a workplace that reflects
-            your commitment to a healthier planet.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book a Demo
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">For Corporations</p>
+              <h1 className="heading-display mb-8">
+                Urban Farming for <span className="text-primary">Corporations</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Transform your corporate environment with sustainable urban agriculture.
+                Engage employees, support CSR goals, and create a workplace that reflects
+                your commitment to a healthier planet.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book a Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/cdab09dc-3167-4f11-ac84-618b1d4d4102/Cadillac+Fairview_220+Yonge+St+Toronto-4201_MicroHabitat+2024.jpg"
+                alt="Corporate Urban Farm"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

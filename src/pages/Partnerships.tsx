@@ -50,14 +50,40 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Partnerships</p>
-          <h1 className="heading-display mb-8">
-            Our Partners shaping a <span className="text-primary">sustainable future</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            We work with leading organizations across North America and Europe to bring
-            urban farming to communities everywhere. Together, we're transforming cities
-            and building a more sustainable food system.
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Partnerships</p>
+              <h1 className="heading-display mb-8">
+                Our Partners shaping a <span className="text-primary">sustainable future</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                We work with leading organizations across North America and Europe to bring
+                urban farming to communities everywhere. Together, we're transforming cities
+                and building a more sustainable food system.
+              </p>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
+                alt="Partnership Urban Farm"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="divider" />
+
+      {/* Partners Section */}
+      <section className="section">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <p className="label mb-4">Our Partners</p>
+          <h2 className="heading-section mb-8">
+            Organizations growing with us
+          </h2>
+          <p className="text-body max-w-3xl mb-8">
+            Join our network of partners working together to create greener, more sustainable urban spaces.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button onClick={onBookDemo}>

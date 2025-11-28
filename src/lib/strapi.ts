@@ -56,6 +56,7 @@ export interface HeroContent {
   subtitle: string;
   ctaPrimary: string;
   ctaSecondary: string;
+  image?: string;
 }
 
 export interface Stat {
@@ -79,6 +80,8 @@ export interface Testimonial {
   role: string;
   company: string;
   highlight?: string;
+  image?: string;
+  companyLogo?: string;
 }
 
 export interface Partner {
@@ -125,6 +128,7 @@ const fallbackHero: HeroContent = {
     "We transform underutilized urban spaces into revenue-generating, impact-creating ecosystems that deliver bottom-line results.",
   ctaPrimary: "Book a Demo",
   ctaSecondary: "Learn More",
+  image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg",
 };
 
 const fallbackStats: Stat[] = [
@@ -138,15 +142,16 @@ const fallbackStats: Stat[] = [
 const fallbackServices: Service[] = [
   {
     icon: "Leaf",
-    title: "Installation & Maintenance",
+    title: "Garden Care & Harvest",
     description:
       "Our team expertly ensures your urban garden remains a vibrant and productive centerpiece of your property. Our professional team provides all-encompassing garden care, from plant health, harvesting and full production management.",
     features: [
-      "Rooftop gardens",
-      "Terrace farms",
-      "Ground-level gardens",
       "Weekly maintenance visits",
+      "Professional cultivation",
+      "Harvest management",
+      "Full production oversight",
     ],
+    image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg",
   },
   {
     icon: "GraduationCap",
@@ -159,6 +164,7 @@ const fallbackServices: Service[] = [
       "Farm tours",
       "Interactive kiosks",
     ],
+    image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c4b9e4e9-eeb4-4408-bd49-492033a12fec/educational-activities.jpg",
   },
   {
     icon: "Heart",
@@ -171,6 +177,7 @@ const fallbackServices: Service[] = [
       "Community engagement",
       "Urban Solidarity Farms program",
     ],
+    image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg",
   },
 ];
 
@@ -182,6 +189,8 @@ const fallbackTestimonials: Testimonial[] = [
     role: "",
     company: "BNP Paribas in Canada",
     highlight: "2,850 lbs donated since 2021",
+    image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/ee544728-972c-4b64-9d95-142a579f983c/555-Richmond-W-5323-8-e1650907079985.jpg",
+    companyLogo: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/7cc8afae-d8c7-4c12-9b02-ef36319b3c75/BNP-Paribas-Logo-768x432.png",
   },
   {
     quote:
@@ -190,6 +199,7 @@ const fallbackTestimonials: Testimonial[] = [
     role: "Tenant Services Coordinator",
     company: "GWL Realty Advisors Inc.",
     highlight: "Revitalized tenant engagement",
+    companyLogo: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/52266300-fb02-4529-a42e-ffdc33cfdd11/gwl-logo.png",
   },
 ];
 

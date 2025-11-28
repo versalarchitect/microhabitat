@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Leaf, Sun, TreePine, Users, Wrench } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 interface OutdoorFarmProps {
@@ -7,37 +7,27 @@ interface OutdoorFarmProps {
 }
 
 export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
-  const benefits = [
+  const services = [
     {
-      icon: Sun,
-      title: "Maximize Unused Space",
-      description: "Convert rooftops and open areas into high-impact green amenities that support sustainability goals and add measurable value to your asset.",
+      title: "Turnkey Urban Farm Installations",
+      description: "We provide all materials, labor, and expertise to set up your outdoor farm—no prior experience or in-house resources needed. All pots are easily removable with no permanent modification to your property.",
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg",
     },
     {
-      icon: Leaf,
-      title: "Grow Fresh, Local Produce",
-      description: "From heirloom vegetables to edible flowers, our urban farms produce seasonal harvests to share with tenants, engage employees, or support local food banks.",
+      title: "Weekly Garden Care & Harvesting",
+      description: "Our team handles everything from planting and weeding to pest management and harvesting. We visit weekly to ensure your garden stays healthy and productive all season long.",
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/cdab09dc-3167-4f11-ac84-618b1d4d4102/Cadillac+Fairview_220+Yonge+St+Toronto-4201_MicroHabitat+2024.jpg",
     },
     {
-      icon: TreePine,
-      title: "Boost Biodiversity & Air Quality",
-      description: "Our regenerative farms attract pollinators and boost biodiversity—contributing to BOMA BEST, LEED, WELL, and Fitwel certification efforts.",
-    },
-    {
-      icon: Wrench,
-      title: "Fully Managed, Turnkey Service",
-      description: "We take care of everything—from initial setup to weekly care and harvesting. No prior experience or in-house resources needed.",
-    },
-    {
-      icon: Users,
-      title: "Engage Communities & Tenants",
-      description: "From planting workshops to harvest days, we offer engaging activities that bring tenants, employees, families, and neighbors into the heart of the farm.",
+      title: "Ecological Growing Practices",
+      description: "We grow using regenerative, organic methods—no synthetic chemicals, pesticides, or fertilizers. Our approach promotes biodiversity, supports pollinators, and contributes to BOMA BEST, LEED, WELL, and Fitwel certification efforts.",
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/35f2e2b7-a43d-4f90-9a34-01348d159a00/Cadillac+Fairview_220+Yonge+St+Toronto-3889_MicroHabitat+2024+%281%29.jpg",
     },
   ];
 
   const packages = [
     {
-      name: "30 pots",
+      name: "30 Pots",
       features: [
         "30 fabric grow pots",
         "Ecological irrigation system",
@@ -49,7 +39,7 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
       ],
     },
     {
-      name: "50 pots",
+      name: "50 Pots",
       features: [
         "50 fabric grow pots",
         "Ecological irrigation system",
@@ -77,74 +67,68 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
     },
   ];
 
-  const process = [
-    {
-      step: "1",
-      title: "Book a Demo",
-      description: "Schedule a free consultation to discuss your property and goals.",
-    },
-    {
-      step: "2",
-      title: "Free Site Assessment",
-      description: "Our team evaluates your space for sunlight, access, and suitability.",
-    },
-    {
-      step: "3",
-      title: "Custom Proposal",
-      description: "Receive a tailored plan with design, timeline, and investment options.",
-    },
-    {
-      step: "4",
-      title: "Installation",
-      description: "Our team handles complete setup—no permanent modifications required.",
-    },
-    {
-      step: "5",
-      title: "Ongoing Care",
-      description: "We manage everything from planting to harvesting, season after season.",
-    },
-  ];
-
   return (
     <>
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Services</p>
-          <h1 className="heading-display mb-8">
-            Outdoor <span className="text-primary">Farms</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Transform your rooftops, terraces, and outdoor spaces into productive urban farms
-            that generate impact, engage communities, and support sustainability goals.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book a Demo
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Services</p>
+              <h1 className="heading-display mb-8">
+                Outdoor <span className="text-primary">Farms</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Transform your rooftops, terraces, and outdoor spaces into productive urban farms
+                that generate impact, engage communities, and support sustainability goals.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book a Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/d7453f90-694b-48ed-af1f-5c16b806db70/Rhapsody_425+Wellington+St+W-0438_MicroHabitat+2024+%281%29.jpg"
+                alt="Outdoor Urban Farm"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       <div className="divider" />
 
-      {/* Why Choose Section */}
+      {/* What We Offer Section */}
       <section className="section">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Benefits</p>
+          <p className="label mb-4">What We Offer</p>
           <h2 className="heading-section mb-12">
-            Why Choose Outdoor Urban Farms?
+            Comprehensive outdoor farming services
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="card-minimal p-6">
-                <benefit.icon className="w-10 h-10 text-primary mb-4" />
-                <h3 className="text-xl font-medium mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground">{benefit.description}</p>
+          <div className="space-y-16">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className={`grid md:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
+              >
+                <div className={index % 2 === 1 ? 'md:order-2' : ''}>
+                  <h3 className="text-2xl font-medium mb-4">{service.title}</h3>
+                  <p className="text-muted-foreground text-lg">{service.description}</p>
+                </div>
+                <div className={`aspect-video rounded-md overflow-hidden ${index % 2 === 1 ? 'md:order-1' : ''}`}>
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -153,8 +137,42 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       <div className="divider" />
 
-      {/* Packages Section */}
+      {/* Gallery Section */}
       <section className="section bg-muted/30">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <p className="label mb-4 text-center">Our Work</p>
+          <h2 className="heading-section mb-12 text-center">
+            Outdoor farms in action
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
+              alt="Rooftop Farm 1"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/cdab09dc-3167-4f11-ac84-618b1d4d4102/Cadillac+Fairview_220+Yonge+St+Toronto-4201_MicroHabitat+2024.jpg"
+              alt="Rooftop Farm 2"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/35f2e2b7-a43d-4f90-9a34-01348d159a00/Cadillac+Fairview_220+Yonge+St+Toronto-3889_MicroHabitat+2024+%281%29.jpg"
+              alt="Fresh Produce"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+            <img
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/d7453f90-694b-48ed-af1f-5c16b806db70/Rhapsody_425+Wellington+St+W-0438_MicroHabitat+2024+%281%29.jpg"
+              alt="Urban Garden"
+              className="w-full aspect-square object-cover rounded-md"
+            />
+          </div>
+        </div>
+      </section>
+
+      <div className="divider" />
+
+      {/* Packages Section */}
+      <section className="section">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Packages</p>
           <h2 className="heading-section mb-12">
@@ -183,37 +201,8 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       <div className="divider" />
 
-      {/* Process Section */}
-      <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="max-w-3xl mb-12">
-            <p className="label mb-4">The Process</p>
-            <h2 className="heading-section mb-6">
-              From concept to harvest
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Our turnkey approach means you can enjoy a thriving urban farm without
-              any of the complexity.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-5 gap-6">
-            {process.map((step, index) => (
-              <div key={index} className="relative">
-                <div className="text-6xl font-medium text-primary/20 mb-4">
-                  {step.step}
-                </div>
-                <h3 className="text-lg font-medium mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* Suitability Section */}
-      <section className="section">
+      {/* Requirements Section */}
+      <section className="section bg-muted/30">
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
