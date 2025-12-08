@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface ContactProps {
   onBookDemo: () => void;
@@ -33,28 +34,41 @@ export function Contact({ onBookDemo }: ContactProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.contact} canonical="/contact" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Contact</p>
-          <h1 className="heading-display mb-8">
-            Contact <span className="text-primary">Us</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            Have questions about urban farming? Want to learn how MicroHabitat can
-            transform your property? We'd love to hear from you.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book a Demo
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <a
-              href="mailto:info@microhabitat.com"
-              className="btn-outline"
-            >
-              Email Us
-            </a>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Contact</p>
+              <h1 className="heading-display mb-8">
+                Contact <span className="text-primary">Us</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                Have questions about urban farming? Want to learn how MicroHabitat can
+                transform your property? We'd love to hear from you.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book a Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <a
+                  href="mailto:info@microhabitat.com"
+                  className="btn-outline"
+                >
+                  Email Us
+                </a>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
+                alt="Contact MicroHabitat"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -63,7 +77,7 @@ export function Contact({ onBookDemo }: ContactProps) {
 
       {/* Contact Methods */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div className="card-minimal p-8 text-center">
               <Mail className="w-10 h-10 text-primary mx-auto mb-4" />
@@ -100,7 +114,7 @@ export function Contact({ onBookDemo }: ContactProps) {
 
       {/* Offices Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Offices</p>
           <h2 className="heading-section mb-12">
             Our Headquarters
@@ -229,7 +243,7 @@ export function Contact({ onBookDemo }: ContactProps) {
 
       {/* Quick Links */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
               <h3 className="text-xl font-medium mb-4">Ready to get started?</h3>

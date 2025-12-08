@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { cn } from "../../lib/utils";
+import { FilterButtonGroup, type FilterOption } from "../ui/filter-button-group";
 import type { FAQItem } from "../../lib/strapi";
 
 interface FAQProps {
@@ -17,9 +17,12 @@ export function FAQ({ faq, onBookDemo }: FAQProps) {
   const [activeCategory, setActiveCategory] = useState("All");
 
   // Get unique categories from the FAQ data
-  const categories = useMemo(() => {
+  const filterOptions: FilterOption[] = useMemo(() => {
     const uniqueCategories = Array.from(new Set(faq.map((item) => item.category)));
-    return ["All", ...uniqueCategories];
+    return [
+      { label: "All", value: "All" },
+      ...uniqueCategories.map((cat) => ({ label: cat, value: cat })),
+    ];
   }, [faq]);
 
   const filteredFAQs =
@@ -46,23 +49,12 @@ export function FAQ({ faq, onBookDemo }: FAQProps) {
           </div>
 
           {/* Category filter */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setActiveCategory(category)}
-                className={cn(
-                  "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-                  activeCategory === category
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-card border border-border text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          <FilterButtonGroup
+            options={filterOptions}
+            activeValue={activeCategory}
+            onChange={setActiveCategory}
+            className="mb-8"
+          />
 
           {/* FAQ Accordion */}
           <Accordion type="single" collapsible className="w-full">

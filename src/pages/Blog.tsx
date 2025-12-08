@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Tag } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface BlogProps {
   onBookDemo: () => void;
@@ -113,9 +114,11 @@ const categories = [
 export function Blog({ onBookDemo }: BlogProps) {
   return (
     <>
+      <SEO {...PAGE_SEO.blog} canonical="/blog" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-6">Resources</p>
           <h1 className="heading-display mb-8">
             <span className="text-primary">Blog</span>
@@ -140,7 +143,7 @@ export function Blog({ onBookDemo }: BlogProps) {
 
       {/* Categories */}
       <section className="py-8">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-wrap gap-2">
             {categories.map((category, index) => (
               <button
@@ -158,7 +161,7 @@ export function Blog({ onBookDemo }: BlogProps) {
 
       {/* Blog Posts Grid */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
               <article key={index} className="card-hover p-6">

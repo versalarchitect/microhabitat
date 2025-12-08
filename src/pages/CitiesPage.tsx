@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
+import { CityCard, CityGrid } from "../components/ui/city-card";
 
 interface CitiesPageProps {
   onBookDemo: () => void;
@@ -11,61 +13,74 @@ export function CitiesPage({ onBookDemo }: CitiesPageProps) {
     {
       name: "Canada",
       cities: [
-        { name: "Montreal", slug: "montreal" },
-        { name: "Toronto", slug: "toronto" },
-        { name: "Vancouver", slug: "vancouver" },
-        { name: "Calgary", slug: "calgary" },
-        { name: "Edmonton", slug: "edmonton" },
-        { name: "Victoria", slug: "victoria" },
+        { name: "Montreal", slug: "montreal", image: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=640&q=80" },
+        { name: "Toronto", slug: "toronto", image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=640&q=80" },
+        { name: "Vancouver", slug: "vancouver", image: "https://images.unsplash.com/photo-1559511260-66a68e8c3c58?w=640&q=80" },
+        { name: "Calgary", slug: "calgary", image: "https://images.unsplash.com/photo-1569982175971-d92b01cf8694?w=640&q=80" },
+        { name: "Edmonton", slug: "edmonton", image: "https://images.unsplash.com/photo-1581534573614-36e847f61a6b?w=640&q=80" },
+        { name: "Victoria", slug: "victoria", image: "https://images.unsplash.com/photo-1583953509007-44a1c9e90511?w=640&q=80" },
       ],
     },
     {
       name: "United States",
       cities: [
-        { name: "NYC", slug: "new-york" },
-        { name: "Chicago", slug: "chicago" },
-        { name: "Dallas", slug: "dallas" },
-        { name: "Los Angeles", slug: "los-angeles" },
-        { name: "San Francisco", slug: "san-francisco" },
-        { name: "Washington DC", slug: "washington-dc" },
-        { name: "Denver", slug: "denver" },
-        { name: "Columbus", slug: "columbus" },
-        { name: "Seattle", slug: "seattle" },
+        { name: "NYC", slug: "new-york", image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=640&q=80" },
+        { name: "Chicago", slug: "chicago", image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=640&q=80" },
+        { name: "Dallas", slug: "dallas", image: "https://images.unsplash.com/photo-1588416936097-41850ab3d86d?w=640&q=80" },
+        { name: "Los Angeles", slug: "los-angeles", image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=640&q=80" },
+        { name: "San Francisco", slug: "san-francisco", image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=640&q=80" },
+        { name: "Washington DC", slug: "washington-dc", image: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=640&q=80" },
+        { name: "Denver", slug: "denver", image: "https://images.unsplash.com/photo-1619856699906-09e1f58c98b1?w=640&q=80" },
+        { name: "Columbus", slug: "columbus", image: "https://images.unsplash.com/photo-1564286366871-b0a0edd6dcf7?w=640&q=80" },
+        { name: "Seattle", slug: "seattle", image: "https://images.unsplash.com/photo-1502175353174-a7a70e73b362?w=640&q=80" },
       ],
     },
     {
       name: "Europe",
       cities: [
-        { name: "Amsterdam", slug: "amsterdam" },
-        { name: "Berlin", slug: "berlin" },
-        { name: "London", slug: "london" },
-        { name: "Paris", slug: "paris" },
-        { name: "Zurich", slug: "zurich" },
+        { name: "Amsterdam", slug: "amsterdam", image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=640&q=80" },
+        { name: "Berlin", slug: "berlin", image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=640&q=80" },
+        { name: "London", slug: "london", image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=640&q=80" },
+        { name: "Paris", slug: "paris", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=640&q=80" },
+        { name: "Zurich", slug: "zurich", image: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=640&q=80" },
       ],
     },
   ];
 
   return (
     <>
+      <SEO {...PAGE_SEO.cities} canonical="/cities" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Our Network</p>
-          <h1 className="heading-display mb-8">
-            Explore our <span className="text-primary">cities</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            MicroHabitat operates in 20+ cities across North America and Europe.
-            Find urban farming near you or bring MicroHabitat to your city.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Book a Demo
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Our Network</p>
+              <h1 className="heading-display mb-8">
+                Explore our <span className="text-primary">cities</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                MicroHabitat operates in 20+ cities across North America and Europe.
+                Find urban farming near you or bring MicroHabitat to your city.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Book a Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
+                alt="Urban Farming Cities"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -74,22 +89,21 @@ export function CitiesPage({ onBookDemo }: CitiesPageProps) {
 
       {/* Cities Grid */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           {regions.map((region, index) => (
             <div key={index} className={index > 0 ? "mt-16" : ""}>
               <p className="label mb-4">{region.name}</p>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <CityGrid variant="image">
                 {region.cities.map((city, cityIndex) => (
-                  <Link
+                  <CityCard
                     key={cityIndex}
-                    to={`/cities/${city.slug}`}
-                    className="card-hover p-4 text-center group"
-                  >
-                    <MapPin className="w-6 h-6 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                    <span className="font-medium">{city.name}</span>
-                  </Link>
+                    name={city.name}
+                    slug={city.slug}
+                    image={city.image}
+                    variant="image"
+                  />
                 ))}
-              </div>
+              </CityGrid>
             </div>
           ))}
         </div>
@@ -117,7 +131,7 @@ export function CitiesPage({ onBookDemo }: CitiesPageProps) {
 
       {/* Map Section Placeholder */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Global Network</p>

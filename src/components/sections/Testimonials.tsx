@@ -19,50 +19,67 @@ function TestimonialCard({
       )}
     >
       {/* Card - border only, no glass morphism */}
-      <div className="relative h-full border border-border rounded-md bg-card max-w-3xl mx-auto">
-        <div className="flex flex-col h-full p-8 md:p-10">
-          {/* Highlight badge */}
-          {testimonial.highlight && (
-            <div className="mb-6">
-              <span className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-primary">
-                {testimonial.highlight}
-              </span>
+      <div className="relative h-full border border-border rounded-md bg-card max-w-4xl mx-auto overflow-hidden">
+        <div className={cn(
+          "grid h-full",
+          testimonial.image ? "md:grid-cols-2" : "grid-cols-1"
+        )}>
+          {/* Image side */}
+          {testimonial.image && (
+            <div className="aspect-video md:aspect-auto md:h-full">
+              <img
+                src={testimonial.image}
+                alt={`${testimonial.company} urban farm`}
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
 
-          {/* Quote */}
-          <blockquote className="flex-grow">
-            <p className="text-foreground text-lg md:text-xl leading-relaxed">
-              "{testimonial.quote}"
-            </p>
-          </blockquote>
-
-          {/* Author */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                  <span className="text-primary-foreground font-medium text-lg">
-                    {testimonial.author.charAt(0)}
-                  </span>
-                </div>
-                <div>
-                  <div className="font-medium text-foreground">
-                    {testimonial.author}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {testimonial.role && `${testimonial.role}, `}
-                    {testimonial.company}
-                  </div>
-                </div>
+          {/* Content side */}
+          <div className="flex flex-col h-full p-8 md:p-10">
+            {/* Highlight badge */}
+            {testimonial.highlight && (
+              <div className="mb-6">
+                <span className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-primary">
+                  {testimonial.highlight}
+                </span>
               </div>
-              {testimonial.companyLogo && (
-                <img
-                  src={testimonial.companyLogo}
-                  alt={testimonial.company}
-                  className="h-10 w-auto object-contain"
-                />
-              )}
+            )}
+
+            {/* Quote */}
+            <blockquote className="flex-grow">
+              <p className="text-foreground text-base md:text-lg leading-relaxed">
+                "{testimonial.quote}"
+              </p>
+            </blockquote>
+
+            {/* Author */}
+            <div className="mt-8 pt-6 border-t border-border">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                    <span className="text-primary-foreground font-medium text-lg">
+                      {testimonial.author.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-medium text-foreground">
+                      {testimonial.author}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {testimonial.role && `${testimonial.role}, `}
+                      {testimonial.company}
+                    </div>
+                  </div>
+                </div>
+                {testimonial.companyLogo && (
+                  <img
+                    src={testimonial.companyLogo}
+                    alt={testimonial.company}
+                    className="h-8 w-auto object-contain"
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -127,7 +144,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
       <div className="divider" />
 
       <section id="testimonials" className="section scroll-mt-nav">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="mb-12 lg:mb-16">
             <p className="label mb-3">Testimonials</p>

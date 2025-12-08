@@ -13,7 +13,7 @@ export function Partners({ partners }: PartnersProps) {
       <div className="divider" />
 
       <section className="py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="text-center mb-12">
             <p className="label mb-4">Trusted By</p>
@@ -34,10 +34,10 @@ export function Partners({ partners }: PartnersProps) {
                     <img
                       src={partner.logo}
                       alt={partner.name}
-                      className="h-8 md:h-10 object-contain grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
+                      className="h-12 md:h-16 object-contain grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
                     />
                   ) : (
-                    <div className="h-8 md:h-10 px-6 flex items-center justify-center border border-border rounded bg-card">
+                    <div className="h-12 md:h-16 px-6 flex items-center justify-center border border-border rounded bg-card">
                       <span className="text-sm font-medium text-muted-foreground">
                         {partner.name}
                       </span>

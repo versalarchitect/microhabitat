@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface IndoorFarmProps {
   onBookDemo: () => void;
@@ -11,7 +12,7 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
     {
       title: "Year-Round Growing",
       description: "Produce fresh herbs, greens, and microgreens 365 days a year—regardless of season or outdoor climate. Perfect for harsh winters or spaces without natural sunlight.",
-      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/8b9c5a50-7c66-4ff7-a790-c540bcc78a91/indoor-farm-unit.jpg",
+      image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg",
     },
     {
       title: "Turnkey Installation",
@@ -44,9 +45,11 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.indoorFarm} canonical="/indoor-farm" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">Services</p>
@@ -83,7 +86,7 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
 
       {/* Features Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">What We Offer</p>
           <h2 className="heading-section mb-12">
             Comprehensive indoor farming services
@@ -115,7 +118,7 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
 
       {/* Package Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">What's Included</p>
@@ -157,7 +160,7 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
 
       {/* Certifications Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <p className="label mb-4">Green Building Support</p>
             <h2 className="heading-section mb-6">
@@ -185,7 +188,7 @@ export function IndoorFarm({ onBookDemo }: IndoorFarmProps) {
 
       {/* Gallery Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4 text-center">Our Work</p>
           <h2 className="heading-section mb-12 text-center">
             Indoor farms in action

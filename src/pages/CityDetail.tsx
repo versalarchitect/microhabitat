@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowRight, Leaf, MapPin, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO } from "../components/SEO";
 
 interface CityDetailProps {
   onBookDemo: () => void;
@@ -263,7 +264,7 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
   if (!city) {
     return (
       <section className="pt-32 pb-20">
-        <div className="max-w-6xl mx-auto px-6 md:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
           <h1 className="heading-display mb-8">City Not Found</h1>
           <p className="text-muted-foreground mb-8">
             Sorry, we couldn't find information about this city.
@@ -278,9 +279,22 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
 
   return (
     <>
+      <SEO
+        title={`Urban Farming in ${city.name} | MicroHabitat`}
+        description={`${city.description} Discover MicroHabitat's urban farming solutions in ${city.name}, ${city.region}.`}
+        canonical={`/cities/${citySlug}`}
+        ogImage="/og-images/cities-og.jpg"
+        keywords={[
+          `urban farming ${city.name}`,
+          `rooftop farming ${city.name}`,
+          `urban agriculture ${city.name}`,
+          city.name,
+          city.region,
+        ]}
+      />
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex items-center gap-2 mb-4">
             <MapPin className="w-5 h-5 text-primary" />
             <p className="label">{city.region}, {city.country}</p>
@@ -307,7 +321,7 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
 
       {/* Highlights Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">{city.name} Highlights</p>
           <h2 className="heading-section mb-12">
             What we offer in {city.name}
@@ -327,7 +341,7 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
 
       {/* Services Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Services</p>
           <h2 className="heading-section mb-12">
             Available in {city.name}
@@ -377,7 +391,7 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
 
       {/* For Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Who We Serve</p>
           <h2 className="heading-section mb-12">
             Programs for every organization

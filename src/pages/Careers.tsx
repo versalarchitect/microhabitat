@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Heart, Leaf, MapPin, Sparkles, Users } from "lucide-react";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface CareersProps {
   onBookDemo?: () => void;
@@ -38,9 +39,11 @@ export function Careers(_props: CareersProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.careers} canonical="/careers" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">Careers</p>
@@ -79,7 +82,7 @@ export function Careers(_props: CareersProps) {
 
       {/* Values Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Values</p>
           <h2 className="heading-section mb-12">
             What drives us
@@ -100,7 +103,7 @@ export function Careers(_props: CareersProps) {
 
       {/* Why Join Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Why Join Us</p>
@@ -153,7 +156,7 @@ export function Careers(_props: CareersProps) {
 
       {/* Locations Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Locations</p>
           <h2 className="heading-section mb-12">
             Where we work

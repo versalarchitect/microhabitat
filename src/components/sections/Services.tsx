@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import { Leaf, Building2, GraduationCap, Heart, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 import type { Service } from "../../lib/strapi";
+import { useIntersectionVisibility } from "../../lib/hooks";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Leaf,
@@ -17,35 +17,15 @@ function ServiceCard({
   service: Service;
   index: number;
 }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
+  const { ref, isVisible } = useIntersectionVisibility<HTMLDivElement>({
+    threshold: 0.1,
+  });
 
   const Icon = iconMap[service.icon] || Leaf;
 
   return (
     <div
-      ref={cardRef}
+      ref={ref}
       className={cn("group", isVisible && "animate-fade-up")}
       style={{
         animationDelay: `${index * 100}ms`,
@@ -112,7 +92,7 @@ export function Services({ services, onBookDemo }: ServicesProps) {
       <div className="divider" />
 
       <section id="services" className="section scroll-mt-nav">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="mb-16">
             <p className="label mb-4">Our Services</p>

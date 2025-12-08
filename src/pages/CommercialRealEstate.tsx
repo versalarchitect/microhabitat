@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Award, Building2, Check, Leaf, MapPin, Monitor, Sparkles, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface CommercialRealEstateProps {
   onBookDemo: () => void;
@@ -58,9 +59,11 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
   return (
     <>
+      <SEO {...PAGE_SEO.commercialRealEstate} canonical="/commercial-real-estate" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">For Commercial Real Estate</p>
@@ -97,38 +100,56 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
       {/* Partner Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="max-w-3xl">
-            <p className="label mb-4">Your Partner in Green Real Estate</p>
-            <h2 className="heading-section mb-6">
-              A turnkey amenity that delivers measurable returns
-            </h2>
-            <p className="text-muted-foreground text-lg mb-6">
-              MicroHabitat's approach to urban agriculture is designed to be comprehensive,
-              simple, and engaging. Here's what partnering with us means for your portfolio:
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>Differentiate properties in a competitive market</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>Achieve green building certification credits</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>Enhance tenant satisfaction and retention</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>Support ESG reporting requirements</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>Zero operational burden—we handle everything</span>
-              </li>
-            </ul>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-4">Your Partner in Green Real Estate</p>
+              <h2 className="heading-section mb-6">
+                A turnkey amenity that delivers measurable returns
+              </h2>
+              <p className="text-muted-foreground text-lg mb-6">
+                MicroHabitat's approach to urban agriculture is designed to be comprehensive,
+                simple, and engaging. Here's what partnering with us means for your portfolio:
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <span>Differentiate properties in a competitive market</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <span>Achieve green building certification credits</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <span>Enhance tenant satisfaction and retention</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <span>Support ESG reporting requirements</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
+                  <span>Zero operational burden—we handle everything</span>
+                </li>
+              </ul>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="aspect-[3/4] rounded-md overflow-hidden">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
+                  alt="Rooftop urban farm"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="aspect-[3/4] rounded-md overflow-hidden mt-8">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/cdab09dc-3167-4f11-ac84-618b1d4d4102/Cadillac+Fairview_220+Yonge+St+Toronto-4201_MicroHabitat+2024.jpg"
+                  alt="Corporate garden space"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -137,7 +158,7 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
       {/* Services Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">What We Offer</p>
           <h2 className="heading-section mb-12">
             Our Comprehensive Service Offerings
@@ -158,7 +179,7 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
       {/* Certifications Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Certification Support</p>
@@ -194,7 +215,7 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
       {/* Process Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mb-12">
             <p className="label mb-4">The Process</p>
             <h2 className="heading-section mb-6">
@@ -219,7 +240,7 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
 
       {/* Suitability Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Property Requirements</p>
@@ -262,6 +283,48 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
                 Schedule Assessment
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="divider" />
+
+      {/* Gallery Section */}
+      <section className="section">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <p className="label mb-4">Our Work</p>
+          <h2 className="heading-section mb-12">
+            Properties transformed by urban farming
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="aspect-square rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/35f2e2b7-a43d-4f90-9a34-01348d159a00/Cadillac+Fairview_220+Yonge+St+Toronto-3889_MicroHabitat+2024+%281%29.jpg"
+                alt="Aerial view of rooftop farm"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="aspect-square rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/ee544728-972c-4b64-9d95-142a579f983c/555-Richmond-W-5323-8-e1650907079985.jpg"
+                alt="Urban farm produce"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="aspect-square rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg"
+                alt="Fresh harvest"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="aspect-square rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/a65c6b17-af7b-42f6-8e01-a57cb1ce82b7/IMG_8908.jpg"
+                alt="Community engagement"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
             </div>
           </div>
         </div>

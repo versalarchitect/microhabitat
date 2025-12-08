@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 import {
   Accordion,
   AccordionContent,
@@ -148,9 +149,11 @@ export function FAQPage({ onBookDemo }: FAQPageProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.faq} canonical="/faq" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-6">Support</p>
           <h1 className="heading-display mb-8">
             <span className="text-primary">FAQs</span>

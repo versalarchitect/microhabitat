@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Building2, Check, Leaf, MapPin, Monitor, Sparkles, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface CorporationsProps {
   onBookDemo: () => void;
@@ -58,9 +59,11 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.corporations} canonical="/corporations" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">For Corporations</p>
@@ -97,17 +100,35 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
       {/* Transform Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="max-w-3xl mb-12">
-            <p className="label mb-4">Why Urban Farming?</p>
-            <h2 className="heading-section mb-6">
-              Transform Your Business with Urban Agriculture
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Urban farming creates a living, breathing amenity that engages employees,
-              supports sustainability goals, and differentiates your workplace in a
-              competitive talent market.
-            </p>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
+            <div>
+              <p className="label mb-4">Why Urban Farming?</p>
+              <h2 className="heading-section mb-6">
+                Transform Your Business with Urban Agriculture
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Urban farming creates a living, breathing amenity that engages employees,
+                supports sustainability goals, and differentiates your workplace in a
+                competitive talent market.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="aspect-square rounded-md overflow-hidden">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
+                  alt="Team at urban farm"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="aspect-square rounded-md overflow-hidden mt-6">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg"
+                  alt="Fresh produce harvest"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {benefits.map((benefit, index) => (
@@ -125,7 +146,7 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
       {/* Activities Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Engagement Activities</p>
           <h2 className="heading-section mb-12">
             Enhance Your Corporate Environment
@@ -146,7 +167,7 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
       {/* Process Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mb-12">
             <p className="label mb-4">The Process</p>
             <h2 className="heading-section mb-6">
@@ -171,7 +192,7 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
       {/* Suitability Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Requirements</p>
@@ -200,16 +221,25 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
                 </li>
               </ul>
             </div>
-            <div className="card-minimal p-8">
-              <h3 className="text-xl font-medium mb-4">Not sure if your space qualifies?</h3>
-              <p className="text-muted-foreground mb-6">
-                Book a free site assessment with our team. We'll evaluate your property
-                and provide recommendations tailored to your space and goals.
-              </p>
-              <Button onClick={onBookDemo} className="w-full">
-                Get Free Assessment
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+            <div className="space-y-6">
+              <div className="aspect-video rounded-md overflow-hidden">
+                <img
+                  src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/d7453f90-694b-48ed-af1f-5c16b806db70/Rhapsody_425+Wellington+St+W-0438_MicroHabitat+2024+%281%29.jpg"
+                  alt="Corporate rooftop farm"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="card-minimal p-8">
+                <h3 className="text-xl font-medium mb-4">Not sure if your space qualifies?</h3>
+                <p className="text-muted-foreground mb-6">
+                  Book a free site assessment with our team. We'll evaluate your property
+                  and provide recommendations tailored to your space and goals.
+                </p>
+                <Button onClick={onBookDemo} className="w-full">
+                  Get Free Assessment
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -219,7 +249,7 @@ export function Corporations({ onBookDemo }: CorporationsProps) {
 
       {/* Benefits List */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <p className="label mb-4">For Employees</p>

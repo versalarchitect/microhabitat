@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Heart, Leaf, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface CommunityEngagementProps {
   onBookDemo: () => void;
@@ -32,26 +33,39 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.communityEngagement} canonical="/community-engagement" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Community</p>
-          <h1 className="heading-display mb-8">
-            Community <span className="text-primary">Engagement</span>
-          </h1>
-          <p className="text-body max-w-3xl mb-10">
-            At MicroHabitat, we believe urban farming should nourish more than just buildings—it
-            should nourish communities. Our programs bring people together around fresh food,
-            sustainable practices, and shared experiences.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onBookDemo}>
-              Start a Program
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
-            </Link>
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="label mb-6">Community</p>
+              <h1 className="heading-display mb-8">
+                Community <span className="text-primary">Engagement</span>
+              </h1>
+              <p className="text-body max-w-3xl mb-10">
+                At MicroHabitat, we believe urban farming should nourish more than just buildings—it
+                should nourish communities. Our programs bring people together around fresh food,
+                sustainable practices, and shared experiences.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={onBookDemo}>
+                  Start a Program
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Link to="/contact" className="btn-outline">
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+            <div className="aspect-video rounded-md overflow-hidden">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
+                alt="Community Engagement"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -60,7 +74,7 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
 
       {/* Pillars Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Approach</p>
           <h2 className="heading-section mb-12">
             Building community through urban farming
@@ -81,7 +95,7 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
 
       {/* Urban Solidarity Farms */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Urban Solidarity Farms</p>
@@ -125,7 +139,7 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
 
       {/* Activities Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Community Activities</p>
           <h2 className="heading-section mb-12">
             1,000+ activities each season
@@ -181,7 +195,7 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
 
       {/* For Food Banks */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl">
             <p className="label mb-4">For Food Banks & NGOs</p>
             <h2 className="heading-section mb-6">

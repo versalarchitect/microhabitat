@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface OutdoorFarmProps {
   onBookDemo: () => void;
@@ -69,9 +70,11 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
   return (
     <>
+      <SEO {...PAGE_SEO.outdoorFarm} canonical="/outdoor-farm" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">Services</p>
@@ -107,7 +110,7 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       {/* What We Offer Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">What We Offer</p>
           <h2 className="heading-section mb-12">
             Comprehensive outdoor farming services
@@ -139,7 +142,7 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       {/* Gallery Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4 text-center">Our Work</p>
           <h2 className="heading-section mb-12 text-center">
             Outdoor farms in action
@@ -173,7 +176,7 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       {/* Packages Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Packages</p>
           <h2 className="heading-section mb-12">
             Choose your farm size
@@ -203,7 +206,7 @@ export function OutdoorFarm({ onBookDemo }: OutdoorFarmProps) {
 
       {/* Requirements Section */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Requirements</p>

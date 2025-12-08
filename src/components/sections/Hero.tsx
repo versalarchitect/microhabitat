@@ -1,53 +1,7 @@
-import { useEffect, useRef, useState, memo, useCallback } from "react";
+import { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { HeroContent, Stat } from "../../lib/strapi";
-
-// Animated counter hook
-function useCountUp(end: number, duration = 2000) {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let startTime: number | null = null;
-    let animationFrame: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeOutQuart * end));
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration, isVisible]);
-
-  return { count, ref };
-}
+import { useCountUpAnimation, useSmoothScroll } from "../../lib/hooks";
 
 // Stat item component
 const StatItem = memo(function StatItem({
@@ -59,7 +13,7 @@ const StatItem = memo(function StatItem({
   suffix: string;
   label: string;
 }) {
-  const { count, ref } = useCountUp(value, 2000);
+  const { count, ref } = useCountUpAnimation(value, { duration: 2000 });
 
   return (
     <div ref={ref} className="text-center">
@@ -81,25 +35,13 @@ interface HeroProps {
 }
 
 export function Hero({ content, stats, onBookDemo }: HeroProps) {
-  const scrollToSection = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      const section = document.getElementById("services");
-      if (section) {
-        const yOffset = -80;
-        const y =
-          section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-    },
-    []
-  );
+  const { handleAnchorClick } = useSmoothScroll({ yOffset: -80 });
 
   return (
     <>
       {/* Hero Section */}
       <section className="min-h-screen pt-28 md:pt-32 flex flex-col justify-center pb-16 md:pb-20">
-        <div className="max-w-6xl mx-auto px-6 md:px-8 w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full">
           {/* Label */}
           <p className="label mb-6 animate-fade-up">
             North America &middot; Europe
@@ -133,7 +75,7 @@ export function Hero({ content, stats, onBookDemo }: HeroProps) {
             </button>
             <a
               href="#services"
-              onClick={scrollToSection}
+              onClick={handleAnchorClick}
               className="text-foreground font-medium hover:underline decoration-2 underline-offset-8 py-3"
             >
               {content.ctaSecondary}
@@ -147,7 +89,7 @@ export function Hero({ content, stats, onBookDemo }: HeroProps) {
 
       {/* Stats Section */}
       <section className="py-12 md:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div
             className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 animate-fade-up"
             style={{ animationDelay: "0.4s" }}

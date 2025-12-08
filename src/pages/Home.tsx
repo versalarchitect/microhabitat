@@ -6,6 +6,7 @@ import { Testimonials } from "../components/sections/Testimonials";
 import { Cities } from "../components/sections/Cities";
 import { FAQ } from "../components/sections/FAQ";
 import { CTA } from "../components/sections/CTA";
+import { SEO, PAGE_SEO } from "../components/SEO";
 import type { SiteContent } from "../lib/strapi";
 
 interface HomeProps {
@@ -16,6 +17,8 @@ interface HomeProps {
 export function Home({ content, onBookDemo }: HomeProps) {
   return (
     <>
+      <SEO {...PAGE_SEO.home} canonical="/" />
+
       {/* Hero Section */}
       <Hero
         content={content.hero}

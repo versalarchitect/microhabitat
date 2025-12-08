@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { SEO, PAGE_SEO } from "../components/SEO";
 
 interface AboutProps {
   onBookDemo: () => void;
@@ -44,9 +45,11 @@ const partnerLogos = [
 export function About({ onBookDemo }: AboutProps) {
   return (
     <>
+      <SEO {...PAGE_SEO.about} canonical="/about" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-6">About Us</p>
@@ -69,7 +72,7 @@ export function About({ onBookDemo }: AboutProps) {
 
       {/* Mission Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Our Mission</p>
@@ -116,7 +119,7 @@ export function About({ onBookDemo }: AboutProps) {
 
       {/* Urban Solidarity Farms */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Urban Solidarity Farms</p>
@@ -165,7 +168,7 @@ export function About({ onBookDemo }: AboutProps) {
 
       {/* Impact Stats */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4">Our Impact</p>
           <h2 className="heading-section mb-12">
             Growing impact across North America and Europe
@@ -199,7 +202,7 @@ export function About({ onBookDemo }: AboutProps) {
 
       {/* Foodbanks Supported */}
       <section className="section bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <p className="label mb-4 text-center">Foodbanks Supported</p>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
             {partnerLogos.map((logo, index) => (
@@ -215,7 +218,7 @@ export function About({ onBookDemo }: AboutProps) {
 
       {/* Story Section */}
       <section className="section">
-        <div className="max-w-6xl mx-auto px-6 md:px-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="label mb-4">Our Story</p>
