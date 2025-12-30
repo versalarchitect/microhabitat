@@ -91,16 +91,14 @@ async function fetchFromStrapi<T>(
     const result: StrapiResponse<T> = await response.json();
     // Return fallback if data is null, undefined, or empty array
     if (result.data === null || result.data === undefined) {
-      console.warn(`No data from Strapi (${endpoint}), using fallback`);
       return fallback;
     }
     if (Array.isArray(result.data) && result.data.length === 0) {
-      console.warn(`Empty array from Strapi (${endpoint}), using fallback`);
       return fallback;
     }
     return result.data;
-  } catch (error) {
-    console.error(`Error fetching from Strapi (${endpoint}):`, error);
+  } catch {
+    // Silently fall back when Strapi is unavailable
     return fallback;
   }
 }
@@ -2628,7 +2626,6 @@ export async function getPageSEO(pageKey: PageSEOKey, locale: Locale = 'en'): Pr
     });
 
     if (!response.ok) {
-      console.warn(`SEO fetch failed for ${pageKey}, using fallback`);
       return fallback;
     }
 
@@ -2636,7 +2633,6 @@ export async function getPageSEO(pageKey: PageSEOKey, locale: Locale = 'en'): Pr
     const result: { data: any } = await response.json();
 
     if (!result.data?.seo) {
-      console.warn(`No SEO data for ${pageKey}, using fallback`);
       return fallback;
     }
 
@@ -2651,8 +2647,8 @@ export async function getPageSEO(pageKey: PageSEOKey, locale: Locale = 'en'): Pr
       noIndex: seo.noIndex ?? fallback.noIndex,
       noFollow: seo.noFollow ?? fallback.noFollow,
     };
-  } catch (error) {
-    console.error(`Error fetching SEO for ${pageKey}:`, error);
+  } catch {
+    // Silently fall back when Strapi is unavailable
     return fallback;
   }
 }
@@ -2702,8 +2698,8 @@ export async function getCitySEO(citySlug: string, locale: Locale = 'en'): Promi
       noIndex: seo.noIndex,
       noFollow: seo.noFollow,
     };
-  } catch (error) {
-    console.error(`Error fetching city SEO for ${citySlug}:`, error);
+  } catch {
+    // Silently return null when Strapi is unavailable
     return null;
   }
 }
