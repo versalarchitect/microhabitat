@@ -188,7 +188,7 @@ export type PageSEOKey =
   | 'home' | 'about' | 'outdoor-farm' | 'indoor-farm' | 'educational-activities'
   | 'commercial-real-estate' | 'corporations' | 'schools' | 'careers' | 'partnerships'
   | 'community-engagement' | 'contact' | 'faq' | 'blog' | 'cities'
-  | 'privacy-policy' | 'terms-of-service' | 'cookie-policy';
+  | 'privacy-policy' | 'terms-of-service' | 'cookie-policy' | 'roi-calculator';
 
 // Section content types (for section headers, CTAs, etc.)
 export interface ImpactSectionContent {
@@ -1709,6 +1709,14 @@ const fallbackPageSEOEn: Record<PageSEOKey, SEOData> = {
     canonical: '/cookie-policy',
     noIndex: true,
   },
+  'roi-calculator': {
+    metaTitle: 'ROI Calculator | Urban Farming Investment | Microhabitat',
+    metaDescription: "Calculate the return on investment for urban farming on your commercial properties. Get detailed projections, payback analysis, and ESG impact metrics.",
+    keywords: 'ROI calculator, urban farming investment, property ROI, real estate returns, ESG metrics, green building ROI',
+    canonical: '/roi-calculator',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
+  },
 };
 
 const fallbackPageSEOFr: Record<PageSEOKey, SEOData> = {
@@ -1851,6 +1859,14 @@ const fallbackPageSEOFr: Record<PageSEOKey, SEOData> = {
     metaDescription: "Découvrez comment Microhabitat utilise les cookies et technologies similaires sur notre site web.",
     canonical: '/fr/politique-cookies',
     noIndex: true,
+  },
+  'roi-calculator': {
+    metaTitle: 'Calculateur ROI | Investissement Agriculture Urbaine | Microhabitat',
+    metaDescription: "Calculez le retour sur investissement de l'agriculture urbaine pour vos propriétés commerciales. Projections détaillées, analyse du délai de récupération et métriques ESG.",
+    keywords: 'calculateur ROI, investissement agriculture urbaine, ROI immobilier, rendements immobiliers, métriques ESG',
+    canonical: '/fr/calculateur-roi',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
   },
 };
 
@@ -1995,6 +2011,14 @@ const fallbackPageSEODe: Record<PageSEOKey, SEOData> = {
     canonical: '/de/cookie-richtlinie',
     noIndex: true,
   },
+  'roi-calculator': {
+    metaTitle: 'ROI-Rechner | Urban Farming Investition | Microhabitat',
+    metaDescription: 'Berechnen Sie die Rendite für Urban Farming auf Ihren Gewerbeimmobilien. Detaillierte Prognosen, Amortisationsanalyse und ESG-Kennzahlen.',
+    keywords: 'ROI-Rechner, Urban-Farming-Investition, Immobilien-ROI, Immobilienrenditen, ESG-Kennzahlen',
+    canonical: '/de/roi-rechner',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
+  },
 };
 
 const fallbackPageSEONl: Record<PageSEOKey, SEOData> = {
@@ -2137,6 +2161,14 @@ const fallbackPageSEONl: Record<PageSEOKey, SEOData> = {
     metaDescription: 'Leer hoe Microhabitat cookies en soortgelijke technologieën op onze website gebruikt.',
     canonical: '/nl/cookiebeleid',
     noIndex: true,
+  },
+  'roi-calculator': {
+    metaTitle: 'ROI-Calculator | Stadslandbouw Investering | Microhabitat',
+    metaDescription: 'Bereken het rendement op investering voor stadslandbouw op uw commerciële vastgoed. Gedetailleerde projecties, terugverdientijdanalyse en ESG-statistieken.',
+    keywords: 'ROI-calculator, stadslandbouwinvestering, vastgoed-ROI, vastgoedrendementen, ESG-statistieken',
+    canonical: '/nl/roi-calculator',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
   },
 };
 
@@ -2281,6 +2313,14 @@ const fallbackPageSEOIt: Record<PageSEOKey, SEOData> = {
     canonical: '/it/politica-cookie',
     noIndex: true,
   },
+  'roi-calculator': {
+    metaTitle: 'Calcolatore ROI | Investimento Agricoltura Urbana | Microhabitat',
+    metaDescription: "Calcola il ritorno sull'investimento per l'agricoltura urbana sui tuoi immobili commerciali. Proiezioni dettagliate, analisi del tempo di recupero e metriche ESG.",
+    keywords: 'calcolatore ROI, investimento agricoltura urbana, ROI immobiliare, rendimenti immobiliari, metriche ESG',
+    canonical: '/it/calcolatore-roi',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
+  },
 };
 
 const fallbackPageSEOEs: Record<PageSEOKey, SEOData> = {
@@ -2423,6 +2463,14 @@ const fallbackPageSEOEs: Record<PageSEOKey, SEOData> = {
     metaDescription: 'Aprende cómo Microhabitat usa cookies y tecnologías similares en nuestro sitio web.',
     canonical: '/es/politica-cookies',
     noIndex: true,
+  },
+  'roi-calculator': {
+    metaTitle: 'Calculadora ROI | Inversión Agricultura Urbana | Microhabitat',
+    metaDescription: 'Calcula el retorno de inversión para agricultura urbana en tus propiedades comerciales. Proyecciones detalladas, análisis de período de recuperación y métricas ESG.',
+    keywords: 'calculadora ROI, inversión agricultura urbana, ROI inmobiliario, rendimientos inmobiliarios, métricas ESG',
+    canonical: '/es/calculadora-roi',
+    ogImage: '/og-images/roi-calculator-og.jpg',
+    twitterImage: '/og-images/roi-calculator-twitter.jpg',
   },
 };
 
@@ -2596,6 +2644,7 @@ export async function getPageSEO(pageKey: PageSEOKey, locale: Locale = 'en'): Pr
     'privacy-policy': 'privacy-policy-page?populate=seo.ogImage,seo.twitterImage',
     'terms-of-service': 'terms-of-service-page?populate=seo.ogImage,seo.twitterImage',
     'cookie-policy': 'cookie-policy-page?populate=seo.ogImage,seo.twitterImage',
+    'roi-calculator': 'roi-calculator-page?populate=seo.ogImage,seo.twitterImage',
   };
 
   const endpoint = endpointMap[pageKey];
@@ -2780,5 +2829,889 @@ export async function getAllContent(locale?: Locale): Promise<SiteContent> {
     faqSection,
     ctaSection,
   };
+}
+
+// =============================================================================
+// PAGE CONTENT FETCHING (Full page body content from CMS)
+// =============================================================================
+
+// About Page Content
+export interface AboutPageContent {
+  heroLabel: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  missionLabel: string;
+  missionTitle: string;
+  missionParagraph1: string;
+  missionParagraph2: string;
+  solidarityLabel: string;
+  solidarityTitle: string;
+  solidarityDescription: string;
+  impactStats: Array<{ value: string; label: string }>;
+  storyLabel: string;
+  storyTitle: string;
+  storyContent: string;
+  ctaTitle: string;
+  ctaDescription: string;
+}
+
+const fallbackAboutPageContent: Record<Locale, AboutPageContent> = {
+  en: {
+    heroLabel: 'Our Story',
+    heroTitle: 'Reconnecting',
+    heroTitleHighlight: 'communities with nature',
+    missionLabel: 'Our Mission',
+    missionTitle: 'Transforming urban spaces into thriving ecosystems',
+    missionParagraph1: 'MicroHabitat was founded in 2016 by Orlane and Alexandre, two childhood friends from Montreal united by a shared vision: making urban agriculture accessible to everyone.',
+    missionParagraph2: 'Today, we operate the largest network of urban farms in the world, transforming underused rooftops and spaces into productive, ecological farms across North America and Europe.',
+    solidarityLabel: 'Community Impact',
+    solidarityTitle: 'Fresh food for those who need it most',
+    solidarityDescription: 'Through our solidarity harvest program, we donate a portion of every harvest to local food banks and community organizations.',
+    impactStats: [
+      { value: '200+', label: 'Urban farms installed' },
+      { value: '500K+', label: 'lbs of produce grown' },
+      { value: '50K+', label: 'People engaged' },
+      { value: '8', label: 'Years of experience' }
+    ],
+    storyLabel: 'Our Journey',
+    storyTitle: 'From rooftop dreams to global impact',
+    storyContent: 'What started as a single rooftop garden in Montreal has grown into a movement.',
+    ctaTitle: 'Ready to transform your space?',
+    ctaDescription: 'Join the urban farming revolution and create a lasting impact in your community.'
+  },
+  fr: {
+    heroLabel: 'Notre Histoire',
+    heroTitle: 'Reconnecter les',
+    heroTitleHighlight: 'communautés avec la nature',
+    missionLabel: 'Notre Mission',
+    missionTitle: 'Transformer les espaces urbains en écosystèmes florissants',
+    missionParagraph1: 'MicroHabitat a été fondé en 2016 par Orlane et Alexandre, deux amis d\'enfance de Montréal unis par une vision commune.',
+    missionParagraph2: 'Aujourd\'hui, nous opérons le plus grand réseau de fermes urbaines au monde.',
+    solidarityLabel: 'Impact Communautaire',
+    solidarityTitle: 'Des aliments frais pour ceux qui en ont le plus besoin',
+    solidarityDescription: 'Grâce à notre programme de récolte solidaire, nous donnons une partie de chaque récolte aux banques alimentaires.',
+    impactStats: [
+      { value: '200+', label: 'Fermes urbaines installées' },
+      { value: '500K+', label: 'lb de produits cultivés' },
+      { value: '50K+', label: 'Personnes engagées' },
+      { value: '8', label: 'Années d\'expérience' }
+    ],
+    storyLabel: 'Notre Parcours',
+    storyTitle: 'Des rêves de toits à un impact mondial',
+    storyContent: 'Ce qui a commencé comme un simple jardin sur un toit à Montréal est devenu un mouvement.',
+    ctaTitle: 'Prêt à transformer votre espace?',
+    ctaDescription: 'Rejoignez la révolution de l\'agriculture urbaine.'
+  },
+  de: {
+    heroLabel: 'Unsere Geschichte',
+    heroTitle: 'Gemeinschaften wieder mit der',
+    heroTitleHighlight: 'Natur verbinden',
+    missionLabel: 'Unsere Mission',
+    missionTitle: 'Städtische Räume in blühende Ökosysteme verwandeln',
+    missionParagraph1: 'MicroHabitat wurde 2016 von Orlane und Alexandre gegründet.',
+    missionParagraph2: 'Heute betreiben wir das größte Netzwerk städtischer Farmen der Welt.',
+    solidarityLabel: 'Gemeinschaftliche Wirkung',
+    solidarityTitle: 'Frische Lebensmittel für Bedürftige',
+    solidarityDescription: 'Durch unser Solidaritäts-Ernteprogramm spenden wir einen Teil jeder Ernte.',
+    impactStats: [
+      { value: '200+', label: 'Stadtfarmen installiert' },
+      { value: '500K+', label: 'Pfund angebaut' },
+      { value: '50K+', label: 'Menschen engagiert' },
+      { value: '8', label: 'Jahre Erfahrung' }
+    ],
+    storyLabel: 'Unsere Reise',
+    storyTitle: 'Von Dachträumen zur globalen Wirkung',
+    storyContent: 'Was als ein einziger Dachgarten in Montreal begann, ist zu einer Bewegung geworden.',
+    ctaTitle: 'Bereit, Ihren Raum zu verwandeln?',
+    ctaDescription: 'Schließen Sie sich der Urban-Farming-Revolution an.'
+  },
+  nl: {
+    heroLabel: 'Ons Verhaal',
+    heroTitle: 'Gemeenschappen opnieuw verbinden',
+    heroTitleHighlight: 'met de natuur',
+    missionLabel: 'Onze Missie',
+    missionTitle: 'Stedelijke ruimtes transformeren tot bloeiende ecosystemen',
+    missionParagraph1: 'MicroHabitat werd in 2016 opgericht door Orlane en Alexandre.',
+    missionParagraph2: 'Vandaag beheren we het grootste netwerk van stadsboerderijen ter wereld.',
+    solidarityLabel: 'Gemeenschapsimpact',
+    solidarityTitle: 'Vers voedsel voor wie het het meest nodig heeft',
+    solidarityDescription: 'Via ons solidariteitsoogstprogramma doneren we een deel van elke oogst.',
+    impactStats: [
+      { value: '200+', label: 'Stadsboerderijen geïnstalleerd' },
+      { value: '500K+', label: 'pond geteeld' },
+      { value: '50K+', label: 'Mensen betrokken' },
+      { value: '8', label: 'Jaar ervaring' }
+    ],
+    storyLabel: 'Onze Reis',
+    storyTitle: 'Van dakdromen naar wereldwijde impact',
+    storyContent: 'Wat begon als een enkele daktuin in Montreal is uitgegroeid tot een beweging.',
+    ctaTitle: 'Klaar om uw ruimte te transformeren?',
+    ctaDescription: 'Sluit u aan bij de stadslandbouwrevolutie.'
+  },
+  it: {
+    heroLabel: 'La Nostra Storia',
+    heroTitle: 'Riconnettere le',
+    heroTitleHighlight: 'comunità con la natura',
+    missionLabel: 'La Nostra Missione',
+    missionTitle: 'Trasformare gli spazi urbani in ecosistemi rigogliosi',
+    missionParagraph1: 'MicroHabitat è stata fondata nel 2016 da Orlane e Alexandre.',
+    missionParagraph2: 'Oggi gestiamo la più grande rete di fattorie urbane al mondo.',
+    solidarityLabel: 'Impatto Comunitario',
+    solidarityTitle: 'Cibo fresco per chi ne ha più bisogno',
+    solidarityDescription: 'Attraverso il nostro programma di raccolto solidale, doniamo una parte di ogni raccolto.',
+    impactStats: [
+      { value: '200+', label: 'Fattorie urbane installate' },
+      { value: '500K+', label: 'libbre coltivate' },
+      { value: '50K+', label: 'Persone coinvolte' },
+      { value: '8', label: 'Anni di esperienza' }
+    ],
+    storyLabel: 'Il Nostro Viaggio',
+    storyTitle: 'Dai sogni sui tetti all\'impatto globale',
+    storyContent: 'Quello che è iniziato come un singolo orto sul tetto a Montreal è diventato un movimento.',
+    ctaTitle: 'Pronto a trasformare il tuo spazio?',
+    ctaDescription: 'Unisciti alla rivoluzione dell\'agricoltura urbana.'
+  },
+  es: {
+    heroLabel: 'Nuestra Historia',
+    heroTitle: 'Reconectando',
+    heroTitleHighlight: 'comunidades con la naturaleza',
+    missionLabel: 'Nuestra Misión',
+    missionTitle: 'Transformar espacios urbanos en ecosistemas prósperos',
+    missionParagraph1: 'MicroHabitat fue fundada en 2016 por Orlane y Alexandre.',
+    missionParagraph2: 'Hoy operamos la red más grande de granjas urbanas del mundo.',
+    solidarityLabel: 'Impacto Comunitario',
+    solidarityTitle: 'Alimentos frescos para quienes más los necesitan',
+    solidarityDescription: 'A través de nuestro programa de cosecha solidaria, donamos una parte de cada cosecha.',
+    impactStats: [
+      { value: '200+', label: 'Granjas urbanas instaladas' },
+      { value: '500K+', label: 'libras cultivadas' },
+      { value: '50K+', label: 'Personas comprometidas' },
+      { value: '8', label: 'Años de experiencia' }
+    ],
+    storyLabel: 'Nuestro Viaje',
+    storyTitle: 'De sueños en azoteas a impacto global',
+    storyContent: 'Lo que comenzó como un solo jardín en una azotea en Montreal se ha convertido en un movimiento.',
+    ctaTitle: '¿Listo para transformar tu espacio?',
+    ctaDescription: 'Únete a la revolución de la agricultura urbana.'
+  }
+};
+
+export async function getAboutPageContent(locale: Locale = 'en'): Promise<AboutPageContent> {
+  const fallback = fallbackAboutPageContent[locale] || fallbackAboutPageContent.en;
+
+  if (!STRAPI_URL) {
+    return fallback;
+  }
+
+  try {
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+
+    if (STRAPI_TOKEN) {
+      headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+    }
+
+    const url = `${STRAPI_URL}/api/about-page?populate=*&locale=${locale}`;
+
+    const response = await fetch(url, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) {
+      console.warn(`About page fetch failed, using fallback`);
+      return fallback;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any } = await response.json();
+
+    if (!result.data) {
+      console.warn(`No about page data, using fallback`);
+      return fallback;
+    }
+
+    const data = result.data;
+    return {
+      heroLabel: data.heroLabel || fallback.heroLabel,
+      heroTitle: data.heroTitle || fallback.heroTitle,
+      heroTitleHighlight: data.heroTitleHighlight || fallback.heroTitleHighlight,
+      missionLabel: data.missionLabel || fallback.missionLabel,
+      missionTitle: data.missionTitle || fallback.missionTitle,
+      missionParagraph1: data.missionParagraph1 || fallback.missionParagraph1,
+      missionParagraph2: data.missionParagraph2 || fallback.missionParagraph2,
+      solidarityLabel: data.solidarityLabel || fallback.solidarityLabel,
+      solidarityTitle: data.solidarityTitle || fallback.solidarityTitle,
+      solidarityDescription: data.solidarityDescription || fallback.solidarityDescription,
+      impactStats: data.impactStats?.length > 0 ? data.impactStats : fallback.impactStats,
+      storyLabel: data.storyLabel || fallback.storyLabel,
+      storyTitle: data.storyTitle || fallback.storyTitle,
+      storyContent: data.storyContent || fallback.storyContent,
+      ctaTitle: data.ctaTitle || fallback.ctaTitle,
+      ctaDescription: data.ctaDescription || fallback.ctaDescription,
+    };
+  } catch (error) {
+    console.error(`Error fetching about page content:`, error);
+    return fallback;
+  }
+}
+
+// Outdoor Farm Page Content
+export interface OutdoorFarmPageContent {
+  heroLabel: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  heroDescription: string;
+  servicesLabel: string;
+  servicesTitle: string;
+  services: Array<{ title: string; description: string }>;
+  galleryLabel: string;
+  galleryTitle: string;
+  packagesLabel: string;
+  packagesTitle: string;
+  packages: Array<{ name: string; features: string[] }>;
+  requirementsLabel: string;
+  requirementsTitle: string;
+  requirementsDescription: string;
+  requirements: Array<{ label: string; description: string }>;
+  requirementsCardTitle: string;
+  requirementsCardDescription: string;
+  ctaTitle: string;
+  ctaDescription: string;
+  ctaViewFaq: string;
+}
+
+const fallbackOutdoorFarmContent: Record<Locale, OutdoorFarmPageContent> = {
+  en: {
+    heroLabel: 'Outdoor Farms',
+    heroTitle: 'Transform your rooftop into a',
+    heroTitleHighlight: 'thriving urban farm',
+    heroDescription: 'We design, install, and maintain productive rooftop farms that provide fresh produce, community engagement, and environmental benefits for your building.',
+    servicesLabel: 'What We Offer',
+    servicesTitle: 'Full-service urban farming solutions',
+    services: [
+      { title: 'Design & Installation', description: 'Custom farm design tailored to your space, including soil, irrigation, and planting systems.' },
+      { title: 'Ongoing Maintenance', description: 'Regular care including planting, harvesting, pest management, and seasonal transitions.' },
+      { title: 'Harvest Distribution', description: 'Fresh produce delivered to your building residents, employees, or community partners.' }
+    ],
+    galleryLabel: 'Our Work',
+    galleryTitle: 'Rooftop farms across North America',
+    packagesLabel: 'Packages',
+    packagesTitle: 'Choose the right plan for your space',
+    packages: [
+      { name: '30 Pots', features: ['30 ecological pots', 'Irrigation system', 'Seasonal planting', 'Weekly maintenance', 'Harvesting service', '2 activities/year', 'Marketing materials'] },
+      { name: '50 Pots', features: ['50 ecological pots', 'Irrigation system', 'Seasonal planting', 'Weekly maintenance', 'Harvesting service', '3 activities/year', 'Marketing materials', 'Gift baskets'] },
+      { name: 'Custom', features: ['Custom pot count', 'Irrigation system', 'Seasonal planting', 'Weekly maintenance', 'Harvesting service', 'Unlimited activities', 'Full marketing support', 'Gift baskets', 'Dedicated account manager'] }
+    ],
+    requirementsLabel: 'Requirements',
+    requirementsTitle: 'What you need to get started',
+    requirementsDescription: 'Our team will assess your space and provide recommendations for the optimal farm setup.',
+    requirements: [
+      { label: 'Space', description: 'Minimum 500 sq ft of accessible rooftop or outdoor area' },
+      { label: 'Sunlight', description: 'At least 6 hours of direct sunlight per day' },
+      { label: 'Water Access', description: 'Water source within 100 feet of the growing area' },
+      { label: 'Building Access', description: 'Elevator or stair access for equipment and maintenance' }
+    ],
+    requirementsCardTitle: 'Not sure if your space qualifies?',
+    requirementsCardDescription: 'Our team will conduct a free site assessment to determine the best solution for your building.',
+    ctaTitle: 'Ready to grow with us?',
+    ctaDescription: 'Contact us for a free consultation and site assessment.',
+    ctaViewFaq: 'View FAQ'
+  },
+  fr: {
+    heroLabel: 'Fermes Extérieures',
+    heroTitle: 'Transformez votre toit en une',
+    heroTitleHighlight: 'ferme urbaine florissante',
+    heroDescription: 'Nous concevons, installons et entretenons des fermes sur toit productives qui fournissent des produits frais et un engagement communautaire.',
+    servicesLabel: 'Ce que nous offrons',
+    servicesTitle: 'Solutions d\'agriculture urbaine clé en main',
+    services: [
+      { title: 'Conception & Installation', description: 'Conception de ferme personnalisée adaptée à votre espace, incluant sol, irrigation et systèmes de plantation.' },
+      { title: 'Entretien Continu', description: 'Soins réguliers incluant plantation, récolte, gestion des nuisibles et transitions saisonnières.' },
+      { title: 'Distribution des Récoltes', description: 'Produits frais livrés aux résidents, employés ou partenaires communautaires.' }
+    ],
+    galleryLabel: 'Nos Réalisations',
+    galleryTitle: 'Fermes sur toit en Amérique du Nord',
+    packagesLabel: 'Forfaits',
+    packagesTitle: 'Choisissez le plan adapté à votre espace',
+    packages: [
+      { name: '30 Pots', features: ['30 pots écologiques', 'Système d\'irrigation', 'Plantation saisonnière', 'Entretien hebdomadaire', 'Service de récolte', '2 activités/an', 'Matériel marketing'] },
+      { name: '50 Pots', features: ['50 pots écologiques', 'Système d\'irrigation', 'Plantation saisonnière', 'Entretien hebdomadaire', 'Service de récolte', '3 activités/an', 'Matériel marketing', 'Paniers cadeaux'] },
+      { name: 'Personnalisé', features: ['Nombre de pots personnalisé', 'Système d\'irrigation', 'Plantation saisonnière', 'Entretien hebdomadaire', 'Service de récolte', 'Activités illimitées', 'Support marketing complet', 'Paniers cadeaux', 'Gestionnaire de compte dédié'] }
+    ],
+    requirementsLabel: 'Prérequis',
+    requirementsTitle: 'Ce dont vous avez besoin pour commencer',
+    requirementsDescription: 'Notre équipe évaluera votre espace et fournira des recommandations pour la configuration optimale.',
+    requirements: [
+      { label: 'Espace', description: 'Minimum 50 m² de toit ou zone extérieure accessible' },
+      { label: 'Ensoleillement', description: 'Au moins 6 heures d\'ensoleillement direct par jour' },
+      { label: 'Accès à l\'eau', description: 'Source d\'eau à moins de 30 mètres de la zone de culture' },
+      { label: 'Accès au bâtiment', description: 'Accès par ascenseur ou escalier pour l\'équipement et l\'entretien' }
+    ],
+    requirementsCardTitle: 'Pas sûr que votre espace soit éligible?',
+    requirementsCardDescription: 'Notre équipe effectuera une évaluation gratuite pour déterminer la meilleure solution pour votre bâtiment.',
+    ctaTitle: 'Prêt à grandir avec nous?',
+    ctaDescription: 'Contactez-nous pour une consultation gratuite et une évaluation de site.',
+    ctaViewFaq: 'Voir la FAQ'
+  },
+  de: {
+    heroLabel: 'Außenfarmen',
+    heroTitle: 'Verwandeln Sie Ihr Dach in eine',
+    heroTitleHighlight: 'blühende Stadtfarm',
+    heroDescription: 'Wir entwerfen, installieren und pflegen produktive Dachfarmen, die frische Produkte und Umweltvorteile für Ihr Gebäude bieten.',
+    servicesLabel: 'Unser Ansatz',
+    servicesTitle: 'Full-Service Urban-Farming-Lösungen',
+    services: [
+      { title: 'Design & Installation', description: 'Maßgeschneidertes Farm-Design für Ihren Raum.' },
+      { title: 'Laufende Wartung', description: 'Regelmäßige Pflege einschließlich Pflanzen und Ernten.' },
+      { title: 'Ernteverteilung', description: 'Frische Produkte für Bewohner oder Mitarbeiter.' }
+    ],
+    galleryLabel: 'Unsere Arbeit',
+    galleryTitle: 'Dachfarmen in Nordamerika',
+    packagesLabel: 'Pakete',
+    packagesTitle: 'Wählen Sie den richtigen Plan',
+    packages: [
+      { name: '30 Töpfe', features: ['30 ökologische Töpfe', 'Bewässerungssystem', 'Saisonale Bepflanzung', 'Wöchentliche Wartung', 'Ernteservice', '2 Aktivitäten/Jahr', 'Marketing-Materialien'] },
+      { name: '50 Töpfe', features: ['50 ökologische Töpfe', 'Bewässerungssystem', 'Saisonale Bepflanzung', 'Wöchentliche Wartung', 'Ernteservice', '3 Aktivitäten/Jahr', 'Marketing-Materialien', 'Geschenkkörbe'] },
+      { name: 'Individuell', features: ['Individuelle Topfanzahl', 'Bewässerungssystem', 'Saisonale Bepflanzung', 'Wöchentliche Wartung', 'Ernteservice', 'Unbegrenzte Aktivitäten', 'Voller Marketing-Support', 'Geschenkkörbe', 'Dedizierter Account Manager'] }
+    ],
+    requirementsLabel: 'Voraussetzungen',
+    requirementsTitle: 'Was Sie brauchen',
+    requirementsDescription: 'Unser Team bewertet Ihren Raum und gibt Empfehlungen für das optimale Setup.',
+    requirements: [
+      { label: 'Fläche', description: 'Mindestens 50 m² zugängliche Dach- oder Außenfläche' },
+      { label: 'Sonnenlicht', description: 'Mindestens 6 Stunden direktes Sonnenlicht täglich' },
+      { label: 'Wasseranschluss', description: 'Wasserquelle in der Nähe des Anbaubereichs' },
+      { label: 'Gebäudezugang', description: 'Aufzug- oder Treppenzugang für Ausrüstung und Wartung' }
+    ],
+    requirementsCardTitle: 'Nicht sicher, ob Ihr Raum geeignet ist?',
+    requirementsCardDescription: 'Unser Team führt eine kostenlose Standortbewertung durch.',
+    ctaTitle: 'Bereit, mit uns zu wachsen?',
+    ctaDescription: 'Kontaktieren Sie uns für eine kostenlose Beratung.',
+    ctaViewFaq: 'FAQ ansehen'
+  },
+  nl: {
+    heroLabel: 'Buitenboerderijen',
+    heroTitle: 'Transformeer uw dak in een',
+    heroTitleHighlight: 'bloeiende stadsboerderij',
+    heroDescription: 'Wij ontwerpen, installeren en onderhouden productieve dakboerderijen die verse producten en milieuvoordelen bieden.',
+    servicesLabel: 'Onze Aanpak',
+    servicesTitle: 'Full-service stadslandbouwoplossingen',
+    services: [
+      { title: 'Ontwerp & Installatie', description: 'Op maat gemaakt ontwerp voor uw ruimte.' },
+      { title: 'Doorlopend Onderhoud', description: 'Regelmatige verzorging inclusief planten en oogsten.' },
+      { title: 'Oogstverdeling', description: 'Verse producten voor bewoners of medewerkers.' }
+    ],
+    galleryLabel: 'Ons Werk',
+    galleryTitle: 'Dakboerderijen in Noord-Amerika',
+    packagesLabel: 'Pakketten',
+    packagesTitle: 'Kies het juiste plan',
+    packages: [
+      { name: '30 Potten', features: ['30 ecologische potten', 'Irrigatiesysteem', 'Seizoensgebonden beplanting', 'Wekelijks onderhoud', 'Oogstservice', '2 activiteiten/jaar', 'Marketingmaterialen'] },
+      { name: '50 Potten', features: ['50 ecologische potten', 'Irrigatiesysteem', 'Seizoensgebonden beplanting', 'Wekelijks onderhoud', 'Oogstservice', '3 activiteiten/jaar', 'Marketingmaterialen', 'Geschenkmanden'] },
+      { name: 'Aangepast', features: ['Aangepast aantal potten', 'Irrigatiesysteem', 'Seizoensgebonden beplanting', 'Wekelijks onderhoud', 'Oogstservice', 'Onbeperkte activiteiten', 'Volledige marketingondersteuning', 'Geschenkmanden', 'Toegewijde accountmanager'] }
+    ],
+    requirementsLabel: 'Vereisten',
+    requirementsTitle: 'Wat u nodig heeft',
+    requirementsDescription: 'Ons team beoordeelt uw ruimte en geeft aanbevelingen voor de optimale opstelling.',
+    requirements: [
+      { label: 'Ruimte', description: 'Minimaal 50 m² toegankelijk dak of buitenruimte' },
+      { label: 'Zonlicht', description: 'Minimaal 6 uur direct zonlicht per dag' },
+      { label: 'Wateraansluiting', description: 'Waterbron in de buurt van het kweekgebied' },
+      { label: 'Gebouwtoegang', description: 'Lift- of traptoegang voor apparatuur en onderhoud' }
+    ],
+    requirementsCardTitle: 'Niet zeker of uw ruimte geschikt is?',
+    requirementsCardDescription: 'Ons team voert een gratis locatiebeoordeling uit.',
+    ctaTitle: 'Klaar om met ons te groeien?',
+    ctaDescription: 'Neem contact op voor een gratis consult.',
+    ctaViewFaq: 'Bekijk FAQ'
+  },
+  it: {
+    heroLabel: 'Fattorie Esterne',
+    heroTitle: 'Trasforma il tuo tetto in una',
+    heroTitleHighlight: 'fattoria urbana rigogliosa',
+    heroDescription: 'Progettiamo, installiamo e manteniamo fattorie sul tetto produttive che offrono prodotti freschi e benefici ambientali.',
+    servicesLabel: 'I Nostri Servizi',
+    servicesTitle: 'Soluzioni complete di agricoltura urbana',
+    services: [
+      { title: 'Design & Installazione', description: 'Design personalizzato per il tuo spazio.' },
+      { title: 'Manutenzione Continua', description: 'Cura regolare inclusa semina e raccolta.' },
+      { title: 'Distribuzione Raccolto', description: 'Prodotti freschi per residenti o dipendenti.' }
+    ],
+    galleryLabel: 'I Nostri Lavori',
+    galleryTitle: 'Fattorie sul tetto in Nord America',
+    packagesLabel: 'Pacchetti',
+    packagesTitle: 'Scegli il piano giusto',
+    packages: [
+      { name: '30 Vasi', features: ['30 vasi ecologici', 'Sistema di irrigazione', 'Piantagione stagionale', 'Manutenzione settimanale', 'Servizio di raccolta', '2 attività/anno', 'Materiali marketing'] },
+      { name: '50 Vasi', features: ['50 vasi ecologici', 'Sistema di irrigazione', 'Piantagione stagionale', 'Manutenzione settimanale', 'Servizio di raccolta', '3 attività/anno', 'Materiali marketing', 'Cesti regalo'] },
+      { name: 'Personalizzato', features: ['Numero personalizzato di vasi', 'Sistema di irrigazione', 'Piantagione stagionale', 'Manutenzione settimanale', 'Servizio di raccolta', 'Attività illimitate', 'Supporto marketing completo', 'Cesti regalo', 'Account manager dedicato'] }
+    ],
+    requirementsLabel: 'Requisiti',
+    requirementsTitle: 'Cosa Ti Serve',
+    requirementsDescription: 'Il nostro team valuta il tuo spazio e fornisce raccomandazioni per la configurazione ottimale.',
+    requirements: [
+      { label: 'Spazio', description: 'Minimo 50 m² di tetto o spazio esterno accessibile' },
+      { label: 'Luce solare', description: 'Minimo 6 ore di luce solare diretta al giorno' },
+      { label: 'Collegamento acqua', description: 'Fonte d\'acqua vicino all\'area di coltivazione' },
+      { label: 'Accesso edificio', description: 'Ascensore o scale per attrezzature e manutenzione' }
+    ],
+    requirementsCardTitle: 'Non sei sicuro se il tuo spazio è adatto?',
+    requirementsCardDescription: 'Il nostro team esegue una valutazione gratuita del sito.',
+    ctaTitle: 'Pronto a crescere con noi?',
+    ctaDescription: 'Contattaci per una consulenza gratuita.',
+    ctaViewFaq: 'Visualizza FAQ'
+  },
+  es: {
+    heroLabel: 'Granjas Exteriores',
+    heroTitle: 'Transforma tu azotea en una',
+    heroTitleHighlight: 'granja urbana próspera',
+    heroDescription: 'Diseñamos, instalamos y mantenemos granjas en azoteas productivas que ofrecen productos frescos y beneficios ambientales.',
+    servicesLabel: 'Nuestros Servicios',
+    servicesTitle: 'Soluciones completas de agricultura urbana',
+    services: [
+      { title: 'Diseño e Instalación', description: 'Diseño personalizado para tu espacio.' },
+      { title: 'Mantenimiento Continuo', description: 'Cuidado regular incluyendo siembra y cosecha.' },
+      { title: 'Distribución de Cosecha', description: 'Productos frescos para residentes o empleados.' }
+    ],
+    galleryLabel: 'Nuestro Trabajo',
+    galleryTitle: 'Granjas en azoteas en Norteamérica',
+    packagesLabel: 'Paquetes',
+    packagesTitle: 'Elige el plan adecuado',
+    packages: [
+      { name: '30 Macetas', features: ['30 macetas ecológicas', 'Sistema de riego', 'Siembra estacional', 'Mantenimiento semanal', 'Servicio de cosecha', '2 actividades/año', 'Materiales de marketing'] },
+      { name: '50 Macetas', features: ['50 macetas ecológicas', 'Sistema de riego', 'Siembra estacional', 'Mantenimiento semanal', 'Servicio de cosecha', '3 actividades/año', 'Materiales de marketing', 'Cestas de regalo'] },
+      { name: 'Personalizado', features: ['Número personalizado de macetas', 'Sistema de riego', 'Siembra estacional', 'Mantenimiento semanal', 'Servicio de cosecha', 'Actividades ilimitadas', 'Soporte de marketing completo', 'Cestas de regalo', 'Gerente de cuenta dedicado'] }
+    ],
+    requirementsLabel: 'Requisitos',
+    requirementsTitle: 'Lo Que Necesitas',
+    requirementsDescription: 'Nuestro equipo evalúa tu espacio y proporciona recomendaciones para la configuración óptima.',
+    requirements: [
+      { label: 'Espacio', description: 'Mínimo 50 m² de azotea o espacio exterior accesible' },
+      { label: 'Luz solar', description: 'Mínimo 6 horas de luz solar directa al día' },
+      { label: 'Conexión de agua', description: 'Fuente de agua cerca del área de cultivo' },
+      { label: 'Acceso al edificio', description: 'Ascensor o escalera para equipos y mantenimiento' }
+    ],
+    requirementsCardTitle: '¿No estás seguro si tu espacio es adecuado?',
+    requirementsCardDescription: 'Nuestro equipo realiza una evaluación gratuita del sitio.',
+    ctaTitle: '¿Listo para crecer con nosotros?',
+    ctaDescription: 'Contáctanos para una consulta gratuita.',
+    ctaViewFaq: 'Ver FAQ'
+  }
+};
+
+export async function getOutdoorFarmPageContent(locale: Locale = 'en'): Promise<OutdoorFarmPageContent> {
+  const fallback = fallbackOutdoorFarmContent[locale] || fallbackOutdoorFarmContent.en;
+  if (!STRAPI_URL) return fallback;
+
+  try {
+    const headers: HeadersInit = { "Content-Type": "application/json" };
+    if (STRAPI_TOKEN) headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+
+    const response = await fetch(`${STRAPI_URL}/api/outdoor-farm-page?populate=*&locale=${locale}`, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) return fallback;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any } = await response.json();
+    if (!result.data) return fallback;
+
+    const data = result.data;
+    return {
+      heroLabel: data.heroLabel || fallback.heroLabel,
+      heroTitle: data.heroTitle || fallback.heroTitle,
+      heroTitleHighlight: data.heroTitleHighlight || fallback.heroTitleHighlight,
+      heroDescription: data.heroDescription || fallback.heroDescription,
+      servicesLabel: data.servicesLabel || fallback.servicesLabel,
+      servicesTitle: data.servicesTitle || fallback.servicesTitle,
+      services: data.services?.length > 0 ? data.services : fallback.services,
+      galleryLabel: data.galleryLabel || fallback.galleryLabel,
+      galleryTitle: data.galleryTitle || fallback.galleryTitle,
+      packagesLabel: data.packagesLabel || fallback.packagesLabel,
+      packagesTitle: data.packagesTitle || fallback.packagesTitle,
+      packages: data.packages?.length > 0 ? data.packages : fallback.packages,
+      requirementsLabel: data.requirementsLabel || fallback.requirementsLabel,
+      requirementsTitle: data.requirementsTitle || fallback.requirementsTitle,
+      requirementsDescription: data.requirementsDescription || fallback.requirementsDescription,
+      requirements: data.requirements?.length > 0 ? data.requirements : fallback.requirements,
+      requirementsCardTitle: data.requirementsCardTitle || fallback.requirementsCardTitle,
+      requirementsCardDescription: data.requirementsCardDescription || fallback.requirementsCardDescription,
+      ctaTitle: data.ctaTitle || fallback.ctaTitle,
+      ctaDescription: data.ctaDescription || fallback.ctaDescription,
+      ctaViewFaq: data.ctaViewFaq || fallback.ctaViewFaq,
+    };
+  } catch (error) {
+    console.error(`Error fetching outdoor farm page content:`, error);
+    return fallback;
+  }
+}
+
+// Careers Page Content
+export interface CareersPageContent {
+  heroLabel: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  introText: string;
+  valuesLabel: string;
+  valuesTitle: string;
+  values: Array<{ title: string; description: string }>;
+  whyJoinLabel: string;
+  whyJoinTitle: string;
+  benefits: Array<{ title: string; description: string }>;
+  ctaTitle: string;
+  ctaDescription: string;
+}
+
+const fallbackCareersContent: Record<Locale, CareersPageContent> = {
+  en: {
+    heroLabel: 'Join Our Team',
+    heroTitle: 'Grow your career',
+    heroTitleHighlight: 'with purpose',
+    introText: 'We\'re building a team of passionate people who believe in making cities greener and communities stronger.',
+    valuesLabel: 'Our Values',
+    valuesTitle: 'What drives us every day',
+    values: [
+      { title: 'Sustainability', description: 'We put the planet first in everything we do.' },
+      { title: 'Community', description: 'We believe in the power of bringing people together.' },
+      { title: 'Innovation', description: 'We constantly push boundaries in urban agriculture.' },
+      { title: 'Integrity', description: 'We operate with transparency and honesty.' }
+    ],
+    whyJoinLabel: 'Why Microhabitat',
+    whyJoinTitle: 'More than just a job',
+    benefits: [
+      { title: 'Meaningful Work', description: 'Make a real impact on urban sustainability.' },
+      { title: 'Growth Opportunities', description: 'Learn and grow in a dynamic environment.' },
+      { title: 'Great Benefits', description: 'Competitive salary, health benefits, and more.' },
+      { title: 'Flexible Work', description: 'Balance your work and personal life.' }
+    ],
+    ctaTitle: 'Ready to join us?',
+    ctaDescription: 'Check out our open positions and apply today.'
+  },
+  fr: {
+    heroLabel: 'Rejoignez Notre Équipe',
+    heroTitle: 'Développez votre carrière',
+    heroTitleHighlight: 'avec un sens',
+    introText: 'Nous construisons une équipe de personnes passionnées qui croient en des villes plus vertes.',
+    valuesLabel: 'Nos Valeurs',
+    valuesTitle: 'Ce qui nous motive chaque jour',
+    values: [
+      { title: 'Durabilité', description: 'Nous mettons la planète en premier.' },
+      { title: 'Communauté', description: 'Nous croyons au pouvoir de rassembler les gens.' },
+      { title: 'Innovation', description: 'Nous repoussons constamment les limites.' },
+      { title: 'Intégrité', description: 'Nous opérons avec transparence et honnêteté.' }
+    ],
+    whyJoinLabel: 'Pourquoi Microhabitat',
+    whyJoinTitle: 'Plus qu\'un emploi',
+    benefits: [
+      { title: 'Travail Significatif', description: 'Ayez un impact réel sur la durabilité urbaine.' },
+      { title: 'Opportunités de Croissance', description: 'Apprenez et grandissez dans un environnement dynamique.' },
+      { title: 'Excellents Avantages', description: 'Salaire compétitif, assurance santé, et plus.' },
+      { title: 'Travail Flexible', description: 'Équilibrez travail et vie personnelle.' }
+    ],
+    ctaTitle: 'Prêt à nous rejoindre?',
+    ctaDescription: 'Consultez nos postes ouverts et postulez aujourd\'hui.'
+  },
+  de: {
+    heroLabel: 'Werde Teil unseres Teams',
+    heroTitle: 'Entwickle deine Karriere',
+    heroTitleHighlight: 'mit Sinn',
+    introText: 'Wir bauen ein Team leidenschaftlicher Menschen auf, die an grünere Städte glauben.',
+    valuesLabel: 'Unsere Werte',
+    valuesTitle: 'Was uns jeden Tag antreibt',
+    values: [
+      { title: 'Nachhaltigkeit', description: 'Wir stellen den Planeten an erste Stelle.' },
+      { title: 'Gemeinschaft', description: 'Wir glauben an die Kraft des Zusammenkommens.' },
+      { title: 'Innovation', description: 'Wir überschreiten ständig Grenzen.' },
+      { title: 'Integrität', description: 'Wir handeln transparent und ehrlich.' }
+    ],
+    whyJoinLabel: 'Warum Microhabitat',
+    whyJoinTitle: 'Mehr als nur ein Job',
+    benefits: [
+      { title: 'Sinnvolle Arbeit', description: 'Echte Wirkung auf städtische Nachhaltigkeit.' },
+      { title: 'Wachstumsmöglichkeiten', description: 'Lernen und wachsen in dynamischer Umgebung.' },
+      { title: 'Tolle Vorteile', description: 'Wettbewerbsfähiges Gehalt und Benefits.' },
+      { title: 'Flexible Arbeit', description: 'Balance zwischen Arbeit und Privatleben.' }
+    ],
+    ctaTitle: 'Bereit, uns beizutreten?',
+    ctaDescription: 'Sieh dir unsere offenen Stellen an.'
+  },
+  nl: {
+    heroLabel: 'Sluit je aan bij ons team',
+    heroTitle: 'Laat je carrière groeien',
+    heroTitleHighlight: 'met betekenis',
+    introText: 'We bouwen een team van gepassioneerde mensen die geloven in groenere steden.',
+    valuesLabel: 'Onze Waarden',
+    valuesTitle: 'Wat ons elke dag drijft',
+    values: [
+      { title: 'Duurzaamheid', description: 'We zetten de planeet op de eerste plaats.' },
+      { title: 'Gemeenschap', description: 'We geloven in de kracht van samenkomen.' },
+      { title: 'Innovatie', description: 'We verleggen voortdurend grenzen.' },
+      { title: 'Integriteit', description: 'We handelen transparant en eerlijk.' }
+    ],
+    whyJoinLabel: 'Waarom Microhabitat',
+    whyJoinTitle: 'Meer dan alleen een baan',
+    benefits: [
+      { title: 'Betekenisvol Werk', description: 'Maak echte impact op stedelijke duurzaamheid.' },
+      { title: 'Groeimogelijkheden', description: 'Leer en groei in een dynamische omgeving.' },
+      { title: 'Geweldige Voordelen', description: 'Competitief salaris en benefits.' },
+      { title: 'Flexibel Werk', description: 'Balans tussen werk en privé.' }
+    ],
+    ctaTitle: 'Klaar om je bij ons aan te sluiten?',
+    ctaDescription: 'Bekijk onze openstaande functies.'
+  },
+  it: {
+    heroLabel: 'Unisciti al Nostro Team',
+    heroTitle: 'Fai crescere la tua carriera',
+    heroTitleHighlight: 'con uno scopo',
+    introText: 'Stiamo costruendo un team di persone appassionate che credono in città più verdi.',
+    valuesLabel: 'I Nostri Valori',
+    valuesTitle: 'Cosa ci guida ogni giorno',
+    values: [
+      { title: 'Sostenibilità', description: 'Mettiamo il pianeta al primo posto.' },
+      { title: 'Comunità', description: 'Crediamo nel potere di unire le persone.' },
+      { title: 'Innovazione', description: 'Spingiamo costantemente i confini.' },
+      { title: 'Integrità', description: 'Operiamo con trasparenza e onestà.' }
+    ],
+    whyJoinLabel: 'Perché Microhabitat',
+    whyJoinTitle: 'Più di un semplice lavoro',
+    benefits: [
+      { title: 'Lavoro Significativo', description: 'Impatto reale sulla sostenibilità urbana.' },
+      { title: 'Opportunità di Crescita', description: 'Impara e cresci in un ambiente dinamico.' },
+      { title: 'Ottimi Benefici', description: 'Stipendio competitivo e benefici.' },
+      { title: 'Lavoro Flessibile', description: 'Equilibrio tra lavoro e vita personale.' }
+    ],
+    ctaTitle: 'Pronto a unirti a noi?',
+    ctaDescription: 'Consulta le nostre posizioni aperte.'
+  },
+  es: {
+    heroLabel: 'Únete a Nuestro Equipo',
+    heroTitle: 'Haz crecer tu carrera',
+    heroTitleHighlight: 'con propósito',
+    introText: 'Estamos construyendo un equipo de personas apasionadas que creen en ciudades más verdes.',
+    valuesLabel: 'Nuestros Valores',
+    valuesTitle: 'Lo que nos impulsa cada día',
+    values: [
+      { title: 'Sostenibilidad', description: 'Ponemos el planeta primero en todo.' },
+      { title: 'Comunidad', description: 'Creemos en el poder de unir personas.' },
+      { title: 'Innovación', description: 'Constantemente empujamos límites.' },
+      { title: 'Integridad', description: 'Operamos con transparencia y honestidad.' }
+    ],
+    whyJoinLabel: 'Por Qué Microhabitat',
+    whyJoinTitle: 'Más que solo un trabajo',
+    benefits: [
+      { title: 'Trabajo Significativo', description: 'Impacto real en la sostenibilidad urbana.' },
+      { title: 'Oportunidades de Crecimiento', description: 'Aprende y crece en un ambiente dinámico.' },
+      { title: 'Excelentes Beneficios', description: 'Salario competitivo y beneficios.' },
+      { title: 'Trabajo Flexible', description: 'Equilibrio entre trabajo y vida personal.' }
+    ],
+    ctaTitle: '¿Listo para unirte?',
+    ctaDescription: 'Revisa nuestras posiciones abiertas.'
+  }
+};
+
+export async function getCareersPageContent(locale: Locale = 'en'): Promise<CareersPageContent> {
+  const fallback = fallbackCareersContent[locale] || fallbackCareersContent.en;
+  if (!STRAPI_URL) return fallback;
+
+  try {
+    const headers: HeadersInit = { "Content-Type": "application/json" };
+    if (STRAPI_TOKEN) headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+
+    const response = await fetch(`${STRAPI_URL}/api/careers-page?populate=*&locale=${locale}`, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) return fallback;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any } = await response.json();
+    if (!result.data) return fallback;
+
+    const data = result.data;
+    return {
+      heroLabel: data.heroLabel || fallback.heroLabel,
+      heroTitle: data.heroTitle || fallback.heroTitle,
+      heroTitleHighlight: data.heroTitleHighlight || fallback.heroTitleHighlight,
+      introText: data.introText || fallback.introText,
+      valuesLabel: data.valuesLabel || fallback.valuesLabel,
+      valuesTitle: data.valuesTitle || fallback.valuesTitle,
+      values: data.values?.length > 0 ? data.values : fallback.values,
+      whyJoinLabel: data.whyJoinLabel || fallback.whyJoinLabel,
+      whyJoinTitle: data.whyJoinTitle || fallback.whyJoinTitle,
+      benefits: data.benefits?.length > 0 ? data.benefits : fallback.benefits,
+      ctaTitle: data.ctaTitle || fallback.ctaTitle,
+      ctaDescription: data.ctaDescription || fallback.ctaDescription,
+    };
+  } catch (error) {
+    console.error(`Error fetching careers page content:`, error);
+    return fallback;
+  }
+}
+
+// Contact Page Content
+export interface ContactPageContent {
+  heroLabel: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  introText: string;
+  offices: Array<{ name: string; type: string; address: string; city: string; country: string }>;
+  formTitle: string;
+  formSubtitle: string;
+  quickLinks: Array<{ label: string; value: string }>;
+}
+
+const fallbackContactContent: Record<Locale, ContactPageContent> = {
+  en: {
+    heroLabel: 'Get in Touch',
+    heroTitle: 'Let\'s grow',
+    heroTitleHighlight: 'together',
+    introText: 'Ready to transform your space? We\'d love to hear from you.',
+    offices: [
+      { name: 'Montreal HQ', type: 'Headquarters', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+      { name: 'Toronto Office', type: 'Regional Office', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+      { name: 'New York Office', type: 'Regional Office', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+      { name: 'Paris Office', type: 'Regional Office', address: '101 Rue des Jardins', city: 'Paris', country: 'France' }
+    ],
+    formTitle: 'Send us a message',
+    formSubtitle: 'Fill out the form below and we\'ll get back to you within 24 hours.',
+    quickLinks: [
+      { label: 'General Inquiries', value: 'info@microhabitat.ca' },
+      { label: 'Partnerships', value: 'partnerships@microhabitat.ca' },
+      { label: 'Careers', value: 'careers@microhabitat.ca' }
+    ]
+  },
+  fr: {
+    heroLabel: 'Contactez-nous',
+    heroTitle: 'Grandissons',
+    heroTitleHighlight: 'ensemble',
+    introText: 'Prêt à transformer votre espace? Nous serions ravis de vous entendre.',
+    offices: [
+      { name: 'Siège Montréal', type: 'Siège social', address: '123 Rue Ferme Urbaine', city: 'Montréal', country: 'Canada' },
+      { name: 'Bureau Toronto', type: 'Bureau régional', address: '456 Ave Toit Vert', city: 'Toronto', country: 'Canada' },
+      { name: 'Bureau New York', type: 'Bureau régional', address: '789 Blvd Rooftop', city: 'New York', country: 'USA' },
+      { name: 'Bureau Paris', type: 'Bureau régional', address: '101 Rue des Jardins', city: 'Paris', country: 'France' }
+    ],
+    formTitle: 'Envoyez-nous un message',
+    formSubtitle: 'Remplissez le formulaire et nous vous répondrons dans les 24 heures.',
+    quickLinks: [
+      { label: 'Demandes générales', value: 'info@microhabitat.ca' },
+      { label: 'Partenariats', value: 'partnerships@microhabitat.ca' },
+      { label: 'Carrières', value: 'careers@microhabitat.ca' }
+    ]
+  },
+  de: {
+    heroLabel: 'Kontakt',
+    heroTitle: 'Lasst uns gemeinsam',
+    heroTitleHighlight: 'wachsen',
+    introText: 'Bereit, Ihren Raum zu transformieren? Kontaktieren Sie uns.',
+    offices: [
+      { name: 'Montreal HQ', type: 'Hauptsitz', address: '123 Urban Farm Street', city: 'Montreal', country: 'Kanada' },
+      { name: 'Toronto Büro', type: 'Regionalbüro', address: '456 Green Roof Ave', city: 'Toronto', country: 'Kanada' },
+      { name: 'New York Büro', type: 'Regionalbüro', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+      { name: 'Paris Büro', type: 'Regionalbüro', address: '101 Rue des Jardins', city: 'Paris', country: 'Frankreich' }
+    ],
+    formTitle: 'Nachricht senden',
+    formSubtitle: 'Füllen Sie das Formular aus.',
+    quickLinks: [
+      { label: 'Allgemeine Anfragen', value: 'info@microhabitat.ca' },
+      { label: 'Partnerschaften', value: 'partnerships@microhabitat.ca' },
+      { label: 'Karriere', value: 'careers@microhabitat.ca' }
+    ]
+  },
+  nl: {
+    heroLabel: 'Contact',
+    heroTitle: 'Laten we samen',
+    heroTitleHighlight: 'groeien',
+    introText: 'Klaar om uw ruimte te transformeren? Neem contact op.',
+    offices: [
+      { name: 'Montreal HQ', type: 'Hoofdkantoor', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+      { name: 'Toronto Kantoor', type: 'Regionaal kantoor', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+      { name: 'New York Kantoor', type: 'Regionaal kantoor', address: '789 Rooftop Blvd', city: 'New York', country: 'VS' },
+      { name: 'Parijs Kantoor', type: 'Regionaal kantoor', address: '101 Rue des Jardins', city: 'Parijs', country: 'Frankrijk' }
+    ],
+    formTitle: 'Stuur ons een bericht',
+    formSubtitle: 'Vul het formulier in.',
+    quickLinks: [
+      { label: 'Algemene vragen', value: 'info@microhabitat.ca' },
+      { label: 'Partnerschappen', value: 'partnerships@microhabitat.ca' },
+      { label: 'Carrières', value: 'careers@microhabitat.ca' }
+    ]
+  },
+  it: {
+    heroLabel: 'Contattaci',
+    heroTitle: 'Cresciamo',
+    heroTitleHighlight: 'insieme',
+    introText: 'Pronto a trasformare il tuo spazio? Contattaci.',
+    offices: [
+      { name: 'Montreal HQ', type: 'Sede centrale', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+      { name: 'Ufficio Toronto', type: 'Ufficio regionale', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+      { name: 'Ufficio New York', type: 'Ufficio regionale', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+      { name: 'Ufficio Parigi', type: 'Ufficio regionale', address: '101 Rue des Jardins', city: 'Parigi', country: 'Francia' }
+    ],
+    formTitle: 'Inviaci un messaggio',
+    formSubtitle: 'Compila il modulo.',
+    quickLinks: [
+      { label: 'Richieste generali', value: 'info@microhabitat.ca' },
+      { label: 'Partnership', value: 'partnerships@microhabitat.ca' },
+      { label: 'Carriere', value: 'careers@microhabitat.ca' }
+    ]
+  },
+  es: {
+    heroLabel: 'Contáctanos',
+    heroTitle: 'Crezcamos',
+    heroTitleHighlight: 'juntos',
+    introText: '¿Listo para transformar tu espacio? Contáctanos.',
+    offices: [
+      { name: 'Montreal HQ', type: 'Sede central', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canadá' },
+      { name: 'Oficina Toronto', type: 'Oficina regional', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canadá' },
+      { name: 'Oficina Nueva York', type: 'Oficina regional', address: '789 Rooftop Blvd', city: 'Nueva York', country: 'EE.UU.' },
+      { name: 'Oficina París', type: 'Oficina regional', address: '101 Rue des Jardins', city: 'París', country: 'Francia' }
+    ],
+    formTitle: 'Envíanos un mensaje',
+    formSubtitle: 'Completa el formulario.',
+    quickLinks: [
+      { label: 'Consultas generales', value: 'info@microhabitat.ca' },
+      { label: 'Alianzas', value: 'partnerships@microhabitat.ca' },
+      { label: 'Carreras', value: 'careers@microhabitat.ca' }
+    ]
+  }
+};
+
+export async function getContactPageContent(locale: Locale = 'en'): Promise<ContactPageContent> {
+  const fallback = fallbackContactContent[locale] || fallbackContactContent.en;
+  if (!STRAPI_URL) return fallback;
+
+  try {
+    const headers: HeadersInit = { "Content-Type": "application/json" };
+    if (STRAPI_TOKEN) headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+
+    const response = await fetch(`${STRAPI_URL}/api/contact-page?populate=*&locale=${locale}`, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) return fallback;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any } = await response.json();
+    if (!result.data) return fallback;
+
+    const data = result.data;
+    return {
+      heroLabel: data.heroLabel || fallback.heroLabel,
+      heroTitle: data.heroTitle || fallback.heroTitle,
+      heroTitleHighlight: data.heroTitleHighlight || fallback.heroTitleHighlight,
+      introText: data.introText || fallback.introText,
+      offices: data.offices?.length > 0 ? data.offices : fallback.offices,
+      formTitle: data.formTitle || fallback.formTitle,
+      formSubtitle: data.formSubtitle || fallback.formSubtitle,
+      quickLinks: data.quickLinks?.length > 0 ? data.quickLinks : fallback.quickLinks,
+    };
+  } catch (error) {
+    console.error(`Error fetching contact page content:`, error);
+    return fallback;
+  }
 }
 

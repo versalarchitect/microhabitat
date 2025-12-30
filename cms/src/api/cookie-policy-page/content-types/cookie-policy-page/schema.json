@@ -12,6 +12,29 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "heroLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "lastUpdated": {
+      "type": "date"
+    },
+    "intro": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "sections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.legal-section"
+    },
+    "contactEmail": {
+      "type": "string"
     }
   }
 }

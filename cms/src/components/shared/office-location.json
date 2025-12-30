@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_shared_office_location",
+  "info": {
+    "displayName": "Office Location",
+    "icon": "mapPin",
+    "description": "An office location with address details"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "type": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "address": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    }
+  }
+}

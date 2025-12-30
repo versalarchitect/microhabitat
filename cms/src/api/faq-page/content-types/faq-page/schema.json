@@ -12,6 +12,31 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "heroLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroDescription": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.faq-category"
+    },
+    "stillQuestionsTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "stillQuestionsDescription": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
     }
   }
 }

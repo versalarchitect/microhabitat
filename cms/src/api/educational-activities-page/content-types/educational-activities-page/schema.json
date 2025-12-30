@@ -12,6 +12,97 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "heroLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroTitleHighlight": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroDescription": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "activities": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.service-card"
+    },
+    "topicsLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "topicsTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "topicsDescription": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "topics": {
+      "type": "json",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "topicsCustomText": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "galleryLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "galleryTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "galleryImages": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"]
+    },
+    "statsActivitiesCount": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "statsActivitiesLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "statsAllAges": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "statsAllAgesLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "statsVirtual": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "statsVirtualLabel": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "ctaTitle": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "ctaDescription": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
     }
   }
 }

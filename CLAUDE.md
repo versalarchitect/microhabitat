@@ -1,14 +1,18 @@
 # MicroHabitat Website
 
-MicroHabitat corporate website built with Vite, React, and Tailwind CSS. Follows the same minimal, typography-first design system as MyUrbanFarm.
+MicroHabitat corporate website built with Next.js and Tailwind CSS. Follows the same minimal, typography-first design system as MyUrbanFarm.
+
+**Important**: This project works in tandem with **MyUrbanFarm** (`../myurbanfarm`). Features like the live chat system span both projects - the chat widget lives here, while the admin interface lives in MUF.
 
 ## Tech Stack
 
-- **Build Tool**: Vite 7 with Bun
-- **Framework**: React 19 with TypeScript
+- **Framework**: Next.js 15 with App Router
+- **Runtime**: Bun
 - **Styling**: Tailwind CSS 3 with custom design system
 - **UI Components**: shadcn/ui (Radix UI primitives)
-- **State Management**: TanStack Query (React Query)
+- **AI/Chat**: Transformers.js (Hugging Face) for RAG-based chatbot
+- **Database**: Supabase (shared with MyUrbanFarm)
+- **Email**: Resend API
 - **CMS**: Strapi 5 with i18n (multilingual: EN, FR, DE, NL, IT, ES)
 - **Icons**: Lucide React
 
@@ -33,88 +37,58 @@ npm run start      # Start Strapi in production mode
 
 ```
 microhabitat/
+├── app/                      # Next.js App Router
+│   ├── [locale]/             # i18n dynamic route
+│   │   ├── page.tsx          # Home page
+│   │   ├── about/
+│   │   ├── contact/
+│   │   ├── careers/
+│   │   └── ...               # All page routes
+│   ├── api/
+│   │   └── chat/             # Chat API endpoints
+│   │       ├── start/route.ts
+│   │       ├── message/route.ts
+│   │       └── messages/route.ts
+│   ├── layout.tsx
+│   └── globals.css
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx
+│   │   └── Footer.tsx
+│   ├── sections/
+│   │   ├── Hero.tsx
+│   │   ├── Services.tsx
+│   │   ├── Impact.tsx
+│   │   └── ...
+│   ├── chat/
+│   │   └── ChatPanel.tsx     # AI chatbot + live chat widget
+│   ├── ui/                   # shadcn components
+│   ├── BookDemoModal.tsx
+│   └── LanguageSwitcher.tsx
+├── lib/
+│   ├── strapi.ts             # CMS client with fallback data
+│   ├── i18n.ts               # i18n configuration
+│   ├── chat/
+│   │   ├── knowledge-base.ts # RAG knowledge base
+│   │   ├── chatbot.ts        # Transformers.js implementation
+│   │   ├── supabase.ts       # Chat database helpers
+│   │   └── schema.sql        # Database migration
+│   ├── translations/         # i18n translations
+│   │   ├── en.ts, fr.ts, de.ts, nl.ts, it.ts, es.ts
+│   │   └── index.ts
+│   └── utils.ts
 ├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Navbar.tsx
-│   │   │   └── Footer.tsx
-│   │   ├── sections/
-│   │   │   ├── Hero.tsx
-│   │   │   ├── Services.tsx
-│   │   │   ├── Impact.tsx
-│   │   │   ├── Partners.tsx
-│   │   │   ├── Testimonials.tsx
-│   │   │   ├── Cities.tsx
-│   │   │   ├── FAQ.tsx
-│   │   │   └── CTA.tsx
-│   │   ├── ui/
-│   │   │   └── ... (shadcn components)
-│   │   ├── BookDemoModal.tsx
-│   │   ├── LanguageSwitcher.tsx
-│   │   └── SEO.tsx            # SEO meta tags component
-│   ├── lib/
-│   │   ├── strapi.ts         # CMS client with fallback data
-│   │   ├── locale-context.tsx # i18n context provider
-│   │   ├── translations/     # i18n translations (split by locale)
-│   │   │   ├── index.ts      # Combines all locales + slug mappings
-│   │   │   ├── en.ts         # English (source of truth)
-│   │   │   ├── fr.ts         # French
-│   │   │   ├── de.ts         # German
-│   │   │   ├── nl.ts         # Dutch
-│   │   │   ├── it.ts         # Italian
-│   │   │   └── es.ts         # Spanish
-│   │   └── utils.ts          # cn() utility
-│   ├── pages/
-│   │   ├── Home.tsx
-│   │   ├── About.tsx
-│   │   ├── OutdoorFarm.tsx
-│   │   ├── IndoorFarm.tsx
-│   │   ├── EducationalActivities.tsx
-│   │   ├── CommercialRealEstate.tsx
-│   │   ├── Corporations.tsx
-│   │   ├── Schools.tsx
-│   │   ├── Careers.tsx
-│   │   ├── Partnerships.tsx
-│   │   ├── CommunityEngagement.tsx
-│   │   ├── Contact.tsx
-│   │   ├── FAQPage.tsx
-│   │   ├── Blog.tsx
-│   │   ├── CitiesPage.tsx
-│   │   ├── CityDetail.tsx
-│   │   ├── PrivacyPolicy.tsx
-│   │   ├── TermsOfService.tsx
-│   │   └── CookiePolicy.tsx
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
+│   ├── favicon.png
+│   ├── robots.txt
+│   └── sitemap.xml
 ├── cms/                      # Strapi CMS
 │   ├── config/
-│   │   ├── plugins.ts        # i18n configuration
-│   │   ├── database.ts
-│   │   └── middlewares.ts
-│   ├── src/
-│   │   ├── api/              # Content types
-│   │   │   ├── hero/         # Home page (with SEO)
-│   │   │   ├── stat/
-│   │   │   ├── service/
-│   │   │   ├── testimonial/
-│   │   │   ├── partner/
-│   │   │   ├── city/         # City pages (with SEO)
-│   │   │   ├── faq/
-│   │   │   ├── about-page/   # Page SEO singleTypes
-│   │   │   ├── careers-page/
-│   │   │   ├── contact-page/
-│   │   │   └── ... (17 page singleTypes for SEO)
-│   │   ├── components/
-│   │   │   └── shared/
-│   │   │       └── seo.json  # Reusable SEO component
-│   │   └── index.ts
+│   ├── src/api/              # Content types
 │   └── scripts/
-│       └── data/             # Seed data
-│           ├── en/           # English content
-│           └── fr/           # French content
+├── src_vite_backup/          # Old Vite source (archived)
+├── middleware.ts             # Next.js i18n middleware
+├── next.config.ts
+├── tailwind.config.js
 └── .env
 ```
 
@@ -362,6 +336,72 @@ export function About() {
 4. Add fallback data for all 6 locales in `FALLBACK_PAGE_SEO`
 5. Use `getPageSEO()` in the page component
 
+### Structured Data (JSON-LD)
+
+The site includes comprehensive schema.org structured data via `src/components/StructuredData.tsx`:
+
+- **Organization Schema** - Company info, founders, locations, social links
+- **WebSite Schema** - Site metadata with multi-language support
+- **LocalBusiness Schema** - Individual office locations (Montreal, Toronto, NY, Paris)
+- **FAQPage Schema** - Structured FAQ data for rich snippets
+- **BreadcrumbList Schema** - Navigation breadcrumbs
+- **Article Schema** - Blog post metadata (when applicable)
+
+The `GlobalSEO` component in `App.tsx` automatically adds:
+- Organization and WebSite schemas site-wide
+- Hreflang tags for all 6 languages
+- Preconnect hints for external resources
+
+### Technical SEO Files
+
+- **robots.txt** - `public/robots.txt` - Crawler instructions
+- **sitemap.xml** - `public/sitemap.xml` - Auto-generated with 210 URLs
+  - Generated on build via `bun run prebuild`
+  - Includes all pages in all 6 languages with hreflang alternates
+  - City detail pages for 20 cities
+
+```bash
+# Regenerate sitemap manually
+bun run generate:sitemap
+```
+
+## AI Chatbot
+
+The website includes an AI-powered chatbot using Transformers.js with RAG (Retrieval Augmented Generation).
+
+### Architecture
+
+- **Embedding Model**: `Xenova/all-MiniLM-L6-v2` - Converts questions to vectors
+- **QA Model**: `Xenova/distilbert-base-cased-distilled-squad` - Answers questions
+- **Knowledge Base**: `lib/chat/knowledge-base.ts` - Company info from documents
+
+### How RAG Works
+
+1. Knowledge base is chunked into ~500 token segments
+2. User question is embedded into a vector
+3. Most relevant chunks are found via cosine similarity
+4. QA model answers using only relevant context
+5. If confidence < 0.3, suggests contacting a representative
+
+### Knowledge Base Sources
+
+The knowledge base was built from:
+- Employee Guide (company policies, culture)
+- BOMA Guides (green building certifications)
+- Green Building Certifications PDF
+- MicroHabitat Pot specifications
+- SEO Strategy document
+
+### Updating the Knowledge Base
+
+Edit `lib/chat/knowledge-base.ts` to add or modify content. The knowledge base is organized into sections:
+- Company Overview
+- Services (Outdoor, Indoor, Educational)
+- Client Types (Corporations, Schools, Real Estate)
+- Certifications (BOMA, LEED, WELL)
+- FAQ
+- Contact Info
+
 ## Development Guidelines
 
 1. **Follow the design system** - Use established typography and color utilities
@@ -371,6 +411,7 @@ export function About() {
 5. **Responsive first** - Mobile-first approach with Tailwind breakpoints
 6. **i18n everywhere** - All user-facing text must be translatable
 7. **SEO on every page** - All pages must have CMS-managed SEO with fallbacks
+8. **Cross-project awareness** - Changes may need updates in MUF too
 
 ## About MicroHabitat
 
@@ -378,7 +419,70 @@ MicroHabitat was founded in 2016 by **Orlane** and **Alexandre**, two childhood 
 
 **Mission**: Reconnecting communities with nature and fresh, local food through regenerative agriculture and innovative design.
 
+## MyUrbanFarm Integration
+
+This project is tightly integrated with **MyUrbanFarm** (`../myurbanfarm`). When working on cross-project features, you'll need to make changes in both repositories.
+
+### Shared Supabase Database
+
+Both projects connect to the same Supabase instance:
+- **Project**: `cuzozmvjqkatxkzdkojj`
+- **URL**: `https://cuzozmvjqkatxkzdkojj.supabase.co`
+
+Environment variables in `.env`:
+```env
+MYURBANFARM_SUPABASE_URL=https://cuzozmvjqkatxkzdkojj.supabase.co
+MYURBANFARM_SUPABASE_ANON_KEY=<anon-key>
+MYURBANFARM_URL=https://www.myurbanfarm.ai
+RESEND_API_KEY=<resend-key>
+EMAIL_FROM=team@microhabitat.com
+```
+
+### Live Chat System
+
+The chat system spans both projects:
+
+**MicroHabitat (this repo)**:
+- `components/chat/ChatPanel.tsx` - Chat widget with AI assistant + live chat
+- `lib/chat/knowledge-base.ts` - RAG knowledge base from company documents
+- `lib/chat/chatbot.ts` - Transformers.js RAG implementation
+- `lib/chat/schema.sql` - Database schema for chat tables
+- `app/api/chat/start/route.ts` - Creates chat session, sends email notification
+- `app/api/chat/message/route.ts` - Visitor sends messages
+- `app/api/chat/messages/route.ts` - Poll for new messages
+
+**MyUrbanFarm**:
+- `apps/web/app/[locale]/admin/website-chats/` - Chat list page
+- `apps/web/app/[locale]/admin/website-chats/[id]/` - Chat detail with reply interface
+- Staff can reply to visitors, close chats, convert to leads
+
+### Chat Flow
+
+1. Visitor uses AI chatbot on MicroHabitat website
+2. Clicks "Contact a Representative" → fills form
+3. Chat created in Supabase, email sent to Gabriel
+4. Gabriel clicks email link → opens MUF admin `/admin/website-chats/[id]`
+5. Gabriel replies → visitor sees response in real-time
+6. Gabriel can convert chat to lead → appears in sales pipeline
+
+### Database Tables
+
+```sql
+-- website_chats: Chat sessions
+-- website_chat_messages: Messages in chats
+-- Migration: lib/chat/schema.sql (run in MUF Supabase)
+```
+
+### Making Cross-Project Changes
+
+When modifying shared features:
+1. Update schema in `lib/chat/schema.sql` if needed
+2. Run migration in Supabase dashboard
+3. Update MicroHabitat API endpoints if needed
+4. Update MUF admin pages if needed
+5. Test the full flow end-to-end
+
 ## Related Projects
 
-- **MyUrbanFarm** (`../myurbanfarm`) - Internal platform sharing the same design system
+- **MyUrbanFarm** (`../myurbanfarm`) - Internal CRM/admin platform, shares Supabase database
 - **Eric Immobilier CMS** - Reference Strapi implementation pattern

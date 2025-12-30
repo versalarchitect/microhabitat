@@ -135,11 +135,11 @@ export default {
       const adminCount = await strapi.db.query("admin::user").count({ where: { email: "admin@microhabitat.com" } });
       if (adminCount === 0) {
         console.log("[Bootstrap] Creating admin user...");
-        const hashedPassword = await strapi.admin.services.auth.hashPassword("Admin123!");
+        const hashedPassword = await strapi.admin.services.auth.hashPassword("MicroHabitat2024");
         await strapi.db.query("admin::user").create({
           data: { firstname: "Admin", lastname: "User", email: "admin@microhabitat.com", password: hashedPassword, isActive: true, roles: [1] },
         });
-        console.log("[Bootstrap] Admin user created: admin@microhabitat.com / Admin123!");
+        console.log("[Bootstrap] Admin user created: admin@microhabitat.com / MicroHabitat2024");
       }
 
       // ================================================================
@@ -159,12 +159,23 @@ export default {
       const publicRole = await strapi.db.query("plugin::users-permissions.role").findOne({ where: { type: "public" } });
       if (publicRole) {
         const contentTypes = [
+          // Main content types
           "api::hero.hero", "api::stat.stat", "api::service.service", "api::testimonial.testimonial",
           "api::partner.partner", "api::city.city", "api::nav-link.nav-link", "api::footer-section.footer-section",
           "api::faq.faq", "api::impact-section.impact-section", "api::cta-section.cta-section",
           "api::services-section.services-section", "api::partners-section.partners-section",
           "api::testimonials-section.testimonials-section", "api::cities-section.cities-section",
           "api::faq-section.faq-section",
+          // Page SEO singleTypes
+          "api::about-page.about-page", "api::outdoor-farm-page.outdoor-farm-page",
+          "api::indoor-farm-page.indoor-farm-page", "api::educational-activities-page.educational-activities-page",
+          "api::commercial-real-estate-page.commercial-real-estate-page", "api::corporations-page.corporations-page",
+          "api::schools-page.schools-page", "api::careers-page.careers-page",
+          "api::partnerships-page.partnerships-page", "api::community-engagement-page.community-engagement-page",
+          "api::contact-page.contact-page", "api::faq-page.faq-page", "api::blog-page.blog-page",
+          "api::blog-post.blog-post",
+          "api::cities-page.cities-page", "api::privacy-policy-page.privacy-policy-page",
+          "api::terms-of-service-page.terms-of-service-page", "api::cookie-policy-page.cookie-policy-page",
         ];
         for (const ct of contentTypes) {
           for (const action of ["find", "findOne"]) {
@@ -691,6 +702,826 @@ export default {
         for (const [locale, data] of Object.entries(ctaSectionData)) {
           await strapi.documents("api::cta-section.cta-section").create({ locale, data });
         }
+      }
+
+      // ================================================================
+      // 15. Seed Page SEO (All pages, All 6 locales)
+      // ================================================================
+      console.log("[Bootstrap] Creating page SEO content...");
+
+      // Page SEO data for all pages - OPTIMIZED for maximum character usage
+      // Titles: ~55-60 chars | Descriptions: ~155-160 chars
+      const pageSEOData: Record<string, Record<string, { metaTitle: string; metaDescription: string; keywords: string }>> = {
+        'about-page': {
+          en: { metaTitle: 'About Microhabitat | World\'s Largest Urban Farm Network', metaDescription: 'Founded in 2016 by Orlane & Alexandre, Microhabitat operates 150+ urban farms in North America & Europe. Discover our mission to reconnect cities with nature', keywords: 'about microhabitat, urban farming company, sustainable agriculture, founders, mission, urban farm network' },
+          fr: { metaTitle: 'À Propos | Plus Grand Réseau de Fermes Urbaines au Monde', metaDescription: 'Fondé en 2016 par Orlane et Alexandre, Microhabitat exploite 150+ fermes urbaines en Amérique du Nord et Europe. Découvrez notre mission de reconnecter villes', keywords: 'à propos microhabitat, entreprise agriculture urbaine, agriculture durable, fondateurs, mission' },
+          de: { metaTitle: 'Über Microhabitat | Weltweit Größtes Stadtfarm-Netzwerk', metaDescription: '2016 von Orlane & Alexandre gegründet, betreibt Microhabitat 150+ Stadtfarmen in Nordamerika & Europa. Entdecken Sie unsere Mission, Städte mit Natur verbinden', keywords: 'über microhabitat, urban farming unternehmen, nachhaltige landwirtschaft, gründer, mission' },
+          nl: { metaTitle: 'Over Microhabitat | Grootste Stadslandbouwnetwerk ter Wereld', metaDescription: 'Opgericht in 2016 door Orlane & Alexandre, beheert Microhabitat 150+ stadsboerderijen in Noord-Amerika & Europa. Ontdek onze missie om steden te verbinden', keywords: 'over microhabitat, stadslandbouw bedrijf, duurzame landbouw, oprichters, missie' },
+          it: { metaTitle: 'Chi Siamo | Microhabitat - Rete Fattorie Urbane Mondiale', metaDescription: 'Fondata nel 2016 da Orlane e Alessandro, Microhabitat gestisce 150+ fattorie urbane in Nord America ed Europa. Scopri la nostra missione per le città', keywords: 'chi siamo microhabitat, azienda agricoltura urbana, agricoltura sostenibile, fondatori, missione' },
+          es: { metaTitle: 'Sobre Microhabitat | Mayor Red de Granjas Urbanas del Mundo', metaDescription: 'Fundada en 2016 por Orlane y Alexandre, Microhabitat opera 150+ granjas urbanas en Norteamérica y Europa. Descubre nuestra misión de reconectar ciudades', keywords: 'sobre microhabitat, empresa agricultura urbana, agricultura sostenible, fundadores, misión' },
+        },
+        'outdoor-farm-page': {
+          en: { metaTitle: 'Rooftop & Outdoor Urban Farms | Microhabitat Solutions', metaDescription: 'Transform rooftops, terraces & outdoor spaces into productive urban farms. Full-service design, installation & maintenance. 500+ successful projects worldwide', keywords: 'rooftop farming, outdoor urban farms, green roofs, terrace gardens, urban agriculture solutions' },
+          fr: { metaTitle: 'Fermes Urbaines Extérieures et Toits | Microhabitat', metaDescription: 'Transformez toits, terrasses et espaces extérieurs en fermes urbaines productives. Conception, installation et entretien complet. 500+ projets réussis', keywords: 'agriculture sur toit, fermes urbaines extérieures, toits verts, jardins de terrasse' },
+          de: { metaTitle: 'Dachfarmen & Outdoor-Stadtfarmen | Microhabitat Lösungen', metaDescription: 'Verwandeln Sie Dächer, Terrassen & Außenflächen in produktive Stadtfarmen. Full-Service Design, Installation & Wartung. 500+ erfolgreiche Projekte weltweit', keywords: 'dachfarming, outdoor stadtfarmen, grüne dächer, terrassengärten, urbane landwirtschaft' },
+          nl: { metaTitle: 'Daktuinen & Outdoor Stadsboerderijen | Microhabitat', metaDescription: 'Transformeer daken, terrassen en buitenruimtes in productieve stadsboerderijen. Volledige service: ontwerp, installatie en onderhoud. 500+ projecten wereldwijd', keywords: 'daklandbouw, outdoor stadsboerderijen, groene daken, terrrastuinen, urbane landbouw' },
+          it: { metaTitle: 'Fattorie su Tetti e Outdoor | Soluzioni Microhabitat', metaDescription: 'Trasforma tetti, terrazze e spazi esterni in fattorie urbane produttive. Design, installazione e manutenzione completa. 500+ progetti di successo nel mondo', keywords: 'agricoltura su tetto, fattorie urbane outdoor, tetti verdi, giardini pensili' },
+          es: { metaTitle: 'Granjas en Azoteas y Exteriores | Soluciones Microhabitat', metaDescription: 'Transforma azoteas, terrazas y espacios exteriores en granjas urbanas productivas. Diseño, instalación y mantenimiento completo. 500+ proyectos exitosos', keywords: 'agricultura en azoteas, granjas urbanas exteriores, techos verdes, jardines de terraza' },
+        },
+        'indoor-farm-page': {
+          en: { metaTitle: 'Indoor & Vertical Farming | Year-Round Urban Agriculture', metaDescription: 'Grow fresh produce 365 days a year with Microhabitat indoor farming. Vertical gardens, hydroponic setups & controlled environment agriculture for any space', keywords: 'indoor farming, vertical gardens, hydroponics, controlled environment agriculture, year-round growing' },
+          fr: { metaTitle: 'Fermes Intérieures et Verticales | Agriculture Toute l\'Année', metaDescription: 'Cultivez des produits frais 365 jours par an avec Microhabitat. Jardins verticaux, hydroponie et agriculture en environnement contrôlé pour tout type d\'espace', keywords: 'agriculture intérieure, jardins verticaux, hydroponie, agriculture en environnement contrôlé' },
+          de: { metaTitle: 'Indoor- & Vertikalfarming | Ganzjährige Stadtlandwirtschaft', metaDescription: 'Bauen Sie 365 Tage frische Produkte an mit Microhabitat Indoor-Farming. Vertikale Gärten, Hydroponik & kontrollierte Umgebungslandwirtschaft für jeden Raum', keywords: 'indoor farming, vertikale gärten, hydroponik, kontrollierte umgebung landwirtschaft' },
+          nl: { metaTitle: 'Indoor & Verticale Landbouw | Jaarrond Stadslandbouw', metaDescription: 'Kweek 365 dagen per jaar verse producten met Microhabitat indoor farming. Verticale tuinen, hydrocultuur en gecontroleerde omgevingslandbouw voor elke ruimte', keywords: 'indoor farming, verticale tuinen, hydrocultuur, gecontroleerde omgeving landbouw' },
+          it: { metaTitle: 'Agricoltura Indoor e Verticale | Coltivazione Tutto l\'Anno', metaDescription: 'Coltiva prodotti freschi 365 giorni con Microhabitat. Giardini verticali, idroponica e agricoltura a ambiente controllato per ogni spazio e ogni esigenza', keywords: 'agricoltura indoor, giardini verticali, idroponica, agricoltura ambiente controllato' },
+          es: { metaTitle: 'Agricultura Indoor y Vertical | Cultivo Urbano Todo el Año', metaDescription: 'Cultiva productos frescos 365 días al año con Microhabitat. Jardines verticales, hidroponía y agricultura de ambiente controlado para cualquier espacio', keywords: 'agricultura indoor, jardines verticales, hidroponía, agricultura ambiente controlado' },
+        },
+        'educational-activities-page': {
+          en: { metaTitle: 'Urban Farming Workshops & Educational Programs', metaDescription: 'Learn sustainable agriculture through hands-on workshops, farm tours & educational programs. Perfect for schools, corporate teams & community groups. Book today', keywords: 'urban farming workshops, educational programs, farm tours, sustainability education, hands-on learning' },
+          fr: { metaTitle: 'Ateliers Agriculture Urbaine et Programmes Éducatifs', metaDescription: 'Apprenez l\'agriculture durable grâce à des ateliers pratiques, visites de fermes et programmes éducatifs. Parfait pour écoles, entreprises et groupes', keywords: 'ateliers agriculture urbaine, programmes éducatifs, visites de fermes, éducation durable' },
+          de: { metaTitle: 'Urban Farming Workshops & Bildungsprogramme | Microhabitat', metaDescription: 'Lernen Sie nachhaltige Landwirtschaft durch praxisnahe Workshops, Farmtouren & Bildungsprogramme. Perfekt für Schulen, Firmenteams & Gemeindegruppen. Buchen Sie', keywords: 'urban farming workshops, bildungsprogramme, farmtouren, nachhaltigkeitsbildung' },
+          nl: { metaTitle: 'Stadslandbouw Workshops & Educatieve Programma\'s', metaDescription: 'Leer duurzame landbouw door praktische workshops, boerderijrondleidingen en educatieve programma\'s. Perfect voor scholen, bedrijfsteams en gemeenschapsgroepen', keywords: 'stadslandbouw workshops, educatieve programma\'s, boerderijrondleidingen, duurzaamheidsonderwijs' },
+          it: { metaTitle: 'Workshop Agricoltura Urbana e Programmi Educativi', metaDescription: 'Impara l\'agricoltura sostenibile attraverso workshop pratici, tour delle fattorie e programmi educativi. Perfetto per scuole, team aziendali e gruppi comunitari', keywords: 'workshop agricoltura urbana, programmi educativi, tour fattorie, educazione sostenibilità' },
+          es: { metaTitle: 'Talleres Agricultura Urbana y Programas Educativos', metaDescription: 'Aprende agricultura sostenible a través de talleres prácticos, tours de granjas y programas educativos. Perfecto para escuelas, equipos y grupos comunitarios', keywords: 'talleres agricultura urbana, programas educativos, tours de granjas, educación sostenibilidad' },
+        },
+        'commercial-real-estate-page': {
+          en: { metaTitle: 'Urban Farms for Commercial Real Estate | Green Buildings', metaDescription: 'Boost property value & tenant satisfaction with rooftop farms and green spaces. Achieve LEED certification & ESG goals with Microhabitat. Free assessment', keywords: 'commercial real estate farming, green buildings, LEED certification, property value, tenant amenities, ESG' },
+          fr: { metaTitle: 'Fermes Urbaines pour Immobilier Commercial | Bâtiments Verts', metaDescription: 'Augmentez la valeur immobilière et satisfaction des locataires avec fermes sur toit. Atteignez la certification LEED et objectifs ESG. Évaluation gratuite', keywords: 'immobilier commercial agriculture, bâtiments verts, certification LEED, valeur immobilière, ESG' },
+          de: { metaTitle: 'Stadtfarmen für Gewerbeimmobilien | Grüne Gebäude', metaDescription: 'Steigern Sie Immobilienwert & Mieterzufriedenheit mit Dachfarmen und Grünflächen. LEED-Zertifizierung & ESG-Ziele erreichen. Kostenlose Bewertung', keywords: 'gewerbeimmobilien farming, grüne gebäude, LEED-zertifizierung, immobilienwert, ESG' },
+          nl: { metaTitle: 'Stadsboerderijen voor Commercieel Vastgoed | Groene Gebouwen', metaDescription: 'Verhoog vastgoedwaarde en huurderstevredenheid met dakboerderijen en groene ruimtes. Bereik LEED-certificering en ESG-doelen. Gratis beoordeling', keywords: 'commercieel vastgoed landbouw, groene gebouwen, LEED-certificering, vastgoedwaarde, ESG' },
+          it: { metaTitle: 'Fattorie Urbane per Immobili Commerciali | Edifici Verdi', metaDescription: 'Aumenta valore immobiliare e soddisfazione inquilini con fattorie sui tetti e spazi verdi. Raggiungi certificazione LEED e obiettivi ESG. Valutazione gratuita', keywords: 'immobili commerciali agricoltura, edifici verdi, certificazione LEED, valore immobiliare, ESG' },
+          es: { metaTitle: 'Granjas Urbanas para Inmobiliario Comercial | Microhabitat', metaDescription: 'Aumenta el valor de la propiedad y satisfacción de inquilinos con granjas en azoteas. Logra certificación LEED y metas ESG. Evaluación gratuita', keywords: 'bienes raíces comerciales agricultura, edificios verdes, certificación LEED, valor propiedad, ESG' },
+        },
+        'corporations-page': {
+          en: { metaTitle: 'Corporate Urban Farming & ESG Programs | Sustainability', metaDescription: 'Achieve your ESG goals with Microhabitat corporate urban farming. Employee wellness, team building, carbon reduction & measurable sustainability impact', keywords: 'corporate sustainability, ESG programs, employee wellness, team building, carbon reduction, corporate farming' },
+          fr: { metaTitle: 'Agriculture Urbaine Entreprise et Programmes ESG', metaDescription: 'Atteignez vos objectifs ESG avec les programmes agriculture urbaine Microhabitat. Bien-être employés, team building, réduction carbone et impact mesurable', keywords: 'durabilité entreprise, programmes ESG, bien-être employés, team building, réduction carbone' },
+          de: { metaTitle: 'Corporate Urban Farming & ESG-Programme | Nachhaltigkeit', metaDescription: 'Erreichen Sie Ihre ESG-Ziele mit Microhabitat Corporate Urban Farming. Mitarbeiter-Wellness, Teambuilding, CO2-Reduktion & messbare Nachhaltigkeitswirkung', keywords: 'unternehmens-nachhaltigkeit, ESG-programme, mitarbeiter-wellness, teambuilding, CO2-reduktion' },
+          nl: { metaTitle: 'Zakelijke Stadslandbouw & ESG Programma\'s | Duurzaamheid', metaDescription: 'Bereik uw ESG-doelen met Microhabitat zakelijke stadslandbouwprogramma\'s. Werknemerswelzijn, teambuilding, CO2-reductie en meetbare duurzaamheidsimpact', keywords: 'zakelijke duurzaamheid, ESG programma\'s, werknemerswelzijn, teambuilding, CO2-reductie' },
+          it: { metaTitle: 'Agricoltura Urbana Aziendale e Programmi ESG', metaDescription: 'Raggiungi i tuoi obiettivi ESG con programmi agricoltura urbana aziendale Microhabitat. Benessere dipendenti, team building, riduzione carbonio e impatto', keywords: 'sostenibilità aziendale, programmi ESG, benessere dipendenti, team building, riduzione carbonio' },
+          es: { metaTitle: 'Agricultura Urbana Corporativa y Programas ESG', metaDescription: 'Alcanza tus objetivos ESG con programas agricultura urbana corporativa Microhabitat. Bienestar empleados, team building, reducción carbono e impacto medible', keywords: 'sostenibilidad corporativa, programas ESG, bienestar empleados, team building, reducción carbono' },
+        },
+        'schools-page': {
+          en: { metaTitle: 'School Garden Programs & Educational Farming | Microhabitat', metaDescription: 'Bring hands-on STEM learning to your school with Microhabitat educational farming. Curriculum-aligned workshops, school gardens & student engagement', keywords: 'school gardens, educational farming, STEM learning, student engagement, curriculum workshops, K-12' },
+          fr: { metaTitle: 'Programmes Jardins Scolaires et Agriculture Éducative', metaDescription: 'Offrez un apprentissage STEM pratique avec les programmes agriculture éducative Microhabitat. Ateliers alignés au curriculum, jardins scolaires pour tous', keywords: 'jardins scolaires, agriculture éducative, apprentissage STEM, engagement étudiant, ateliers' },
+          de: { metaTitle: 'Schulgarten-Programme & Pädagogische Landwirtschaft', metaDescription: 'Bringen Sie praktisches MINT-Lernen an Ihre Schule mit Microhabitat pädagogischen Farming-Programmen. Lehrplan-Workshops, Schulgärten für alle', keywords: 'schulgärten, pädagogische landwirtschaft, MINT-lernen, schülerengagement, curriculum-workshops' },
+          nl: { metaTitle: 'Schooltuinprogramma\'s & Educatieve Landbouw | Microhabitat', metaDescription: 'Breng praktisch STEM-leren naar uw school met Microhabitat educatieve landbouwprogramma\'s. Curriculum-workshops, schooltuinen en studentenbetrokkenheid', keywords: 'schooltuinen, educatieve landbouw, STEM-leren, studentenbetrokkenheid, curriculum workshops' },
+          it: { metaTitle: 'Programmi Orti Scolastici e Agricoltura Educativa', metaDescription: 'Porta l\'apprendimento STEM pratico nella tua scuola con programmi agricoltura educativa Microhabitat. Workshop curriculari, orti scolastici per tutti', keywords: 'orti scolastici, agricoltura educativa, apprendimento STEM, coinvolgimento studenti, workshop' },
+          es: { metaTitle: 'Programas Huertos Escolares y Agricultura Educativa', metaDescription: 'Lleva aprendizaje STEM práctico a tu escuela con programas agricultura educativa Microhabitat. Talleres curriculares, huertos escolares para todos', keywords: 'huertos escolares, agricultura educativa, aprendizaje STEM, participación estudiantil, talleres' },
+        },
+        'careers-page': {
+          en: { metaTitle: 'Careers at Microhabitat | Join the Urban Farming Revolution', metaDescription: 'Build a career that matters. Join Microhabitat team of urban farmers, educators & sustainability experts. Open positions in Montreal, Toronto, NYC, Paris', keywords: 'microhabitat careers, urban farming jobs, sustainability careers, green jobs, agriculture careers' },
+          fr: { metaTitle: 'Carrières Microhabitat | Rejoignez la Révolution Agricole', metaDescription: 'Construisez une carrière qui compte. Rejoignez notre équipe agriculteurs urbains et experts développement durable. Postes à Montréal, Toronto, NYC, Paris', keywords: 'carrières microhabitat, emplois agriculture urbaine, carrières durabilité, emplois verts' },
+          de: { metaTitle: 'Karriere bei Microhabitat | Urban-Farming-Revolution', metaDescription: 'Gestalte eine Karriere mit Bedeutung. Werde Teil unseres Teams aus Stadtbauern, Pädagogen & Nachhaltigkeitsexperten. Stellen in Montreal, Toronto, NYC', keywords: 'microhabitat karriere, urban farming jobs, nachhaltigkeits-karriere, grüne jobs' },
+          nl: { metaTitle: 'Werken bij Microhabitat | Stadslandbouw Revolutie', metaDescription: 'Bouw een carrière die ertoe doet. Word deel van ons team stadsboeren, docenten & duurzaamheidsexperts. Vacatures in Montreal, Toronto, NYC, Parijs', keywords: 'microhabitat vacatures, stadslandbouw banen, duurzaamheid carrière, groene banen' },
+          it: { metaTitle: 'Lavora con Microhabitat | Rivoluzione Agricola Urbana', metaDescription: 'Costruisci una carriera che conta. Unisciti al nostro team agricoltori urbani, educatori ed esperti sostenibilità. Posizioni a Montreal, Toronto, NYC', keywords: 'carriere microhabitat, lavori agricoltura urbana, carriere sostenibilità, lavori verdi' },
+          es: { metaTitle: 'Empleos en Microhabitat | Revolución Agricultura Urbana', metaDescription: 'Construye una carrera que importa. Únete a nuestro equipo agricultores urbanos, educadores y expertos sostenibilidad. Puestos en Montreal, Toronto, NYC', keywords: 'empleos microhabitat, trabajos agricultura urbana, carreras sostenibilidad, empleos verdes' },
+        },
+        'partnerships-page': {
+          en: { metaTitle: 'Partner With Microhabitat | Urban Farming Collaboration', metaDescription: 'Join Microhabitat global network of urban farming partners. Licensing opportunities, joint ventures & collaboration programs for municipalities and developers', keywords: 'microhabitat partnerships, urban farming licensing, joint ventures, collaboration, franchise opportunities' },
+          fr: { metaTitle: 'Devenez Partenaire Microhabitat | Collaboration Agriculture', metaDescription: 'Rejoignez le réseau mondial de partenaires Microhabitat. Licences, coentreprises et programmes collaboration pour municipalités, promoteurs et organisations', keywords: 'partenariats microhabitat, licence agriculture urbaine, coentreprises, collaboration, franchise' },
+          de: { metaTitle: 'Microhabitat Partner werden | Urban Farming Kooperationen', metaDescription: 'Treten Sie Microhabitats globalem Netzwerk von Urban-Farming-Partnern bei. Lizenzmöglichkeiten, Joint Ventures & Kooperationen für Kommunen und Entwickler', keywords: 'microhabitat partnerschaften, urban farming lizenz, joint ventures, kooperation, franchise' },
+          nl: { metaTitle: 'Word Partner van Microhabitat | Stadslandbouw Samenwerking', metaDescription: 'Word deel van Microhabitat wereldwijde netwerk stadslandbouwpartners. Licentiemogelijkheden, joint ventures en samenwerkingsprogramma\'s voor gemeenten', keywords: 'microhabitat partnerschappen, stadslandbouw licenties, joint ventures, samenwerking, franchise' },
+          it: { metaTitle: 'Diventa Partner Microhabitat | Collaborazioni Agricoltura', metaDescription: 'Unisciti alla rete globale di partner Microhabitat. Opportunità di licenza, joint venture e programmi collaborazione per comuni, sviluppatori, organizzazioni', keywords: 'partnership microhabitat, licenze agricoltura urbana, joint venture, collaborazione, franchise' },
+          es: { metaTitle: 'Asóciate con Microhabitat | Colaboración Agricultura Urbana', metaDescription: 'Únete a la red global de socios Microhabitat. Oportunidades licencia, joint ventures y programas colaboración para municipios, desarrolladores, organizaciones', keywords: 'asociaciones microhabitat, licencias agricultura urbana, joint ventures, colaboración, franquicia' },
+        },
+        'community-engagement-page': {
+          en: { metaTitle: 'Community Programs & Food Bank Partnerships | Microhabitat', metaDescription: 'Creating lasting social impact through food bank partnerships, community gardens & volunteer programs. Join Microhabitat in fighting food insecurity', keywords: 'community engagement, food bank partnerships, community gardens, volunteer programs, social impact, food security' },
+          fr: { metaTitle: 'Programmes Communautaires et Partenariats Alimentaires', metaDescription: 'Créons un impact social durable grâce aux partenariats banques alimentaires, jardins communautaires et programmes bénévoles. Luttez contre l\'insécurité', keywords: 'engagement communautaire, partenariats banques alimentaires, jardins communautaires, bénévolat' },
+          de: { metaTitle: 'Gemeinschaftsprogramme & Tafel-Partnerschaften', metaDescription: 'Nachhaltige soziale Wirkung durch Tafel-Partnerschaften, Gemeinschaftsgärten & Freiwilligenprogramme. Kämpfen Sie gegen Ernährungsunsicherheit mit uns', keywords: 'gemeinschaftsengagement, tafel-partnerschaften, gemeinschaftsgärten, freiwilligenprogramme' },
+          nl: { metaTitle: 'Gemeenschapsprogramma\'s & Voedselbank Partnerschappen', metaDescription: 'Duurzame sociale impact creëren door voedselbank partnerschappen, gemeenschapstuinen en vrijwilligersprogramma\'s. Help ons voedselonzekerheid bestrijden', keywords: 'gemeenschapsbetrokkenheid, voedselbank partnerschappen, gemeenschapstuinen, vrijwilligersprogramma\'s' },
+          it: { metaTitle: 'Programmi Comunitari e Partnership Banchi Alimentari', metaDescription: 'Creiamo impatto sociale duraturo attraverso partnership banchi alimentari, orti comunitari e programmi volontariato. Combatti l\'insicurezza alimentare', keywords: 'impegno comunitario, partnership banchi alimentari, orti comunitari, programmi volontariato' },
+          es: { metaTitle: 'Programas Comunitarios y Alianzas Bancos de Alimentos', metaDescription: 'Creamos impacto social duradero a través de alianzas bancos alimentos, huertos comunitarios y programas voluntariado. Combate la inseguridad alimentaria', keywords: 'compromiso comunitario, alianzas bancos alimentos, huertos comunitarios, voluntariado' },
+        },
+        'contact-page': {
+          en: { metaTitle: 'Contact Microhabitat | Get in Touch With Urban Farm Experts', metaDescription: 'Ready to transform your space into a thriving urban farm? Contact Microhabitat today for a free consultation. Offices in Montreal, Toronto, NYC & Paris', keywords: 'contact microhabitat, urban farming consultation, get in touch, request quote, urban farm experts' },
+          fr: { metaTitle: 'Contactez Microhabitat | Parlez à Nos Experts Agriculture', metaDescription: 'Prêt à transformer votre espace en ferme urbaine florissante? Contactez Microhabitat pour une consultation gratuite. Bureaux à Montréal, Toronto, NYC, Paris', keywords: 'contact microhabitat, consultation agriculture urbaine, nous contacter, demande de devis' },
+          de: { metaTitle: 'Kontakt Microhabitat | Sprechen Sie Mit Unseren Experten', metaDescription: 'Bereit, Ihren Raum in eine florierende Stadtfarm zu verwandeln? Kontaktieren Sie Microhabitat für kostenlose Beratung. Büros in Montreal, Toronto, NYC', keywords: 'kontakt microhabitat, urban farming beratung, kontaktieren, angebot anfordern' },
+          nl: { metaTitle: 'Contact Microhabitat | Neem Contact Op Met Onze Experts', metaDescription: 'Klaar om uw ruimte om te vormen tot een bloeiende stadsboerderij? Neem contact op voor gratis advies. Kantoren in Montreal, Toronto, NYC & Parijs', keywords: 'contact microhabitat, stadslandbouw advies, neem contact op, offerte aanvragen' },
+          it: { metaTitle: 'Contatta Microhabitat | Parla con i Nostri Esperti', metaDescription: 'Pronto a trasformare il tuo spazio in una fattoria urbana fiorente? Contatta Microhabitat per una consulenza gratuita. Uffici a Montreal, Toronto, NYC', keywords: 'contatta microhabitat, consulenza agricoltura urbana, contattaci, richiedi preventivo' },
+          es: { metaTitle: 'Contacta Microhabitat | Habla con Nuestros Expertos', metaDescription: 'Listo para transformar tu espacio en una granja urbana próspera? Contacta Microhabitat para consulta gratuita. Oficinas en Montreal, Toronto, NYC, París', keywords: 'contacto microhabitat, consulta agricultura urbana, contáctanos, solicitar presupuesto' },
+        },
+        'faq-page': {
+          en: { metaTitle: 'Urban Farming FAQ | Common Questions Answered', metaDescription: 'Get answers to frequently asked questions about urban farming, our services, pricing, installation process & maintenance. Everything you need to know', keywords: 'urban farming FAQ, frequently asked questions, microhabitat questions, farming answers, getting started' },
+          fr: { metaTitle: 'FAQ Agriculture Urbaine | Questions Fréquentes', metaDescription: 'Obtenez des réponses aux questions fréquentes sur l\'agriculture urbaine, nos services, tarifs, processus installation et entretien. Tout ce qu\'il faut savoir', keywords: 'FAQ agriculture urbaine, questions fréquentes, questions microhabitat, réponses, démarrer' },
+          de: { metaTitle: 'Urban Farming FAQ | Häufige Fragen Beantwortet', metaDescription: 'Antworten auf häufig gestellte Fragen zu Urban Farming, unseren Services, Preisen, Installationsprozess & Wartung. Alles was Sie wissen müssen', keywords: 'urban farming FAQ, häufig gestellte fragen, microhabitat fragen, antworten, loslegen' },
+          nl: { metaTitle: 'Stadslandbouw FAQ | Veelgestelde Vragen Beantwoord', metaDescription: 'Krijg antwoorden op veelgestelde vragen over stadslandbouw, onze diensten, prijzen, installatieproces en onderhoud. Alles wat u moet weten', keywords: 'stadslandbouw FAQ, veelgestelde vragen, microhabitat vragen, antwoorden, aan de slag' },
+          it: { metaTitle: 'FAQ Agricoltura Urbana | Domande Frequenti Risposte', metaDescription: 'Ottieni risposte alle domande frequenti su agricoltura urbana, i nostri servizi, prezzi, processo installazione e manutenzione. Tutto quello che devi sapere', keywords: 'FAQ agricoltura urbana, domande frequenti, domande microhabitat, risposte, iniziare' },
+          es: { metaTitle: 'FAQ Agricultura Urbana | Preguntas Frecuentes', metaDescription: 'Obtén respuestas a preguntas frecuentes sobre agricultura urbana, nuestros servicios, precios, proceso instalación y mantenimiento. Todo lo que necesitas', keywords: 'FAQ agricultura urbana, preguntas frecuentes, preguntas microhabitat, respuestas, comenzar' },
+        },
+        'blog-page': {
+          en: { metaTitle: 'Urban Farming Blog | News, Tips & Insights', metaDescription: 'Stay updated with the latest urban farming trends, sustainability tips, project stories & expert insights from Microhabitat team. Subscribe for updates', keywords: 'urban farming blog, sustainability news, farming tips, microhabitat stories, agriculture insights' },
+          fr: { metaTitle: 'Blog Agriculture Urbaine | Actualités et Conseils', metaDescription: 'Restez informé des dernières tendances agriculture urbaine, conseils durabilité, histoires projets et expertises de l\'équipe Microhabitat. Abonnez-vous', keywords: 'blog agriculture urbaine, actualités durabilité, conseils culture, histoires microhabitat' },
+          de: { metaTitle: 'Urban Farming Blog | Neuigkeiten & Tipps', metaDescription: 'Bleiben Sie auf dem Laufenden mit den neuesten Urban-Farming-Trends, Nachhaltigkeitstipps, Projektgeschichten & Experteneinblicken. Abonnieren Sie jetzt', keywords: 'urban farming blog, nachhaltigkeits-news, farming tipps, microhabitat geschichten' },
+          nl: { metaTitle: 'Stadslandbouw Blog | Nieuws & Tips', metaDescription: 'Blijf op de hoogte van de laatste stadslandbouwtrends, duurzaamheidstips, projectverhalen en expertinzichten van Microhabitat team. Schrijf je in', keywords: 'stadslandbouw blog, duurzaamheidsnieuws, landbouwtips, microhabitat verhalen' },
+          it: { metaTitle: 'Blog Agricoltura Urbana | Notizie e Consigli', metaDescription: 'Rimani aggiornato sulle ultime tendenze agricoltura urbana, consigli sostenibilità, storie progetti e approfondimenti esperti Microhabitat. Iscriviti', keywords: 'blog agricoltura urbana, notizie sostenibilità, consigli agricoltura, storie microhabitat' },
+          es: { metaTitle: 'Blog Agricultura Urbana | Noticias y Consejos', metaDescription: 'Mantente actualizado con las últimas tendencias agricultura urbana, consejos sostenibilidad, historias proyectos e insights de expertos Microhabitat', keywords: 'blog agricultura urbana, noticias sostenibilidad, consejos cultivo, historias microhabitat' },
+        },
+        'cities-page': {
+          en: { metaTitle: 'Urban Farm Locations | 20+ Cities in North America & Europe', metaDescription: 'Explore Microhabitat urban farming locations in Montreal, Toronto, New York, Paris, London & more. Find a farm near you and discover local initiatives', keywords: 'urban farm locations, cities, Montreal, Toronto, New York, Paris, London, urban farming near me' },
+          fr: { metaTitle: 'Emplacements Fermes Urbaines | 20+ Villes Amérique du Nord', metaDescription: 'Explorez les emplacements Microhabitat à Montréal, Toronto, New York, Paris, Londres et plus. Trouvez une ferme près de chez vous, découvrez l\'agriculture', keywords: 'emplacements fermes urbaines, villes, Montréal, Toronto, New York, Paris, agriculture près de moi' },
+          de: { metaTitle: 'Stadtfarm-Standorte | 20+ Städte in Nordamerika & Europa', metaDescription: 'Entdecken Sie Microhabitat Stadtfarm-Standorte in Montreal, Toronto, New York, Paris, London & mehr. Finden Sie eine Farm in Ihrer Nähe, lokale Initiativen', keywords: 'stadtfarm standorte, städte, Montreal, Toronto, New York, Paris, London, urban farming in meiner nähe' },
+          nl: { metaTitle: 'Stadsboerderij Locaties | 20+ Steden Noord-Amerika & Europa', metaDescription: 'Ontdek Microhabitat stadslandbouwlocaties in Montreal, Toronto, New York, Parijs, Londen en meer. Vind een boerderij bij u, ontdek lokale initiatieven', keywords: 'stadsboerderij locaties, steden, Montreal, Toronto, New York, Parijs, stadslandbouw bij mij' },
+          it: { metaTitle: 'Sedi Fattorie Urbane | 20+ Città Nord America ed Europa', metaDescription: 'Esplora le sedi Microhabitat a Montreal, Toronto, New York, Parigi, Londra e altre città. Trova una fattoria vicino a te, scopri iniziative locali', keywords: 'sedi fattorie urbane, città, Montreal, Toronto, New York, Parigi, Londra, agricoltura vicino a me' },
+          es: { metaTitle: 'Ubicaciones Granjas Urbanas | 20+ Ciudades América y Europa', metaDescription: 'Explora las ubicaciones Microhabitat en Montreal, Toronto, Nueva York, París, Londres y más. Encuentra una granja cerca de ti, descubre iniciativas', keywords: 'ubicaciones granjas urbanas, ciudades, Montreal, Toronto, Nueva York, París, agricultura cerca de mí' },
+        },
+        'privacy-policy-page': {
+          en: { metaTitle: 'Privacy Policy | Microhabitat Data Protection & Your Rights', metaDescription: 'Learn how Microhabitat collects, uses & protects your personal data. Our privacy policy explains your rights under GDPR, CCPA & other regulations', keywords: 'privacy policy, data protection, GDPR, CCPA, personal data, user rights' },
+          fr: { metaTitle: 'Politique de Confidentialité | Protection des Données', metaDescription: 'Découvrez comment Microhabitat collecte, utilise et protège vos données personnelles. Notre politique explique vos droits sous le RGPD et réglementations', keywords: 'politique confidentialité, protection données, RGPD, données personnelles, droits utilisateur' },
+          de: { metaTitle: 'Datenschutzrichtlinie | Microhabitat Datenschutz & Rechte', metaDescription: 'Erfahren Sie, wie Microhabitat Ihre personenbezogenen Daten erhebt, verwendet & schützt. Datenschutzrichtlinie erklärt Ihre Rechte unter DSGVO & mehr', keywords: 'datenschutzrichtlinie, datenschutz, DSGVO, personenbezogene daten, nutzerrechte' },
+          nl: { metaTitle: 'Privacybeleid | Microhabitat Gegevensbescherming & Rechten', metaDescription: 'Lees hoe Microhabitat uw persoonsgegevens verzamelt, gebruikt en beschermt. Ons privacybeleid legt uw rechten uit onder AVG en andere regels', keywords: 'privacybeleid, gegevensbescherming, AVG, persoonsgegevens, gebruikersrechten' },
+          it: { metaTitle: 'Informativa Privacy | Protezione Dati Microhabitat', metaDescription: 'Scopri come Microhabitat raccoglie, utilizza e protegge i tuoi dati personali. La nostra informativa spiega i tuoi diritti secondo GDPR e normative', keywords: 'informativa privacy, protezione dati, GDPR, dati personali, diritti utente' },
+          es: { metaTitle: 'Política de Privacidad | Protección de Datos Microhabitat', metaDescription: 'Conoce cómo Microhabitat recopila, usa y protege tus datos personales. Nuestra política de privacidad explica tus derechos bajo GDPR y otras normas', keywords: 'política privacidad, protección datos, GDPR, CCPA, datos personales, derechos usuario' },
+        },
+        'terms-of-service-page': {
+          en: { metaTitle: 'Terms of Service | Microhabitat Website & Services', metaDescription: 'Read Microhabitat terms of service governing your use of our website, urban farming services & digital platforms. Last updated December 2024', keywords: 'terms of service, terms and conditions, user agreement, service terms, legal' },
+          fr: { metaTitle: 'Conditions d\'Utilisation | Accord de Service Microhabitat', metaDescription: 'Lisez les conditions utilisation de Microhabitat régissant votre utilisation de notre site web, services agriculture urbaine et plateformes numériques', keywords: 'conditions utilisation, conditions générales, accord utilisateur, conditions service, légal' },
+          de: { metaTitle: 'Nutzungsbedingungen | Microhabitat Website & Services', metaDescription: 'Lesen Sie die Nutzungsbedingungen von Microhabitat für die Nutzung unserer Website, Urban-Farming-Services & digitalen Plattformen. Dezember 2024', keywords: 'nutzungsbedingungen, AGB, nutzervereinbarung, servicebedingungen, rechtliches' },
+          nl: { metaTitle: 'Servicevoorwaarden | Microhabitat Website & Services', metaDescription: 'Lees de servicevoorwaarden van Microhabitat voor het gebruik van onze website, stadslandbouwdiensten en digitale platformen. December 2024', keywords: 'servicevoorwaarden, algemene voorwaarden, gebruikersovereenkomst, dienstvoorwaarden, juridisch' },
+          it: { metaTitle: 'Termini di Servizio | Accordo Sito Web Microhabitat', metaDescription: 'Leggi i termini di servizio di Microhabitat che regolano l\'uso del nostro sito web, servizi agricoltura urbana e piattaforme digitali. Dicembre 2024', keywords: 'termini di servizio, termini e condizioni, accordo utente, termini servizio, legale' },
+          es: { metaTitle: 'Términos de Servicio | Acuerdo Sitio Web Microhabitat', metaDescription: 'Lee los términos de servicio de Microhabitat que rigen el uso de nuestro sitio web, servicios agricultura urbana y plataformas digitales. Diciembre 2024', keywords: 'términos de servicio, términos y condiciones, acuerdo usuario, términos servicio, legal' },
+        },
+        'cookie-policy-page': {
+          en: { metaTitle: 'Cookie Policy | How Microhabitat Uses Cookies', metaDescription: 'Understand how Microhabitat uses cookies, analytics & tracking technologies on our website. Learn how to manage your cookie preferences and opt-out', keywords: 'cookie policy, cookies, tracking, analytics, opt-out, cookie preferences' },
+          fr: { metaTitle: 'Politique de Cookies | Utilisation des Cookies Microhabitat', metaDescription: 'Comprenez comment Microhabitat utilise les cookies, analyses et technologies de suivi. Apprenez à gérer vos préférences cookies et désactivation', keywords: 'politique cookies, cookies, suivi, analytique, désactivation, préférences cookies' },
+          de: { metaTitle: 'Cookie-Richtlinie | Wie Microhabitat Cookies Nutzt', metaDescription: 'Verstehen Sie, wie Microhabitat Cookies, Analytics & Tracking-Technologien nutzt. Erfahren Sie, wie Sie Cookie-Einstellungen verwalten und Opt-out', keywords: 'cookie-richtlinie, cookies, tracking, analytics, opt-out, cookie-einstellungen' },
+          nl: { metaTitle: 'Cookiebeleid | Hoe Microhabitat Cookies Gebruikt', metaDescription: 'Begrijp hoe Microhabitat cookies, analytics en tracking-technologieën gebruikt. Leer hoe u uw cookievoorkeuren beheert en opt-out opties', keywords: 'cookiebeleid, cookies, tracking, analytics, opt-out, cookievoorkeuren' },
+          it: { metaTitle: 'Politica sui Cookie | Come Microhabitat Usa i Cookie', metaDescription: 'Comprendi come Microhabitat utilizza cookie, analytics e tecnologie tracciamento. Scopri come gestire le tue preferenze cookie e opzioni opt-out', keywords: 'politica cookie, cookie, tracciamento, analytics, opt-out, preferenze cookie' },
+          es: { metaTitle: 'Política de Cookies | Cómo Microhabitat Usa Cookies', metaDescription: 'Comprende cómo Microhabitat usa cookies, analytics y tecnologías de seguimiento. Aprende a gestionar tus preferencias cookies y opciones exclusión', keywords: 'política cookies, cookies, seguimiento, analytics, exclusión, preferencias cookies' },
+        },
+      };
+
+      // Create/Update page SEO entries using Document Service for proper i18n
+      for (const [pageType, localeData] of Object.entries(pageSEOData)) {
+        try {
+          const uid = `api::${pageType}.${pageType}` as any;
+          const docService = strapi.documents(uid);
+
+          for (const [locale, seoData] of Object.entries(localeData)) {
+            try {
+              // Find existing document for this locale
+              const existing = await docService.findFirst({
+                locale,
+                populate: ['seo']
+              });
+
+              if (existing) {
+                // Update existing document with SEO
+                await docService.update({
+                  documentId: existing.documentId,
+                  locale,
+                  data: { seo: seoData } as any,
+                });
+              } else {
+                // Create new document for this locale
+                await docService.create({
+                  locale,
+                  data: { seo: seoData } as any,
+                  status: 'published',
+                });
+              }
+            } catch (localeError: any) {
+              // Silently continue on locale errors
+            }
+          }
+          console.log(`[Bootstrap] Seeded SEO for ${pageType}`);
+        } catch (e) {
+          console.error(`[Bootstrap] Failed to seed SEO for ${pageType}:`, e);
+        }
+      }
+
+      // ============================================
+      // Page Content Seeding (body content for all pages)
+      // ============================================
+      console.log("[Bootstrap] Seeding page content...");
+
+      const pageContentData: Record<string, Record<string, Record<string, any>>> = {
+        'about-page': {
+          en: {
+            heroLabel: 'Our Story',
+            heroTitle: 'Reconnecting',
+            heroTitleHighlight: 'communities with nature',
+            missionLabel: 'Our Mission',
+            missionTitle: 'Transforming urban spaces into thriving ecosystems',
+            missionParagraph1: 'MicroHabitat was founded in 2016 by Orlane and Alexandre, two childhood friends from Montreal united by a shared vision: making urban agriculture accessible to everyone.',
+            missionParagraph2: 'Today, we operate the largest network of urban farms in the world, transforming underused rooftops and spaces into productive, ecological farms across North America and Europe.',
+            solidarityLabel: 'Community Impact',
+            solidarityTitle: 'Fresh food for those who need it most',
+            solidarityDescription: 'Through our solidarity harvest program, we donate a portion of every harvest to local food banks and community organizations, ensuring that everyone has access to fresh, nutritious produce.',
+            impactStats: [
+              { value: '200+', label: 'Urban farms installed' },
+              { value: '500K+', label: 'lbs of produce grown' },
+              { value: '50K+', label: 'People engaged' },
+              { value: '8', label: 'Years of experience' }
+            ],
+            storyLabel: 'Our Journey',
+            storyTitle: 'From rooftop dreams to global impact',
+            storyContent: 'What started as a single rooftop garden in Montreal has grown into a movement. We believe that every urban space has the potential to become a source of food, community, and environmental resilience.',
+            ctaTitle: 'Ready to transform your space?',
+            ctaDescription: 'Join the urban farming revolution and create a lasting impact in your community.'
+          },
+          fr: {
+            heroLabel: 'Notre Histoire',
+            heroTitle: 'Reconnecter les',
+            heroTitleHighlight: 'communautés avec la nature',
+            missionLabel: 'Notre Mission',
+            missionTitle: 'Transformer les espaces urbains en écosystèmes florissants',
+            missionParagraph1: 'MicroHabitat a été fondé en 2016 par Orlane et Alexandre, deux amis d\'enfance de Montréal unis par une vision commune : rendre l\'agriculture urbaine accessible à tous.',
+            missionParagraph2: 'Aujourd\'hui, nous opérons le plus grand réseau de fermes urbaines au monde, transformant les toits et espaces sous-utilisés en fermes productives et écologiques à travers l\'Amérique du Nord et l\'Europe.',
+            solidarityLabel: 'Impact Communautaire',
+            solidarityTitle: 'Des aliments frais pour ceux qui en ont le plus besoin',
+            solidarityDescription: 'Grâce à notre programme de récolte solidaire, nous donnons une partie de chaque récolte aux banques alimentaires locales et organisations communautaires.',
+            impactStats: [
+              { value: '200+', label: 'Fermes urbaines installées' },
+              { value: '500K+', label: 'lb de produits cultivés' },
+              { value: '50K+', label: 'Personnes engagées' },
+              { value: '8', label: 'Années d\'expérience' }
+            ],
+            storyLabel: 'Notre Parcours',
+            storyTitle: 'Des rêves de toits à un impact mondial',
+            storyContent: 'Ce qui a commencé comme un simple jardin sur un toit à Montréal est devenu un mouvement. Nous croyons que chaque espace urbain peut devenir une source de nourriture et de résilience.',
+            ctaTitle: 'Prêt à transformer votre espace?',
+            ctaDescription: 'Rejoignez la révolution de l\'agriculture urbaine et créez un impact durable dans votre communauté.'
+          },
+          de: {
+            heroLabel: 'Unsere Geschichte',
+            heroTitle: 'Gemeinschaften wieder mit der',
+            heroTitleHighlight: 'Natur verbinden',
+            missionLabel: 'Unsere Mission',
+            missionTitle: 'Städtische Räume in blühende Ökosysteme verwandeln',
+            missionParagraph1: 'MicroHabitat wurde 2016 von Orlane und Alexandre gegründet, zwei Kindheitsfreunden aus Montreal, die eine gemeinsame Vision teilten.',
+            missionParagraph2: 'Heute betreiben wir das größte Netzwerk städtischer Farmen der Welt und verwandeln ungenutzte Dächer in produktive, ökologische Farmen.',
+            solidarityLabel: 'Gemeinschaftliche Wirkung',
+            solidarityTitle: 'Frische Lebensmittel für Bedürftige',
+            solidarityDescription: 'Durch unser Solidaritäts-Ernteprogramm spenden wir einen Teil jeder Ernte an lokale Lebensmittelbanken.',
+            impactStats: [
+              { value: '200+', label: 'Stadtfarmen installiert' },
+              { value: '500K+', label: 'Pfund angebaut' },
+              { value: '50K+', label: 'Menschen engagiert' },
+              { value: '8', label: 'Jahre Erfahrung' }
+            ],
+            storyLabel: 'Unsere Reise',
+            storyTitle: 'Von Dachträumen zur globalen Wirkung',
+            storyContent: 'Was als ein einziger Dachgarten in Montreal begann, ist zu einer Bewegung geworden.',
+            ctaTitle: 'Bereit, Ihren Raum zu verwandeln?',
+            ctaDescription: 'Schließen Sie sich der Urban-Farming-Revolution an.'
+          },
+          nl: {
+            heroLabel: 'Ons Verhaal',
+            heroTitle: 'Gemeenschappen opnieuw verbinden',
+            heroTitleHighlight: 'met de natuur',
+            missionLabel: 'Onze Missie',
+            missionTitle: 'Stedelijke ruimtes transformeren tot bloeiende ecosystemen',
+            missionParagraph1: 'MicroHabitat werd in 2016 opgericht door Orlane en Alexandre, twee jeugdvrienden uit Montreal.',
+            missionParagraph2: 'Vandaag beheren we het grootste netwerk van stadsboerderijen ter wereld.',
+            solidarityLabel: 'Gemeenschapsimpact',
+            solidarityTitle: 'Vers voedsel voor wie het het meest nodig heeft',
+            solidarityDescription: 'Via ons solidariteitsoogstprogramma doneren we een deel van elke oogst aan lokale voedselbanken.',
+            impactStats: [
+              { value: '200+', label: 'Stadsboerderijen geïnstalleerd' },
+              { value: '500K+', label: 'pond geteeld' },
+              { value: '50K+', label: 'Mensen betrokken' },
+              { value: '8', label: 'Jaar ervaring' }
+            ],
+            storyLabel: 'Onze Reis',
+            storyTitle: 'Van dakdromen naar wereldwijde impact',
+            storyContent: 'Wat begon als een enkele daktuin in Montreal is uitgegroeid tot een beweging.',
+            ctaTitle: 'Klaar om uw ruimte te transformeren?',
+            ctaDescription: 'Sluit u aan bij de stadslandbouwrevolutie.'
+          },
+          it: {
+            heroLabel: 'La Nostra Storia',
+            heroTitle: 'Riconnettere le',
+            heroTitleHighlight: 'comunità con la natura',
+            missionLabel: 'La Nostra Missione',
+            missionTitle: 'Trasformare gli spazi urbani in ecosistemi rigogliosi',
+            missionParagraph1: 'MicroHabitat è stata fondata nel 2016 da Orlane e Alexandre, due amici d\'infanzia di Montreal.',
+            missionParagraph2: 'Oggi gestiamo la più grande rete di fattorie urbane al mondo.',
+            solidarityLabel: 'Impatto Comunitario',
+            solidarityTitle: 'Cibo fresco per chi ne ha più bisogno',
+            solidarityDescription: 'Attraverso il nostro programma di raccolto solidale, doniamo una parte di ogni raccolto alle banche alimentari locali.',
+            impactStats: [
+              { value: '200+', label: 'Fattorie urbane installate' },
+              { value: '500K+', label: 'libbre coltivate' },
+              { value: '50K+', label: 'Persone coinvolte' },
+              { value: '8', label: 'Anni di esperienza' }
+            ],
+            storyLabel: 'Il Nostro Viaggio',
+            storyTitle: 'Dai sogni sui tetti all\'impatto globale',
+            storyContent: 'Quello che è iniziato come un singolo orto sul tetto a Montreal è diventato un movimento.',
+            ctaTitle: 'Pronto a trasformare il tuo spazio?',
+            ctaDescription: 'Unisciti alla rivoluzione dell\'agricoltura urbana.'
+          },
+          es: {
+            heroLabel: 'Nuestra Historia',
+            heroTitle: 'Reconectando',
+            heroTitleHighlight: 'comunidades con la naturaleza',
+            missionLabel: 'Nuestra Misión',
+            missionTitle: 'Transformar espacios urbanos en ecosistemas prósperos',
+            missionParagraph1: 'MicroHabitat fue fundada en 2016 por Orlane y Alexandre, dos amigos de la infancia de Montreal.',
+            missionParagraph2: 'Hoy operamos la red más grande de granjas urbanas del mundo.',
+            solidarityLabel: 'Impacto Comunitario',
+            solidarityTitle: 'Alimentos frescos para quienes más los necesitan',
+            solidarityDescription: 'A través de nuestro programa de cosecha solidaria, donamos una parte de cada cosecha a bancos de alimentos locales.',
+            impactStats: [
+              { value: '200+', label: 'Granjas urbanas instaladas' },
+              { value: '500K+', label: 'libras cultivadas' },
+              { value: '50K+', label: 'Personas comprometidas' },
+              { value: '8', label: 'Años de experiencia' }
+            ],
+            storyLabel: 'Nuestro Viaje',
+            storyTitle: 'De sueños en azoteas a impacto global',
+            storyContent: 'Lo que comenzó como un solo jardín en una azotea en Montreal se ha convertido en un movimiento.',
+            ctaTitle: '¿Listo para transformar tu espacio?',
+            ctaDescription: 'Únete a la revolución de la agricultura urbana.'
+          }
+        },
+        'outdoor-farm-page': {
+          en: {
+            heroLabel: 'Outdoor Farms',
+            heroTitle: 'Transform your rooftop into a',
+            heroTitleHighlight: 'thriving urban farm',
+            introLabel: 'Our Approach',
+            introTitle: 'Full-service urban farming solutions',
+            introDescription: 'We design, install, and maintain productive rooftop farms that provide fresh produce, community engagement, and environmental benefits.',
+            services: [
+              { title: 'Design & Installation', description: 'Custom farm design tailored to your space, including soil, irrigation, and planting systems.' },
+              { title: 'Ongoing Maintenance', description: 'Regular care including planting, harvesting, pest management, and seasonal transitions.' },
+              { title: 'Harvest Distribution', description: 'Fresh produce delivered to your building residents, employees, or community partners.' }
+            ],
+            packagesLabel: 'Packages',
+            packagesTitle: 'Choose the right plan for your space',
+            packages: [
+              { name: 'Starter', features: ['Up to 1,000 sq ft', 'Seasonal planting', 'Monthly maintenance', 'Quarterly reports'] },
+              { name: 'Professional', features: ['Up to 5,000 sq ft', 'Year-round production', 'Weekly maintenance', 'Community events included'] },
+              { name: 'Enterprise', features: ['5,000+ sq ft', 'Custom programming', 'Dedicated farm manager', 'Full sustainability reporting'] }
+            ],
+            ctaTitle: 'Ready to grow with us?',
+            ctaDescription: 'Contact us for a free consultation and site assessment.'
+          },
+          fr: {
+            heroLabel: 'Fermes Extérieures',
+            heroTitle: 'Transformez votre toit en une',
+            heroTitleHighlight: 'ferme urbaine florissante',
+            introLabel: 'Notre Approche',
+            introTitle: 'Solutions d\'agriculture urbaine clé en main',
+            introDescription: 'Nous concevons, installons et entretenons des fermes sur toit productives qui fournissent des produits frais et des avantages environnementaux.',
+            services: [
+              { title: 'Conception & Installation', description: 'Conception de ferme personnalisée adaptée à votre espace.' },
+              { title: 'Entretien Continu', description: 'Soins réguliers incluant plantation, récolte et gestion des nuisibles.' },
+              { title: 'Distribution des Récoltes', description: 'Produits frais livrés aux résidents ou employés de votre bâtiment.' }
+            ],
+            packagesLabel: 'Forfaits',
+            packagesTitle: 'Choisissez le plan adapté à votre espace',
+            packages: [
+              { name: 'Débutant', features: ['Jusqu\'à 100 m²', 'Plantation saisonnière', 'Entretien mensuel', 'Rapports trimestriels'] },
+              { name: 'Professionnel', features: ['Jusqu\'à 500 m²', 'Production toute l\'année', 'Entretien hebdomadaire', 'Événements communautaires'] },
+              { name: 'Entreprise', features: ['500+ m²', 'Programmation personnalisée', 'Gestionnaire dédié', 'Rapports de durabilité'] }
+            ],
+            ctaTitle: 'Prêt à grandir avec nous?',
+            ctaDescription: 'Contactez-nous pour une consultation gratuite.'
+          },
+          de: {
+            heroLabel: 'Außenfarmen',
+            heroTitle: 'Verwandeln Sie Ihr Dach in eine',
+            heroTitleHighlight: 'blühende Stadtfarm',
+            introLabel: 'Unser Ansatz',
+            introTitle: 'Full-Service Urban-Farming-Lösungen',
+            introDescription: 'Wir entwerfen, installieren und pflegen produktive Dachfarmen.',
+            services: [
+              { title: 'Design & Installation', description: 'Maßgeschneidertes Farm-Design für Ihren Raum.' },
+              { title: 'Laufende Wartung', description: 'Regelmäßige Pflege einschließlich Pflanzen und Ernten.' },
+              { title: 'Ernteverteilung', description: 'Frische Produkte für Bewohner oder Mitarbeiter.' }
+            ],
+            packagesLabel: 'Pakete',
+            packagesTitle: 'Wählen Sie den richtigen Plan',
+            packages: [
+              { name: 'Starter', features: ['Bis zu 100 m²', 'Saisonale Bepflanzung', 'Monatliche Wartung'] },
+              { name: 'Professional', features: ['Bis zu 500 m²', 'Ganzjährige Produktion', 'Wöchentliche Wartung'] },
+              { name: 'Enterprise', features: ['500+ m²', 'Individuelle Programme', 'Dedizierter Manager'] }
+            ],
+            ctaTitle: 'Bereit, mit uns zu wachsen?',
+            ctaDescription: 'Kontaktieren Sie uns für eine kostenlose Beratung.'
+          },
+          nl: {
+            heroLabel: 'Buitenboerderijen',
+            heroTitle: 'Transformeer uw dak in een',
+            heroTitleHighlight: 'bloeiende stadsboerderij',
+            introLabel: 'Onze Aanpak',
+            introTitle: 'Full-service stadslandbouwoplossingen',
+            introDescription: 'Wij ontwerpen, installeren en onderhouden productieve dakboerderijen.',
+            services: [
+              { title: 'Ontwerp & Installatie', description: 'Op maat gemaakt ontwerp voor uw ruimte.' },
+              { title: 'Doorlopend Onderhoud', description: 'Regelmatige verzorging inclusief planten en oogsten.' },
+              { title: 'Oogstverdeling', description: 'Verse producten voor bewoners of medewerkers.' }
+            ],
+            packagesLabel: 'Pakketten',
+            packagesTitle: 'Kies het juiste plan',
+            packages: [
+              { name: 'Starter', features: ['Tot 100 m²', 'Seizoensgebonden beplanting', 'Maandelijks onderhoud'] },
+              { name: 'Professioneel', features: ['Tot 500 m²', 'Jaarrond productie', 'Wekelijks onderhoud'] },
+              { name: 'Enterprise', features: ['500+ m²', 'Aangepaste programma\'s', 'Toegewijde manager'] }
+            ],
+            ctaTitle: 'Klaar om met ons te groeien?',
+            ctaDescription: 'Neem contact op voor een gratis consult.'
+          },
+          it: {
+            heroLabel: 'Fattorie Esterne',
+            heroTitle: 'Trasforma il tuo tetto in una',
+            heroTitleHighlight: 'fattoria urbana rigogliosa',
+            introLabel: 'Il Nostro Approccio',
+            introTitle: 'Soluzioni complete di agricoltura urbana',
+            introDescription: 'Progettiamo, installiamo e manteniamo fattorie sul tetto produttive.',
+            services: [
+              { title: 'Design & Installazione', description: 'Design personalizzato per il tuo spazio.' },
+              { title: 'Manutenzione Continua', description: 'Cura regolare inclusa semina e raccolta.' },
+              { title: 'Distribuzione Raccolto', description: 'Prodotti freschi per residenti o dipendenti.' }
+            ],
+            packagesLabel: 'Pacchetti',
+            packagesTitle: 'Scegli il piano giusto',
+            packages: [
+              { name: 'Starter', features: ['Fino a 100 m²', 'Piantagione stagionale', 'Manutenzione mensile'] },
+              { name: 'Professional', features: ['Fino a 500 m²', 'Produzione tutto l\'anno', 'Manutenzione settimanale'] },
+              { name: 'Enterprise', features: ['500+ m²', 'Programmi personalizzati', 'Manager dedicato'] }
+            ],
+            ctaTitle: 'Pronto a crescere con noi?',
+            ctaDescription: 'Contattaci per una consulenza gratuita.'
+          },
+          es: {
+            heroLabel: 'Granjas Exteriores',
+            heroTitle: 'Transforma tu azotea en una',
+            heroTitleHighlight: 'granja urbana próspera',
+            introLabel: 'Nuestro Enfoque',
+            introTitle: 'Soluciones completas de agricultura urbana',
+            introDescription: 'Diseñamos, instalamos y mantenemos granjas en azoteas productivas.',
+            services: [
+              { title: 'Diseño e Instalación', description: 'Diseño personalizado para tu espacio.' },
+              { title: 'Mantenimiento Continuo', description: 'Cuidado regular incluyendo siembra y cosecha.' },
+              { title: 'Distribución de Cosecha', description: 'Productos frescos para residentes o empleados.' }
+            ],
+            packagesLabel: 'Paquetes',
+            packagesTitle: 'Elige el plan adecuado',
+            packages: [
+              { name: 'Inicial', features: ['Hasta 100 m²', 'Siembra estacional', 'Mantenimiento mensual'] },
+              { name: 'Profesional', features: ['Hasta 500 m²', 'Producción todo el año', 'Mantenimiento semanal'] },
+              { name: 'Empresa', features: ['500+ m²', 'Programas personalizados', 'Gerente dedicado'] }
+            ],
+            ctaTitle: '¿Listo para crecer con nosotros?',
+            ctaDescription: 'Contáctanos para una consulta gratuita.'
+          }
+        },
+        'contact-page': {
+          en: {
+            heroLabel: 'Get in Touch',
+            heroTitle: 'Let\'s grow',
+            heroTitleHighlight: 'together',
+            introText: 'Ready to transform your space? We\'d love to hear from you. Reach out to discuss your project or just say hello.',
+            offices: [
+              { name: 'Montreal HQ', type: 'Headquarters', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+              { name: 'Toronto Office', type: 'Regional Office', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+              { name: 'New York Office', type: 'Regional Office', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+              { name: 'Paris Office', type: 'Regional Office', address: '101 Rue des Jardins', city: 'Paris', country: 'France' }
+            ],
+            formTitle: 'Send us a message',
+            formSubtitle: 'Fill out the form below and we\'ll get back to you within 24 hours.',
+            quickLinks: [
+              { label: 'General Inquiries', value: 'info@microhabitat.ca' },
+              { label: 'Partnerships', value: 'partnerships@microhabitat.ca' },
+              { label: 'Careers', value: 'careers@microhabitat.ca' }
+            ]
+          },
+          fr: {
+            heroLabel: 'Contactez-nous',
+            heroTitle: 'Grandissons',
+            heroTitleHighlight: 'ensemble',
+            introText: 'Prêt à transformer votre espace? Nous serions ravis de vous entendre.',
+            offices: [
+              { name: 'Siège Montréal', type: 'Siège social', address: '123 Rue Ferme Urbaine', city: 'Montréal', country: 'Canada' },
+              { name: 'Bureau Toronto', type: 'Bureau régional', address: '456 Ave Toit Vert', city: 'Toronto', country: 'Canada' },
+              { name: 'Bureau New York', type: 'Bureau régional', address: '789 Blvd Rooftop', city: 'New York', country: 'USA' },
+              { name: 'Bureau Paris', type: 'Bureau régional', address: '101 Rue des Jardins', city: 'Paris', country: 'France' }
+            ],
+            formTitle: 'Envoyez-nous un message',
+            formSubtitle: 'Remplissez le formulaire et nous vous répondrons dans les 24 heures.',
+            quickLinks: [
+              { label: 'Demandes générales', value: 'info@microhabitat.ca' },
+              { label: 'Partenariats', value: 'partnerships@microhabitat.ca' },
+              { label: 'Carrières', value: 'careers@microhabitat.ca' }
+            ]
+          },
+          de: {
+            heroLabel: 'Kontakt',
+            heroTitle: 'Lasst uns gemeinsam',
+            heroTitleHighlight: 'wachsen',
+            introText: 'Bereit, Ihren Raum zu transformieren? Kontaktieren Sie uns.',
+            offices: [
+              { name: 'Montreal HQ', type: 'Hauptsitz', address: '123 Urban Farm Street', city: 'Montreal', country: 'Kanada' },
+              { name: 'Toronto Büro', type: 'Regionalbüro', address: '456 Green Roof Ave', city: 'Toronto', country: 'Kanada' },
+              { name: 'New York Büro', type: 'Regionalbüro', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+              { name: 'Paris Büro', type: 'Regionalbüro', address: '101 Rue des Jardins', city: 'Paris', country: 'Frankreich' }
+            ],
+            formTitle: 'Nachricht senden',
+            formSubtitle: 'Füllen Sie das Formular aus.',
+            quickLinks: [
+              { label: 'Allgemeine Anfragen', value: 'info@microhabitat.ca' },
+              { label: 'Partnerschaften', value: 'partnerships@microhabitat.ca' },
+              { label: 'Karriere', value: 'careers@microhabitat.ca' }
+            ]
+          },
+          nl: {
+            heroLabel: 'Contact',
+            heroTitle: 'Laten we samen',
+            heroTitleHighlight: 'groeien',
+            introText: 'Klaar om uw ruimte te transformeren? Neem contact op.',
+            offices: [
+              { name: 'Montreal HQ', type: 'Hoofdkantoor', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+              { name: 'Toronto Kantoor', type: 'Regionaal kantoor', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+              { name: 'New York Kantoor', type: 'Regionaal kantoor', address: '789 Rooftop Blvd', city: 'New York', country: 'VS' },
+              { name: 'Parijs Kantoor', type: 'Regionaal kantoor', address: '101 Rue des Jardins', city: 'Parijs', country: 'Frankrijk' }
+            ],
+            formTitle: 'Stuur ons een bericht',
+            formSubtitle: 'Vul het formulier in.',
+            quickLinks: [
+              { label: 'Algemene vragen', value: 'info@microhabitat.ca' },
+              { label: 'Partnerschappen', value: 'partnerships@microhabitat.ca' },
+              { label: 'Carrières', value: 'careers@microhabitat.ca' }
+            ]
+          },
+          it: {
+            heroLabel: 'Contattaci',
+            heroTitle: 'Cresciamo',
+            heroTitleHighlight: 'insieme',
+            introText: 'Pronto a trasformare il tuo spazio? Contattaci.',
+            offices: [
+              { name: 'Montreal HQ', type: 'Sede centrale', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canada' },
+              { name: 'Ufficio Toronto', type: 'Ufficio regionale', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canada' },
+              { name: 'Ufficio New York', type: 'Ufficio regionale', address: '789 Rooftop Blvd', city: 'New York', country: 'USA' },
+              { name: 'Ufficio Parigi', type: 'Ufficio regionale', address: '101 Rue des Jardins', city: 'Parigi', country: 'Francia' }
+            ],
+            formTitle: 'Inviaci un messaggio',
+            formSubtitle: 'Compila il modulo.',
+            quickLinks: [
+              { label: 'Richieste generali', value: 'info@microhabitat.ca' },
+              { label: 'Partnership', value: 'partnerships@microhabitat.ca' },
+              { label: 'Carriere', value: 'careers@microhabitat.ca' }
+            ]
+          },
+          es: {
+            heroLabel: 'Contáctanos',
+            heroTitle: 'Crezcamos',
+            heroTitleHighlight: 'juntos',
+            introText: '¿Listo para transformar tu espacio? Contáctanos.',
+            offices: [
+              { name: 'Montreal HQ', type: 'Sede central', address: '123 Urban Farm Street', city: 'Montreal', country: 'Canadá' },
+              { name: 'Oficina Toronto', type: 'Oficina regional', address: '456 Green Roof Ave', city: 'Toronto', country: 'Canadá' },
+              { name: 'Oficina Nueva York', type: 'Oficina regional', address: '789 Rooftop Blvd', city: 'Nueva York', country: 'EE.UU.' },
+              { name: 'Oficina París', type: 'Oficina regional', address: '101 Rue des Jardins', city: 'París', country: 'Francia' }
+            ],
+            formTitle: 'Envíanos un mensaje',
+            formSubtitle: 'Completa el formulario.',
+            quickLinks: [
+              { label: 'Consultas generales', value: 'info@microhabitat.ca' },
+              { label: 'Alianzas', value: 'partnerships@microhabitat.ca' },
+              { label: 'Carreras', value: 'careers@microhabitat.ca' }
+            ]
+          }
+        },
+        'careers-page': {
+          en: {
+            heroLabel: 'Join Our Team',
+            heroTitle: 'Grow your career',
+            heroTitleHighlight: 'with purpose',
+            introText: 'We\'re building a team of passionate people who believe in making cities greener and communities stronger.',
+            valuesLabel: 'Our Values',
+            valuesTitle: 'What drives us every day',
+            values: [
+              { title: 'Sustainability', description: 'We put the planet first in everything we do.' },
+              { title: 'Community', description: 'We believe in the power of bringing people together.' },
+              { title: 'Innovation', description: 'We constantly push boundaries in urban agriculture.' },
+              { title: 'Integrity', description: 'We operate with transparency and honesty.' }
+            ],
+            whyJoinLabel: 'Why Microhabitat',
+            whyJoinTitle: 'More than just a job',
+            benefits: [
+              { title: 'Meaningful Work', description: 'Make a real impact on urban sustainability.' },
+              { title: 'Growth Opportunities', description: 'Learn and grow in a dynamic environment.' },
+              { title: 'Great Benefits', description: 'Competitive salary, health benefits, and more.' },
+              { title: 'Flexible Work', description: 'Balance your work and personal life.' }
+            ],
+            ctaTitle: 'Ready to join us?',
+            ctaDescription: 'Check out our open positions and apply today.'
+          },
+          fr: {
+            heroLabel: 'Rejoignez Notre Équipe',
+            heroTitle: 'Développez votre carrière',
+            heroTitleHighlight: 'avec un sens',
+            introText: 'Nous construisons une équipe de personnes passionnées qui croient en des villes plus vertes.',
+            valuesLabel: 'Nos Valeurs',
+            valuesTitle: 'Ce qui nous motive chaque jour',
+            values: [
+              { title: 'Durabilité', description: 'Nous mettons la planète en premier dans tout ce que nous faisons.' },
+              { title: 'Communauté', description: 'Nous croyons au pouvoir de rassembler les gens.' },
+              { title: 'Innovation', description: 'Nous repoussons constamment les limites.' },
+              { title: 'Intégrité', description: 'Nous opérons avec transparence et honnêteté.' }
+            ],
+            whyJoinLabel: 'Pourquoi Microhabitat',
+            whyJoinTitle: 'Plus qu\'un emploi',
+            benefits: [
+              { title: 'Travail Significatif', description: 'Ayez un impact réel sur la durabilité urbaine.' },
+              { title: 'Opportunités de Croissance', description: 'Apprenez et grandissez dans un environnement dynamique.' },
+              { title: 'Excellents Avantages', description: 'Salaire compétitif, assurance santé, et plus.' },
+              { title: 'Travail Flexible', description: 'Équilibrez travail et vie personnelle.' }
+            ],
+            ctaTitle: 'Prêt à nous rejoindre?',
+            ctaDescription: 'Consultez nos postes ouverts et postulez aujourd\'hui.'
+          },
+          de: {
+            heroLabel: 'Werde Teil unseres Teams',
+            heroTitle: 'Entwickle deine Karriere',
+            heroTitleHighlight: 'mit Sinn',
+            introText: 'Wir bauen ein Team leidenschaftlicher Menschen auf, die an grünere Städte glauben.',
+            valuesLabel: 'Unsere Werte',
+            valuesTitle: 'Was uns jeden Tag antreibt',
+            values: [
+              { title: 'Nachhaltigkeit', description: 'Wir stellen den Planeten an erste Stelle.' },
+              { title: 'Gemeinschaft', description: 'Wir glauben an die Kraft des Zusammenkommens.' },
+              { title: 'Innovation', description: 'Wir überschreiten ständig Grenzen.' },
+              { title: 'Integrität', description: 'Wir handeln transparent und ehrlich.' }
+            ],
+            whyJoinLabel: 'Warum Microhabitat',
+            whyJoinTitle: 'Mehr als nur ein Job',
+            benefits: [
+              { title: 'Sinnvolle Arbeit', description: 'Echte Wirkung auf städtische Nachhaltigkeit.' },
+              { title: 'Wachstumsmöglichkeiten', description: 'Lernen und wachsen in dynamischer Umgebung.' },
+              { title: 'Tolle Vorteile', description: 'Wettbewerbsfähiges Gehalt und Benefits.' },
+              { title: 'Flexible Arbeit', description: 'Balance zwischen Arbeit und Privatleben.' }
+            ],
+            ctaTitle: 'Bereit, uns beizutreten?',
+            ctaDescription: 'Sieh dir unsere offenen Stellen an.'
+          },
+          nl: {
+            heroLabel: 'Sluit je aan bij ons team',
+            heroTitle: 'Laat je carrière groeien',
+            heroTitleHighlight: 'met betekenis',
+            introText: 'We bouwen een team van gepassioneerde mensen die geloven in groenere steden.',
+            valuesLabel: 'Onze Waarden',
+            valuesTitle: 'Wat ons elke dag drijft',
+            values: [
+              { title: 'Duurzaamheid', description: 'We zetten de planeet op de eerste plaats.' },
+              { title: 'Gemeenschap', description: 'We geloven in de kracht van samenkomen.' },
+              { title: 'Innovatie', description: 'We verleggen voortdurend grenzen.' },
+              { title: 'Integriteit', description: 'We handelen transparant en eerlijk.' }
+            ],
+            whyJoinLabel: 'Waarom Microhabitat',
+            whyJoinTitle: 'Meer dan alleen een baan',
+            benefits: [
+              { title: 'Betekenisvol Werk', description: 'Maak echte impact op stedelijke duurzaamheid.' },
+              { title: 'Groeimogelijkheden', description: 'Leer en groei in een dynamische omgeving.' },
+              { title: 'Geweldige Voordelen', description: 'Competitief salaris en benefits.' },
+              { title: 'Flexibel Werk', description: 'Balans tussen werk en privé.' }
+            ],
+            ctaTitle: 'Klaar om je bij ons aan te sluiten?',
+            ctaDescription: 'Bekijk onze openstaande functies.'
+          },
+          it: {
+            heroLabel: 'Unisciti al Nostro Team',
+            heroTitle: 'Fai crescere la tua carriera',
+            heroTitleHighlight: 'con uno scopo',
+            introText: 'Stiamo costruendo un team di persone appassionate che credono in città più verdi.',
+            valuesLabel: 'I Nostri Valori',
+            valuesTitle: 'Cosa ci guida ogni giorno',
+            values: [
+              { title: 'Sostenibilità', description: 'Mettiamo il pianeta al primo posto.' },
+              { title: 'Comunità', description: 'Crediamo nel potere di unire le persone.' },
+              { title: 'Innovazione', description: 'Spingiamo costantemente i confini.' },
+              { title: 'Integrità', description: 'Operiamo con trasparenza e onestà.' }
+            ],
+            whyJoinLabel: 'Perché Microhabitat',
+            whyJoinTitle: 'Più di un semplice lavoro',
+            benefits: [
+              { title: 'Lavoro Significativo', description: 'Impatto reale sulla sostenibilità urbana.' },
+              { title: 'Opportunità di Crescita', description: 'Impara e cresci in un ambiente dinamico.' },
+              { title: 'Ottimi Benefici', description: 'Stipendio competitivo e benefici.' },
+              { title: 'Lavoro Flessibile', description: 'Equilibrio tra lavoro e vita personale.' }
+            ],
+            ctaTitle: 'Pronto a unirti a noi?',
+            ctaDescription: 'Consulta le nostre posizioni aperte.'
+          },
+          es: {
+            heroLabel: 'Únete a Nuestro Equipo',
+            heroTitle: 'Haz crecer tu carrera',
+            heroTitleHighlight: 'con propósito',
+            introText: 'Estamos construyendo un equipo de personas apasionadas que creen en ciudades más verdes.',
+            valuesLabel: 'Nuestros Valores',
+            valuesTitle: 'Lo que nos impulsa cada día',
+            values: [
+              { title: 'Sostenibilidad', description: 'Ponemos el planeta primero en todo.' },
+              { title: 'Comunidad', description: 'Creemos en el poder de unir personas.' },
+              { title: 'Innovación', description: 'Constantemente empujamos límites.' },
+              { title: 'Integridad', description: 'Operamos con transparencia y honestidad.' }
+            ],
+            whyJoinLabel: 'Por Qué Microhabitat',
+            whyJoinTitle: 'Más que solo un trabajo',
+            benefits: [
+              { title: 'Trabajo Significativo', description: 'Impacto real en la sostenibilidad urbana.' },
+              { title: 'Oportunidades de Crecimiento', description: 'Aprende y crece en un ambiente dinámico.' },
+              { title: 'Excelentes Beneficios', description: 'Salario competitivo y beneficios.' },
+              { title: 'Trabajo Flexible', description: 'Equilibrio entre trabajo y vida personal.' }
+            ],
+            ctaTitle: '¿Listo para unirte?',
+            ctaDescription: 'Revisa nuestras posiciones abiertas.'
+          }
+        }
+      };
+
+      // Seed page content using Document Service for proper i18n support
+      for (const [pageType, localeData] of Object.entries(pageContentData)) {
+        try {
+          const uid = `api::${pageType}.${pageType}` as any;
+          const docService = strapi.documents(uid);
+
+          for (const [locale, contentData] of Object.entries(localeData)) {
+            try {
+              // Find existing document for this locale
+              const existing = await docService.findFirst({
+                locale,
+              });
+
+              if (existing) {
+                // Update existing document
+                await docService.update({
+                  documentId: existing.documentId,
+                  locale,
+                  data: contentData as any,
+                });
+              } else {
+                // Create new document for this locale
+                await docService.create({
+                  locale,
+                  data: contentData as any,
+                  status: 'published',
+                });
+              }
+            } catch (localeError: any) {
+              console.error(`[Bootstrap] Failed to seed ${pageType} (${locale}):`, localeError.message);
+            }
+          }
+          console.log(`[Bootstrap] Seeded content for ${pageType}`);
+        } catch (e: any) {
+          console.error(`[Bootstrap] Failed to seed content for ${pageType}:`, e.message);
+        }
+      }
+
+      // ================================================================
+      // SEED BLOG POSTS from prepared JSON
+      // ================================================================
+      console.log("[Bootstrap] Seeding blog posts...");
+      try {
+        const blogDataPath = path.join(process.cwd(), "data", "blog-posts.json");
+        if (fs.existsSync(blogDataPath)) {
+          const blogPostsData = JSON.parse(fs.readFileSync(blogDataPath, "utf-8"));
+          const blogDocService = strapi.documents("api::blog-post.blog-post");
+
+          let seededCount = 0;
+          for (const post of blogPostsData) {
+            try {
+              // Check if post exists
+              const existing = await blogDocService.findMany({
+                filters: { slug: post.slug },
+                locale: "en",
+              });
+
+              if (existing.length === 0) {
+                // Create new blog post
+                await blogDocService.create({
+                  locale: "en",
+                  data: {
+                    title: post.title,
+                    slug: post.slug,
+                    excerpt: post.excerpt,
+                    content: post.content,
+                    author: post.author,
+                    publishedDate: post.date,
+                    categories: post.categories,
+                    seo: {
+                      metaTitle: post.title.substring(0, 60),
+                      metaDescription: post.excerpt.substring(0, 160),
+                    },
+                  },
+                  status: "published",
+                });
+                seededCount++;
+              }
+            } catch (postError: any) {
+              console.error(`[Bootstrap] Failed to seed blog post "${post.title}":`, postError.message);
+            }
+          }
+          console.log(`[Bootstrap] Seeded ${seededCount} new blog posts (${blogPostsData.length} total in file)`);
+        } else {
+          console.log("[Bootstrap] No blog-posts.json found, skipping blog seeding");
+          console.log("[Bootstrap] Run: node cms/scripts/prepare-blog-content.mjs to generate it");
+        }
+      } catch (blogError: any) {
+        console.error("[Bootstrap] Blog seeding error:", blogError.message);
       }
 
       console.log("[Bootstrap] Bootstrap complete!");

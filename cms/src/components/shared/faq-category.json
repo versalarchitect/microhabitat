@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_faq_category",
+  "info": {
+    "displayName": "FAQ Category",
+    "icon": "question",
+    "description": "A category of FAQ questions"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "questions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.faq-item"
+    }
+  }
+}

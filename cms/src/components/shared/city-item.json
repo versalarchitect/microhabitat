@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_city_item",
+  "info": {
+    "displayName": "City Item",
+    "icon": "mapPin",
+    "description": "A city with name and image"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "slug": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
