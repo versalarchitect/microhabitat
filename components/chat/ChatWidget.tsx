@@ -1,9 +1,8 @@
 "use client";
 
-import { useReducer, useCallback, useRef, useEffect } from "react";
+import { useReducer, useCallback } from "react";
 import { ChatButton } from "./ChatButton";
 import { ChatPanel } from "./ChatPanel";
-import { loadModel, askQuestion, isModelLoaded } from "@/lib/chat/chatbot";
 import type { ChatState, ChatAction, ChatMessage } from "@/lib/chat/types";
 
 const initialState: ChatState = {
@@ -60,43 +59,42 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
 export function ChatWidget() {
   const [state, dispatch] = useReducer(chatReducer, initialState);
-  const hasInitiatedLoad = useRef(false);
-
-  // Lazy load model when chat is first opened
-  useEffect(() => {
-    if (state.isOpen && !hasInitiatedLoad.current && !isModelLoaded()) {
-      hasInitiatedLoad.current = true;
-      dispatch({ type: "START_LOADING_MODEL" });
-
-      loadModel()
-        .then(() => dispatch({ type: "MODEL_LOADED" }))
-        .catch((err) =>
-          dispatch({
-            type: "MODEL_ERROR",
-            error: `Failed to load AI assistant: ${err.message}`,
-          })
-        );
-    }
-  }, [state.isOpen]);
 
   const handleSendMessage = useCallback(async (message: string) => {
     dispatch({ type: "ADD_USER_MESSAGE", content: message });
     dispatch({ type: "START_PROCESSING" });
 
     try {
-      const response = await askQuestion(message);
+      // Build conversation history for context
+      const conversationHistory = state.messages.map(msg => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+
+      const response = await fetch('/api/chat/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, conversationHistory }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to get response');
+      }
+
       dispatch({
         type: "ADD_ASSISTANT_MESSAGE",
-        content: response.answer,
-        confidence: response.confidence,
+        content: data.response,
+        confidence: data.source === 'claude' ? 0.9 : 0.8,
       });
     } catch {
       dispatch({
         type: "PROCESSING_ERROR",
-        error: "Sorry, I encountered an error. Please try again.",
+        error: "Sorry, I encountered an error. Please try again or contact us at info@microhabitat.com.",
       });
     }
-  }, []);
+  }, [state.messages]);
 
   const handleToggle = useCallback(() => {
     dispatch({ type: "TOGGLE_CHAT" });
