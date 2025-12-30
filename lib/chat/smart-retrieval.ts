@@ -23,7 +23,7 @@ export const KNOWLEDGE_AREAS = {
   },
   clients: {
     name: 'Client Types',
-    keywords: ['client', 'corporation', 'corporate', 'school', 'real estate', 'property', 'building', 'commercial'],
+    keywords: ['client', 'corporation', 'corporate', 'school', 'real estate', 'property', 'building', 'commercial', 'esg', 'environmental social governance'],
     pages: ['/corporations', '/schools', '/commercial-real-estate'],
     fallbackAreas: ['services', 'benefits'],
   },
