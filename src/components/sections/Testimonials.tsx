@@ -2,7 +2,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
-import type { Testimonial } from "../../lib/strapi";
+import type { Testimonial, TestimonialsSectionContent } from "../../lib/strapi";
 
 function TestimonialCard({
   testimonial,
@@ -90,9 +90,10 @@ function TestimonialCard({
 
 interface TestimonialsProps {
   testimonials: Testimonial[];
+  sectionContent: TestimonialsSectionContent;
 }
 
-export function Testimonials({ testimonials }: TestimonialsProps) {
+export function Testimonials({ testimonials, sectionContent }: TestimonialsProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
@@ -147,14 +148,12 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="mb-12 lg:mb-16">
-            <p className="label mb-3">Testimonials</p>
+            <p className="label mb-3">{sectionContent.label}</p>
             <h2 className="heading-section mb-4">
-              What our clients{" "}
-              <span className="text-primary">say</span>
+              {sectionContent.heading}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              See how urban farming has transformed spaces and communities for
-              our partners.
+              {sectionContent.description}
             </p>
           </div>
 

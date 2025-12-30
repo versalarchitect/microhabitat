@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { getPageSEO, queryKeys } from "../lib/strapi";
+import { useLocale } from "../lib/locale-context";
 
 interface AboutProps {
   onBookDemo: () => void;
@@ -43,24 +46,41 @@ const partnerLogos = [
 ];
 
 export function About({ onBookDemo }: AboutProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('about', locale),
+    queryFn: () => getPageSEO('about', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   return (
     <>
-      <SEO {...PAGE_SEO.about} canonical="/about" />
+      <SEO
+        title={seo?.metaTitle || 'About | Microhabitat'}
+        description={seo?.metaDescription || "Learn about Microhabitat's mission to transform urban spaces into thriving farms."}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">About Us</p>
+              <p className="label mb-6">{t('about.label')}</p>
               <h1 className="heading-display mb-8">
-                About <span className="text-primary">Microhabitat</span>
+                {t('about.title')} <span className="text-primary">{t('about.titleHighlight')}</span>
               </h1>
             </div>
             <div className="aspect-video rounded-md overflow-hidden">
               <img
                 src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
-                alt="MicroHabitat Team"
+                alt={t('about.imageAlt.team')}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -75,18 +95,15 @@ export function About({ onBookDemo }: AboutProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Our Mission</p>
+              <p className="label mb-4">{t('about.mission.label')}</p>
               <h2 className="heading-section mb-6">
-                Transforming cities through urban agriculture
+                {t('about.mission.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                Microhabitat transforms underused urban spaces into productive ecological farms,
-                reconnecting communities with nature and fresh, local food. Through regenerative
-                agriculture and innovative design, we help businesses and cities meet sustainability
-                goals, improve well-being, and build climate resilience.
+                {t('about.mission.p1')}
               </p>
               <p className="text-muted-foreground text-lg">
-                Join us in cultivating healthier, more sustainable urban environments—one rooftop at a time.
+                {t('about.mission.p2')}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -122,21 +139,16 @@ export function About({ onBookDemo }: AboutProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Urban Solidarity Farms</p>
+              <p className="label mb-4">{t('about.solidarity.label')}</p>
               <h2 className="heading-section mb-6">
-                Nourishing communities
+                {t('about.solidarity.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                At Microhabitat, we believe urban farming should nourish more than just buildings—it
-                should nourish communities. As part of our program, clients have the option to donate
-                the fresh produce grown on their sites to local food banks and community kitchens.
+                {t('about.solidarity.p1')}
               </p>
-              <h3 className="text-xl font-medium mb-4">Fighting Hunger, One Pot at a Time</h3>
+              <h3 className="text-xl font-medium mb-4">{t('about.solidarity.subtitle')}</h3>
               <p className="text-muted-foreground text-lg">
-                Every Microhabitat pot sold supports Team No Kid Hungry and The Breakfast Club of Canada.
-                For each individual pot we set up, we donate 1 to 3 meals to help ensure children across
-                North America have access to nutritious food—because growing healthy communities starts
-                with feeding them.
+                {t('about.solidarity.p2')}
               </p>
             </div>
             <div className="space-y-6">
@@ -169,30 +181,30 @@ export function About({ onBookDemo }: AboutProps) {
       {/* Impact Stats */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Impact</p>
+          <p className="label mb-4">{t('about.impact.label')}</p>
           <h2 className="heading-section mb-12">
-            Growing impact across North America and Europe
+            {t('about.impact.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-medium text-primary mb-2">250+</p>
-              <p className="text-sm text-muted-foreground">Urban Farms</p>
+              <p className="text-sm text-muted-foreground">{t('about.impact.urbanFarms')}</p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-medium text-primary mb-2">35+</p>
-              <p className="text-sm text-muted-foreground">Food Banks</p>
+              <p className="text-sm text-muted-foreground">{t('about.impact.foodBanks')}</p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-medium text-primary mb-2">40k</p>
-              <p className="text-sm text-muted-foreground">Portions Donated</p>
+              <p className="text-sm text-muted-foreground">{t('about.impact.portionsDonated')}</p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-medium text-primary mb-2">13k</p>
-              <p className="text-sm text-muted-foreground">Funded Meals</p>
+              <p className="text-sm text-muted-foreground">{t('about.impact.fundedMeals')}</p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-medium text-primary mb-2">59.4k</p>
-              <p className="text-sm text-muted-foreground">Lbs Harvested</p>
+              <p className="text-sm text-muted-foreground">{t('about.impact.lbsHarvested')}</p>
             </div>
           </div>
         </div>
@@ -203,7 +215,7 @@ export function About({ onBookDemo }: AboutProps) {
       {/* Foodbanks Supported */}
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4 text-center">Foodbanks Supported</p>
+          <p className="label mb-4 text-center">{t('about.foodbanks.label')}</p>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
             {partnerLogos.map((logo, index) => (
               <div key={index} className="bg-white p-3 rounded-md flex items-center justify-center">
@@ -221,26 +233,23 @@ export function About({ onBookDemo }: AboutProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Our Story</p>
+              <p className="label mb-4">{t('about.story.label')}</p>
               <h2 className="heading-section mb-6">
-                From Montreal to the world
+                {t('about.story.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                The Microhabitat team has been fostering change since 2016. It started when two
-                childhood friends from Montreal, Orlane and Alexandre, decided to start a venture
-                to change the cities around the globe by reducing food insecurity with urban agriculture.
+                {t('about.story.p1')}
               </p>
               <p className="text-muted-foreground text-lg mb-8">
-                The team now operates the largest network of urban farms in the world, across multiple
-                locations in North America and Europe.
+                {t('about.story.p2')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={onBookDemo}>
-                  Book a Demo
+                  {t('common.bookDemo')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Link to="/cities" className="btn-outline">
-                  Explore Our Cities
+                <Link to={localePath("/cities")} className="btn-outline">
+                  {t('common.exploreOurCities')}
                 </Link>
               </div>
             </div>
@@ -266,23 +275,23 @@ export function About({ onBookDemo }: AboutProps) {
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Ready to grow with us?
+            {t('about.cta.title')}
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Join 250+ properties already transforming their spaces with MicroHabitat.
+            {t('about.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Book a Demo
+              {t('common.bookDemo')}
             </button>
             <Link
-              to="/contact"
+              to={localePath("/contact")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              Contact Us
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>

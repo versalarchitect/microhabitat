@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "hero",
+  "info": {
+    "singularName": "hero",
+    "pluralName": "heroes",
+    "displayName": "Hero"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "title": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "titleHighlight": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "subtitle": { "type": "text", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaPrimary": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaSecondary": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "label": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

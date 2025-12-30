@@ -1,0 +1,7 @@
+[
+  { "value": 250, "suffix": "+", "label": "Urban Farms", "description": "Active farms across North America and Europe", "order": 1 },
+  { "value": 35, "suffix": "+", "label": "Food Banks", "description": "Local food banks partnered for donations", "order": 2 },
+  { "value": 40000, "suffix": "", "label": "Portions Donated", "description": "Portions of food donated to communities", "order": 3 },
+  { "value": 13000, "suffix": "", "label": "Funded Meals", "description": "Meals funded through our programs", "order": 4 },
+  { "value": 59400, "suffix": "", "label": "Lbs Harvested", "description": "Pounds of produce harvested for clients", "order": 5 }
+]

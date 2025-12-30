@@ -6,14 +6,15 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { FilterButtonGroup, type FilterOption } from "../ui/filter-button-group";
-import type { FAQItem } from "../../lib/strapi";
+import type { FAQItem, FAQSectionContent } from "../../lib/strapi";
 
 interface FAQProps {
   faq: FAQItem[];
+  sectionContent: FAQSectionContent;
   onBookDemo: () => void;
 }
 
-export function FAQ({ faq, onBookDemo }: FAQProps) {
+export function FAQ({ faq, sectionContent, onBookDemo }: FAQProps) {
   const [activeCategory, setActiveCategory] = useState("All");
 
   // Get unique categories from the FAQ data
@@ -38,13 +39,12 @@ export function FAQ({ faq, onBookDemo }: FAQProps) {
         <div className="max-w-4xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="mb-12">
-            <p className="label mb-4">FAQ</p>
+            <p className="label mb-4">{sectionContent.label}</p>
             <h2 className="heading-section text-foreground">
-              Frequently asked{" "}
-              <span className="text-primary">questions</span>
+              {sectionContent.heading}
             </h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-              Everything you need to know about urban farming with MicroHabitat.
+              {sectionContent.description}
             </p>
           </div>
 
@@ -71,10 +71,10 @@ export function FAQ({ faq, onBookDemo }: FAQProps) {
           {/* Bottom CTA */}
           <div className="mt-12 pt-8 border-t border-border text-center">
             <p className="text-muted-foreground mb-4">
-              Still have questions? We're here to help.
+              {sectionContent.ctaText}
             </p>
             <button type="button" onClick={onBookDemo} className="btn-outline">
-              Contact Us
+              {sectionContent.ctaButtonText}
             </button>
           </div>
         </div>

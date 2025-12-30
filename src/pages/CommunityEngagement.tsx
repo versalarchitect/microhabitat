@@ -1,68 +1,86 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Heart, Leaf, Users } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { getPageSEO, queryKeys } from "../lib/strapi";
+import { useLocale } from "../lib/locale-context";
 
 interface CommunityEngagementProps {
   onBookDemo: () => void;
 }
 
 export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('community-engagement', locale),
+    queryFn: () => getPageSEO('community-engagement', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const pillars = [
     {
       icon: Users,
-      title: "Hands-On Experiences",
-      description: "From planting workshops to harvest days, we offer engaging activities that bring tenants, employees, families, and neighbors into the heart of the farm.",
+      title: t('community.pillars.1.title'),
+      description: t('community.pillars.1.description'),
     },
     {
       icon: Heart,
-      title: "Inclusive Programming",
-      description: "Our farms serve as platforms for diverse community initiatives—including gardening with special needs groups, school programs, and multi-generational events that break social isolation.",
+      title: t('community.pillars.2.title'),
+      description: t('community.pillars.2.description'),
     },
     {
       icon: BookOpen,
-      title: "Urban Agriculture Education",
-      description: "Each season, we host over 1,000 activities that teach sustainable farming, biodiversity, nutrition, and climate resilience—all tailored to different age groups and learning styles.",
+      title: t('community.pillars.3.title'),
+      description: t('community.pillars.3.description'),
     },
     {
       icon: Leaf,
-      title: "Local Food Donation",
-      description: "Our farms grow more than produce—they grow impact. Dedicate your harvest to support local food banks and help fight food insecurity in your community.",
+      title: t('community.pillars.4.title'),
+      description: t('community.pillars.4.description'),
     },
   ];
 
   return (
     <>
-      <SEO {...PAGE_SEO.communityEngagement} canonical="/community-engagement" />
+      <SEO
+        title={seo?.metaTitle || 'Community Engagement | MicroHabitat'}
+        description={seo?.metaDescription || 'Building stronger communities through urban farming. Discover our community engagement programs and Urban Solidarity Farms initiative.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">Community</p>
+              <p className="label mb-6">{t('community.label')}</p>
               <h1 className="heading-display mb-8">
-                Community <span className="text-primary">Engagement</span>
+                {t('community.title')} <span className="text-primary">{t('community.titleHighlight')}</span>
               </h1>
               <p className="text-body max-w-3xl mb-10">
-                At MicroHabitat, we believe urban farming should nourish more than just buildings—it
-                should nourish communities. Our programs bring people together around fresh food,
-                sustainable practices, and shared experiences.
+                {t('community.description')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={onBookDemo}>
-                  Start a Program
+                  {t('community.startProgram')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Link to="/contact" className="btn-outline">
-                  Contact Us
+                <Link to={localePath("/contact")} className="btn-outline">
+                  {t('common.contactUs')}
                 </Link>
               </div>
             </div>
             <div className="aspect-video rounded-md overflow-hidden">
               <img
                 src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
-                alt="Community Engagement"
+                alt={t('community.imageAlt')}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -75,9 +93,9 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
       {/* Pillars Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Approach</p>
+          <p className="label mb-4">{t('community.approach.label')}</p>
           <h2 className="heading-section mb-12">
-            Building community through urban farming
+            {t('community.approach.title')}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {pillars.map((pillar, index) => (
@@ -98,37 +116,33 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Urban Solidarity Farms</p>
+              <p className="label mb-4">{t('community.solidarity.label')}</p>
               <h2 className="heading-section mb-6">
-                Fighting Hunger, One Pot at a Time
+                {t('community.solidarity.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                Every Microhabitat pot sold supports Team No Kid Hungry and The Breakfast Club
-                of Canada. For each individual pot we set up, we donate 1 to 3 meals to help
-                ensure children across North America have access to nutritious food.
+                {t('community.solidarity.p1')}
               </p>
               <p className="text-muted-foreground text-lg mb-8">
-                Our Urban Solidarity Farms program runs from July to October, allowing partners
-                to dedicate their harvest to support local food banks and help fight food
-                insecurity in their communities.
+                {t('community.solidarity.p2')}
               </p>
               <Button onClick={onBookDemo}>
-                Join the Program
+                {t('community.solidarity.joinProgram')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
             <div className="space-y-6">
               <div className="card-minimal p-6">
-                <p className="text-4xl font-medium text-primary mb-2">35+</p>
-                <p className="text-muted-foreground">Food banks supported</p>
+                <p className="text-4xl font-medium text-primary mb-2">{t('community.solidarity.stat1.value')}</p>
+                <p className="text-muted-foreground">{t('community.solidarity.stat1.label')}</p>
               </div>
               <div className="card-minimal p-6">
-                <p className="text-4xl font-medium text-primary mb-2">40k</p>
-                <p className="text-muted-foreground">Portions of food donated</p>
+                <p className="text-4xl font-medium text-primary mb-2">{t('community.solidarity.stat2.value')}</p>
+                <p className="text-muted-foreground">{t('community.solidarity.stat2.label')}</p>
               </div>
               <div className="card-minimal p-6">
-                <p className="text-4xl font-medium text-primary mb-2">13k</p>
-                <p className="text-muted-foreground">Meals funded through programs</p>
+                <p className="text-4xl font-medium text-primary mb-2">{t('community.solidarity.stat3.value')}</p>
+                <p className="text-muted-foreground">{t('community.solidarity.stat3.label')}</p>
               </div>
             </div>
           </div>
@@ -140,51 +154,45 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
       {/* Activities Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Community Activities</p>
+          <p className="label mb-4">{t('community.activities.label')}</p>
           <h2 className="heading-section mb-12">
-            1,000+ activities each season
+            {t('community.activities.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">Planting Workshops</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.1.title')}</h3>
               <p className="text-muted-foreground">
-                Hands-on sessions where community members learn to plant, care for,
-                and grow their own vegetables and herbs.
+                {t('community.activities.1.description')}
               </p>
             </div>
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">Harvest Days</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.2.title')}</h3>
               <p className="text-muted-foreground">
-                Celebrate the season's bounty with community harvest events that bring
-                people together to collect and share fresh produce.
+                {t('community.activities.2.description')}
               </p>
             </div>
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">Farm Tours</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.3.title')}</h3>
               <p className="text-muted-foreground">
-                Guided tours of working urban farms that educate visitors about
-                sustainable agriculture and food systems.
+                {t('community.activities.3.description')}
               </p>
             </div>
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">School Programs</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.4.title')}</h3>
               <p className="text-muted-foreground">
-                Educational activities designed for students of all ages, connecting
-                classroom learning to real-world growing.
+                {t('community.activities.4.description')}
               </p>
             </div>
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">Corporate Events</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.5.title')}</h3>
               <p className="text-muted-foreground">
-                Team building activities that bring colleagues together around
-                sustainable food and shared experiences.
+                {t('community.activities.5.description')}
               </p>
             </div>
             <div className="card-minimal p-6">
-              <h3 className="text-xl font-medium mb-4">Special Needs Programs</h3>
+              <h3 className="text-xl font-medium mb-4">{t('community.activities.6.title')}</h3>
               <p className="text-muted-foreground">
-                Inclusive gardening activities designed to engage people of all
-                abilities in the joy of growing food.
+                {t('community.activities.6.description')}
               </p>
             </div>
           </div>
@@ -197,22 +205,18 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl">
-            <p className="label mb-4">For Food Banks & NGOs</p>
+            <p className="label mb-4">{t('community.foodBanks.label')}</p>
             <h2 className="heading-section mb-6">
-              Partner with us to fight food insecurity
+              {t('community.foodBanks.title')}
             </h2>
             <p className="text-muted-foreground text-lg mb-6">
-              We work with food banks and community organizations across North America
-              to donate fresh, locally-grown produce. Our Urban Solidarity Farms program
-              connects our partner properties with food banks in their communities.
+              {t('community.foodBanks.p1')}
             </p>
             <p className="text-muted-foreground text-lg mb-8">
-              If your organization serves community members facing food insecurity, we'd
-              love to explore how we can work together to bring fresh produce to those
-              who need it most.
+              {t('community.foodBanks.p2')}
             </p>
-            <Link to="/contact" className="btn-outline">
-              Get in Touch
+            <Link to={localePath("/contact")} className="btn-outline">
+              {t('community.foodBanks.getInTouch')}
             </Link>
           </div>
         </div>
@@ -224,23 +228,23 @@ export function CommunityEngagement({ onBookDemo }: CommunityEngagementProps) {
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Ready to engage your community?
+            {t('community.cta.title')}
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Let's create meaningful connections through urban farming.
+            {t('community.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Start a Program
+              {t('community.startProgram')}
             </button>
             <Link
-              to="/about"
+              to={localePath("/about")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              Learn About Us
+              {t('community.cta.learnAbout')}
             </Link>
           </div>
         </div>

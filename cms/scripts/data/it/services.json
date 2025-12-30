@@ -1,0 +1,23 @@
+[
+  {
+    "icon": "Leaf",
+    "title": "Cura del giardino e raccolto",
+    "description": "Il nostro team assicura con competenza che il vostro orto urbano rimanga un punto focale vibrante e produttivo della vostra proprietà. Il nostro team professionale fornisce una cura completa del giardino, dalla salute delle piante alla raccolta e gestione completa della produzione.",
+    "features": ["Visite settimanali di manutenzione", "Coltivazione professionale", "Gestione del raccolto", "Supervisione completa della produzione"],
+    "order": 1
+  },
+  {
+    "icon": "GraduationCap",
+    "title": "Attività educative",
+    "description": "Aumentate l'attrattiva della vostra proprietà con le nostre offerte educative dinamiche. I nostri workshop sono disponibili sia di persona che virtualmente, offrendo opportunità di apprendimento flessibili sull'agricoltura urbana sostenibile.",
+    "features": ["Workshop di persona", "Sessioni virtuali", "Tour della fattoria", "Chioschi interattivi"],
+    "order": 2
+  },
+  {
+    "icon": "Heart",
+    "title": "Distribuzione del raccolto locale",
+    "description": "Rafforzate lo spirito comunitario della vostra proprietà distribuendo prodotti freschi coltivati ecologicamente direttamente ai vostri occupanti o donandoli a enti di beneficenza locali.",
+    "features": ["Distribuzione prodotti freschi", "Donazioni ai banchi alimentari", "Coinvolgimento della comunità", "Programma Fattorie di Solidarietà Urbana"],
+    "order": 3
+  }
+]

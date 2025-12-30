@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "corporations_page",
+  "info": {
+    "singularName": "corporations-page",
+    "pluralName": "corporations-pages",
+    "displayName": "Corporations Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

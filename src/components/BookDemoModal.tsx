@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { useLocale } from "../lib/locale-context";
 
 interface BookDemoModalProps {
   open: boolean;
@@ -16,6 +17,7 @@ interface BookDemoModalProps {
 export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { t, localePath } = useLocale();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,9 +40,9 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Book a Demo</DialogTitle>
+          <DialogTitle>{t('modal.bookDemo')}</DialogTitle>
           <DialogDescription>
-            Fill out the form below and we'll get back to you within 24 hours.
+            {t('modal.fillForm')}
           </DialogDescription>
         </DialogHeader>
 
@@ -62,10 +64,10 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-foreground mb-2">
-              Thank you!
+              {t('form.thankYou')}
             </h3>
             <p className="text-sm text-muted-foreground">
-              We'll be in touch soon.
+              {t('form.weWillBeInTouch')}
             </p>
           </div>
         ) : (
@@ -76,7 +78,7 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                   htmlFor="firstName"
                   className="block text-sm font-medium text-foreground mb-1.5"
                 >
-                  First Name
+                  {t('form.firstName')}
                 </label>
                 <input
                   type="text"
@@ -92,7 +94,7 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                   htmlFor="lastName"
                   className="block text-sm font-medium text-foreground mb-1.5"
                 >
-                  Last Name
+                  {t('form.lastName')}
                 </label>
                 <input
                   type="text"
@@ -110,7 +112,7 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                 htmlFor="email"
                 className="block text-sm font-medium text-foreground mb-1.5"
               >
-                Work Email
+                {t('form.workEmail')}
               </label>
               <input
                 type="email"
@@ -127,7 +129,7 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                 htmlFor="company"
                 className="block text-sm font-medium text-foreground mb-1.5"
               >
-                Company
+                {t('form.company')}
               </label>
               <input
                 type="text"
@@ -144,7 +146,7 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                 htmlFor="interest"
                 className="block text-sm font-medium text-foreground mb-1.5"
               >
-                What are you interested in?
+                {t('form.interest')}
               </label>
               <select
                 id="interest"
@@ -152,11 +154,11 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                 required
                 className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
-                <option value="">Select an option</option>
-                <option value="outdoor">Outdoor Farm</option>
-                <option value="indoor">Indoor Farm</option>
-                <option value="educational">Educational Activities</option>
-                <option value="all">All Services</option>
+                <option value="">{t('form.selectOption')}</option>
+                <option value="outdoor">{t('form.outdoorFarm')}</option>
+                <option value="indoor">{t('form.indoorFarm')}</option>
+                <option value="educational">{t('form.educational')}</option>
+                <option value="all">{t('form.allServices')}</option>
               </select>
             </div>
 
@@ -165,25 +167,25 @@ export function BookDemoModal({ open, onOpenChange }: BookDemoModalProps) {
                 htmlFor="message"
                 className="block text-sm font-medium text-foreground mb-1.5"
               >
-                Message (Optional)
+                {t('form.messageOptional')}
               </label>
               <textarea
                 id="message"
                 name="message"
                 rows={3}
                 className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                placeholder="Tell us about your space or project..."
+                placeholder={t('form.tellUsAboutProject')}
               />
             </div>
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Request Demo"}
+              {isSubmitting ? t('form.submitting') : t('form.requestDemo')}
             </Button>
 
             <p className="text-xs text-muted-foreground text-center">
-              By submitting, you agree to our{" "}
-              <a href="/privacy" className="underline underline-offset-4">
-                Privacy Policy
+              {t('form.privacyAgreement')}{" "}
+              <a href={localePath("/privacy-policy")} className="underline underline-offset-4">
+                {t('footer.privacyPolicy')}
               </a>
               .
             </p>

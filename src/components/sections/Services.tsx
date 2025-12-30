@@ -1,6 +1,6 @@
 import { Leaf, Building2, GraduationCap, Heart, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
-import type { Service } from "../../lib/strapi";
+import type { Service, ServicesSectionContent } from "../../lib/strapi";
 import { useIntersectionVisibility } from "../../lib/hooks";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -83,10 +83,11 @@ function ServiceCard({
 
 interface ServicesProps {
   services: Service[];
+  sectionContent: ServicesSectionContent;
   onBookDemo: () => void;
 }
 
-export function Services({ services, onBookDemo }: ServicesProps) {
+export function Services({ services, sectionContent, onBookDemo }: ServicesProps) {
   return (
     <>
       <div className="divider" />
@@ -95,14 +96,13 @@ export function Services({ services, onBookDemo }: ServicesProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="mb-16">
-            <p className="label mb-4">Our Services</p>
+            <p className="label mb-4">{sectionContent.label}</p>
             <h2 className="heading-section text-foreground">
-              Everything you need for{" "}
-              <span className="text-primary">urban farming</span>
+              {sectionContent.heading}{" "}
+              <span className="text-primary">{sectionContent.headingHighlight}</span>
             </h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-              From installation to maintenance, we provide comprehensive urban
-              farming solutions tailored to your space and goals.
+              {sectionContent.description}
             </p>
           </div>
 
@@ -116,13 +116,13 @@ export function Services({ services, onBookDemo }: ServicesProps) {
           {/* Bottom CTA */}
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-muted-foreground">
-              Ready to transform your space?{" "}
+              {sectionContent.ctaText}{" "}
               <button
                 type="button"
                 onClick={onBookDemo}
                 className="font-medium text-foreground hover:underline decoration-2 underline-offset-4 cursor-pointer"
               >
-                Book a demo →
+                {sectionContent.ctaButtonText} →
               </button>
             </p>
           </div>

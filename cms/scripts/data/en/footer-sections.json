@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Services",
+    "links": [
+      { "label": "Outdoor Farm", "href": "/services/outdoor" },
+      { "label": "Indoor Farm", "href": "/services/indoor" },
+      { "label": "Educational Activities", "href": "/services/educational" }
+    ],
+    "order": 1
+  },
+  {
+    "title": "Company",
+    "links": [
+      { "label": "About", "href": "/about" },
+      { "label": "Cities", "href": "/cities" },
+      { "label": "Careers", "href": "/careers" },
+      { "label": "Partnerships", "href": "/partnerships" },
+      { "label": "Community Engagement", "href": "/community" }
+    ],
+    "order": 2
+  },
+  {
+    "title": "Resources",
+    "links": [
+      { "label": "Contact", "href": "/contact" },
+      { "label": "FAQ", "href": "/faq" },
+      { "label": "Blog", "href": "/blog" },
+      { "label": "MyUrbanFarm", "href": "https://myurbanfarm.ai" }
+    ],
+    "order": 3
+  }
+]

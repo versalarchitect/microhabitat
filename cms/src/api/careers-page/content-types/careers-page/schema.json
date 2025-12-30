@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "careers_page",
+  "info": {
+    "singularName": "careers-page",
+    "pluralName": "careers-pages",
+    "displayName": "Careers Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

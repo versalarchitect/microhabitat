@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "cities_section",
+  "info": {
+    "singularName": "cities-section",
+    "pluralName": "cities-sections",
+    "displayName": "Cities Section"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "label": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "heading": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "description": { "type": "text", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaText": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaButtonText": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } }
+  }
+}

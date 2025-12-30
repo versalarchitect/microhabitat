@@ -1,13 +1,24 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { getPageSEO, queryKeys } from "../lib/strapi";
+import { useLocale } from "../lib/locale-context";
 
 interface ContactProps {
   onBookDemo: () => void;
 }
 
 export function Contact({ onBookDemo }: ContactProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('contact', locale),
+    queryFn: () => getPageSEO('contact', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const offices = [
     {
       city: "Montreal",
@@ -34,38 +45,46 @@ export function Contact({ onBookDemo }: ContactProps) {
 
   return (
     <>
-      <SEO {...PAGE_SEO.contact} canonical="/contact" />
+      <SEO
+        title={seo?.metaTitle || 'Contact Us | MicroHabitat'}
+        description={seo?.metaDescription || 'Get in touch with MicroHabitat. Reach out to discuss urban farming solutions for your property or organization.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">Contact</p>
+              <p className="label mb-6">{t('contact.label')}</p>
               <h1 className="heading-display mb-8">
-                Contact <span className="text-primary">Us</span>
+                {t('contact.title')} <span className="text-primary">{t('contact.titleHighlight')}</span>
               </h1>
               <p className="text-body max-w-3xl mb-10">
-                Have questions about urban farming? Want to learn how MicroHabitat can
-                transform your property? We'd love to hear from you.
+                {t('contact.description')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={onBookDemo}>
-                  Book a Demo
+                  {t('common.bookDemo')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <a
                   href="mailto:info@microhabitat.com"
                   className="btn-outline"
                 >
-                  Email Us
+                  {t('contact.emailUs')}
                 </a>
               </div>
             </div>
             <div className="aspect-video rounded-md overflow-hidden">
               <img
                 src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
-                alt="Contact MicroHabitat"
+                alt={t('contact.imageAlt')}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -81,7 +100,7 @@ export function Contact({ onBookDemo }: ContactProps) {
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div className="card-minimal p-8 text-center">
               <Mail className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-medium mb-2">Email</h3>
+              <h3 className="text-xl font-medium mb-2">{t('contact.methods.email')}</h3>
               <a
                 href="mailto:info@microhabitat.com"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -91,7 +110,7 @@ export function Contact({ onBookDemo }: ContactProps) {
             </div>
             <div className="card-minimal p-8 text-center">
               <Phone className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-medium mb-2">Phone</h3>
+              <h3 className="text-xl font-medium mb-2">{t('contact.methods.phone')}</h3>
               <a
                 href="tel:+15141234567"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -101,9 +120,9 @@ export function Contact({ onBookDemo }: ContactProps) {
             </div>
             <div className="card-minimal p-8 text-center">
               <MapPin className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-medium mb-2">Locations</h3>
+              <h3 className="text-xl font-medium mb-2">{t('contact.methods.locations')}</h3>
               <p className="text-muted-foreground">
-                20+ cities worldwide
+                {t('contact.methods.locationsDesc')}
               </p>
             </div>
           </div>
@@ -115,9 +134,9 @@ export function Contact({ onBookDemo }: ContactProps) {
       {/* Offices Section */}
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Offices</p>
+          <p className="label mb-4">{t('contact.offices.label')}</p>
           <h2 className="heading-section mb-12">
-            Our Headquarters
+            {t('contact.offices.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {offices.map((office, index) => (
@@ -141,12 +160,12 @@ export function Contact({ onBookDemo }: ContactProps) {
       <section className="section">
         <div className="max-w-3xl mx-auto px-6 md:px-8">
           <div className="text-center mb-12">
-            <p className="label mb-4">Get in Touch</p>
+            <p className="label mb-4">{t('contact.form.label')}</p>
             <h2 className="heading-section mb-6">
-              Send us a message
+              {t('contact.form.title')}
             </h2>
             <p className="text-muted-foreground text-lg">
-              Fill out the form below and we'll get back to you as soon as possible.
+              {t('contact.form.description')}
             </p>
           </div>
           <div className="card-minimal p-8">
@@ -154,7 +173,7 @@ export function Contact({ onBookDemo }: ContactProps) {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium mb-2">
-                    First Name
+                    {t('form.firstName')}
                   </label>
                   <input
                     type="text"
@@ -166,7 +185,7 @@ export function Contact({ onBookDemo }: ContactProps) {
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium mb-2">
-                    Last Name
+                    {t('form.lastName')}
                   </label>
                   <input
                     type="text"
@@ -179,7 +198,7 @@ export function Contact({ onBookDemo }: ContactProps) {
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
+                  {t('form.email')}
                 </label>
                 <input
                   type="email"
@@ -191,7 +210,7 @@ export function Contact({ onBookDemo }: ContactProps) {
               </div>
               <div>
                 <label htmlFor="company" className="block text-sm font-medium mb-2">
-                  Company
+                  {t('form.company')}
                 </label>
                 <input
                   type="text"
@@ -203,35 +222,35 @@ export function Contact({ onBookDemo }: ContactProps) {
               </div>
               <div>
                 <label htmlFor="interest" className="block text-sm font-medium mb-2">
-                  I'm interested in
+                  {t('contact.form.interest.label')}
                 </label>
                 <select
                   id="interest"
                   name="interest"
                   className="w-full px-4 py-3 border border-border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
-                  <option value="">Select an option</option>
-                  <option value="outdoor-farm">Outdoor Farm</option>
-                  <option value="indoor-farm">Indoor Farm</option>
-                  <option value="educational">Educational Activities</option>
-                  <option value="partnership">Partnership</option>
-                  <option value="other">Other</option>
+                  <option value="">{t('form.selectOption')}</option>
+                  <option value="outdoor-farm">{t('form.outdoorFarm')}</option>
+                  <option value="indoor-farm">{t('form.indoorFarm')}</option>
+                  <option value="educational">{t('form.educational')}</option>
+                  <option value="partnership">{t('contact.form.interest.partnership')}</option>
+                  <option value="other">{t('contact.form.interest.other')}</option>
                 </select>
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message
+                  {t('form.message')}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={5}
                   className="w-full px-4 py-3 border border-border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                  placeholder="Tell us about your project..."
+                  placeholder={t('form.tellUsAboutProject')}
                 />
               </div>
               <Button type="submit" className="w-full">
-                Send Message
+                {t('contact.form.sendMessage')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
@@ -246,30 +265,30 @@ export function Contact({ onBookDemo }: ContactProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <h3 className="text-xl font-medium mb-4">Ready to get started?</h3>
+              <h3 className="text-xl font-medium mb-4">{t('contact.quickLinks.ready.title')}</h3>
               <p className="text-muted-foreground mb-4">
-                Book a free demo to learn how urban farming can transform your property.
+                {t('contact.quickLinks.ready.description')}
               </p>
               <Button onClick={onBookDemo} variant="outline">
-                Book a Demo
+                {t('common.bookDemo')}
               </Button>
             </div>
             <div>
-              <h3 className="text-xl font-medium mb-4">Have questions?</h3>
+              <h3 className="text-xl font-medium mb-4">{t('contact.quickLinks.questions.title')}</h3>
               <p className="text-muted-foreground mb-4">
-                Check our FAQ for answers to common questions about our programs.
+                {t('contact.quickLinks.questions.description')}
               </p>
-              <Link to="/faq" className="btn-outline inline-block">
-                View FAQ
+              <Link to={localePath("/faq")} className="btn-outline inline-block">
+                {t('contact.quickLinks.questions.viewFaq')}
               </Link>
             </div>
             <div>
-              <h3 className="text-xl font-medium mb-4">Explore our cities</h3>
+              <h3 className="text-xl font-medium mb-4">{t('contact.quickLinks.explore.title')}</h3>
               <p className="text-muted-foreground mb-4">
-                See where MicroHabitat is growing across North America and Europe.
+                {t('contact.quickLinks.explore.description')}
               </p>
-              <Link to="/cities" className="btn-outline inline-block">
-                View Cities
+              <Link to={localePath("/cities")} className="btn-outline inline-block">
+                {t('contact.quickLinks.explore.viewCities')}
               </Link>
             </div>
           </div>

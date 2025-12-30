@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "schools_page",
+  "info": {
+    "singularName": "schools-page",
+    "pluralName": "schools-pages",
+    "displayName": "Schools Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

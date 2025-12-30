@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "terms_of_service_page",
+  "info": {
+    "singularName": "terms-of-service-page",
+    "pluralName": "terms-of-service-pages",
+    "displayName": "Terms of Service Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

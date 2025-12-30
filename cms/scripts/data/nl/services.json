@@ -1,0 +1,23 @@
+[
+  {
+    "icon": "Leaf",
+    "title": "Tuinonderhoud & Oogst",
+    "description": "Ons team zorgt er vakkundig voor dat uw stadstuin een levendig en productief middelpunt van uw eigendom blijft. Ons professionele team biedt allesomvattende tuinzorg, van plantgezondheid tot oogst en volledig productiebeheer.",
+    "features": ["Wekelijkse onderhoudsbezoeken", "Professionele teelt", "Oogstbeheer", "Volledige productietoezicht"],
+    "order": 1
+  },
+  {
+    "icon": "GraduationCap",
+    "title": "Educatieve Activiteiten",
+    "description": "Verhoog de aantrekkelijkheid van uw eigendom met onze dynamische educatieve aanbiedingen. Onze workshops zijn zowel persoonlijk als virtueel beschikbaar en bieden flexibele leermogelijkheden over duurzame stadslandbouw.",
+    "features": ["Persoonlijke workshops", "Virtuele sessies", "Boerderijrondleidingen", "Interactieve kiosken"],
+    "order": 2
+  },
+  {
+    "icon": "Heart",
+    "title": "Lokale Oogstdistributie",
+    "description": "Versterk de gemeenschapsgeest van uw eigendom door verse, ecologisch geteelde producten direct aan uw bewoners te distribueren of te doneren aan lokale goede doelen.",
+    "features": ["Verse productdistributie", "Donaties aan voedselbanken", "Gemeenschapsbetrokkenheid", "Programma Stedelijke Solidariteitsboerderijen"],
+    "order": 3
+  }
+]

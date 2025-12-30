@@ -1,68 +1,94 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { getPageSEO, queryKeys } from "../lib/strapi";
+import { useLocale } from "../lib/locale-context";
 
 interface PartnershipsProps {
   onBookDemo: () => void;
 }
 
 export function Partnerships({ onBookDemo }: PartnershipsProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('partnerships', locale),
+    queryFn: () => getPageSEO('partnerships', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const partners = [
-    { name: "BNP Paribas", category: "Financial Services" },
-    { name: "GWL Realty Advisors", category: "Real Estate" },
-    { name: "Ivanhoé Cambridge", category: "Real Estate" },
-    { name: "Cadillac Fairview", category: "Real Estate" },
-    { name: "Oxford Properties", category: "Real Estate" },
-    { name: "Allied REIT", category: "Real Estate" },
-    { name: "Brookfield", category: "Real Estate" },
-    { name: "Dream Office", category: "Real Estate" },
-    { name: "Choice Properties", category: "Real Estate" },
-    { name: "RioCan", category: "Real Estate" },
-    { name: "SmartCentres", category: "Real Estate" },
-    { name: "Cominar", category: "Real Estate" },
+    { name: "BNP Paribas", category: t('partnerships.category.financialServices') },
+    { name: "GWL Realty Advisors", category: t('partnerships.category.realEstate') },
+    { name: "Ivanhoé Cambridge", category: t('partnerships.category.realEstate') },
+    { name: "Cadillac Fairview", category: t('partnerships.category.realEstate') },
+    { name: "Oxford Properties", category: t('partnerships.category.realEstate') },
+    { name: "Allied REIT", category: t('partnerships.category.realEstate') },
+    { name: "Brookfield", category: t('partnerships.category.realEstate') },
+    { name: "Dream Office", category: t('partnerships.category.realEstate') },
+    { name: "Choice Properties", category: t('partnerships.category.realEstate') },
+    { name: "RioCan", category: t('partnerships.category.realEstate') },
+    { name: "SmartCentres", category: t('partnerships.category.realEstate') },
+    { name: "Cominar", category: t('partnerships.category.realEstate') },
   ];
 
   const partnerTypes = [
     {
-      title: "Commercial Real Estate",
-      description: "Partner with us to add unique amenities to your portfolio, achieve green certifications, and differentiate your properties in a competitive market.",
+      title: t('partnerships.types.1.title'),
+      description: t('partnerships.types.1.description'),
       link: "/commercial-real-estate",
     },
     {
-      title: "Corporations",
-      description: "Enhance your workplace with sustainable urban farming programs that engage employees, support CSR goals, and create healthier work environments.",
+      title: t('partnerships.types.2.title'),
+      description: t('partnerships.types.2.description'),
       link: "/corporations",
     },
     {
-      title: "Schools & Institutions",
-      description: "Bring hands-on environmental education to students with urban farming programs that integrate with curriculum and teach sustainability.",
+      title: t('partnerships.types.3.title'),
+      description: t('partnerships.types.3.description'),
       link: "/schools",
     },
     {
-      title: "Food Banks & NGOs",
-      description: "Join our Urban Solidarity Farms program to receive fresh produce donations and support food security in your community.",
+      title: t('partnerships.types.4.title'),
+      description: t('partnerships.types.4.description'),
       link: "/community-engagement",
     },
   ];
 
   return (
     <>
-      <SEO {...PAGE_SEO.partnerships} canonical="/partnerships" />
+      <SEO
+        title={seo?.metaTitle || 'Partner With Us | MicroHabitat'}
+        description={seo?.metaDescription || 'Join the largest network of urban farms. Partner with MicroHabitat to bring sustainable urban agriculture to your properties.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">Partnerships</p>
+              <p className="label mb-6">{t('partnerships.label')}</p>
               <h1 className="heading-display mb-8">
-                Our Partners shaping a <span className="text-primary">sustainable future</span>
+                {t('partnerships.title').split('sustainable').map((part, index, arr) =>
+                  index < arr.length - 1 ? (
+                    <span key={index}>
+                      {part}<span className="text-primary">sustainable</span>
+                    </span>
+                  ) : (
+                    <span key={index}>{part}</span>
+                  )
+                )}
               </h1>
               <p className="text-body max-w-3xl mb-10">
-                We work with leading organizations across North America and Europe to bring
-                urban farming to communities everywhere. Together, we're transforming cities
-                and building a more sustainable food system.
+                {t('partnerships.description')}
               </p>
             </div>
             <div className="aspect-video rounded-md overflow-hidden">
@@ -81,20 +107,20 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       {/* Partners Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Partners</p>
+          <p className="label mb-4">{t('partnerships.partners.label')}</p>
           <h2 className="heading-section mb-8">
-            Organizations growing with us
+            {t('partnerships.partners.title')}
           </h2>
           <p className="text-body max-w-3xl mb-8">
-            Join our network of partners working together to create greener, more sustainable urban spaces.
+            {t('partnerships.partners.description')}
           </p>
           <div className="flex flex-wrap gap-4">
             <Button onClick={onBookDemo}>
-              Become a Partner
+              {t('partnerships.becomePartner')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
+            <Link to={localePath("/contact")} className="btn-outline">
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>
@@ -105,9 +131,9 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       {/* Current Partners */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Partners</p>
+          <p className="label mb-4">{t('partnerships.current.label')}</p>
           <h2 className="heading-section mb-12">
-            Industry leaders growing with us
+            {t('partnerships.current.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {partners.map((partner, index) => (
@@ -125,9 +151,9 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       {/* Partnership Types */}
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Partnership Opportunities</p>
+          <p className="label mb-4">{t('partnerships.types.label')}</p>
           <h2 className="heading-section mb-12">
-            Ways to partner with us
+            {t('partnerships.types.title')}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {partnerTypes.map((type, index) => (
@@ -135,10 +161,10 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
                 <h3 className="text-xl font-medium mb-4">{type.title}</h3>
                 <p className="text-muted-foreground mb-6">{type.description}</p>
                 <Link
-                  to={type.link}
+                  to={localePath(type.link)}
                   className="inline-flex items-center text-primary font-medium hover:underline"
                 >
-                  Learn More
+                  {t('common.learnMore')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
@@ -153,31 +179,30 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="label mb-4">Our Collective Impact</p>
+            <p className="label mb-4">{t('partnerships.impact.label')}</p>
             <h2 className="heading-section mb-8">
-              Together, we've achieved
+              {t('partnerships.impact.title')}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
               <div>
                 <p className="text-4xl font-medium text-primary mb-2">250+</p>
-                <p className="text-sm text-muted-foreground">Urban Farms</p>
+                <p className="text-sm text-muted-foreground">{t('partnerships.impact.farms')}</p>
               </div>
               <div>
                 <p className="text-4xl font-medium text-primary mb-2">35+</p>
-                <p className="text-sm text-muted-foreground">Food Banks Served</p>
+                <p className="text-sm text-muted-foreground">{t('partnerships.impact.foodBanks')}</p>
               </div>
               <div>
                 <p className="text-4xl font-medium text-primary mb-2">40k</p>
-                <p className="text-sm text-muted-foreground">Portions Donated</p>
+                <p className="text-sm text-muted-foreground">{t('partnerships.impact.portions')}</p>
               </div>
               <div>
                 <p className="text-4xl font-medium text-primary mb-2">20</p>
-                <p className="text-sm text-muted-foreground">Cities Worldwide</p>
+                <p className="text-sm text-muted-foreground">{t('partnerships.impact.cities')}</p>
               </div>
             </div>
             <p className="text-muted-foreground text-lg">
-              Our partnerships enable us to grow more food, reach more communities,
-              and create lasting change in cities around the world.
+              {t('partnerships.impact.description')}
             </p>
           </div>
         </div>
@@ -189,23 +214,23 @@ export function Partnerships({ onBookDemo }: PartnershipsProps) {
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Ready to join the movement?
+            {t('partnerships.cta.title')}
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Partner with MicroHabitat and help shape a more sustainable future.
+            {t('partnerships.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Become a Partner
+              {t('partnerships.becomePartner')}
             </button>
             <Link
-              to="/contact"
+              to={localePath("/contact")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              Contact Us
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>

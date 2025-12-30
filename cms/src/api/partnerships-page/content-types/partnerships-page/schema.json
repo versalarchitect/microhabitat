@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "partnerships_page",
+  "info": {
+    "singularName": "partnerships-page",
+    "pluralName": "partnerships-pages",
+    "displayName": "Partnerships Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

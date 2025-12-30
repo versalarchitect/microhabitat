@@ -1,0 +1,15 @@
+{
+  "kind": "singleType",
+  "collectionName": "testimonials_section",
+  "info": {
+    "singularName": "testimonials-section",
+    "pluralName": "testimonials-sections",
+    "displayName": "Testimonials Section"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "label": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "heading": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "description": { "type": "text", "pluginOptions": { "i18n": { "localized": true } } }
+  }
+}

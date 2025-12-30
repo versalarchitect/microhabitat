@@ -1,87 +1,105 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Award, Building2, Check, Leaf, MapPin, Monitor, Sparkles, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { useLocale } from "../lib/locale-context";
+import { getPageSEO, queryKeys } from "../lib/strapi";
 
 interface CommercialRealEstateProps {
   onBookDemo: () => void;
 }
 
 export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('commercial-real-estate', locale),
+    queryFn: () => getPageSEO('commercial-real-estate', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const services = [
     {
       icon: Leaf,
-      title: "Tailored Urban Farming Installations",
-      description: "We design and install outdoor and indoor urban farming areas, utilizing lightweight, non-intrusive technology that's easily implemented on any ground or rooftop space, suitable for both commercial buildings and residential properties.",
+      title: t('commercial.services.1.title'),
+      description: t('commercial.services.1.description'),
     },
     {
       icon: Sparkles,
-      title: "Ongoing Maintenance & Expert Care",
-      description: "Our team of urban farmers provides weekly maintenance visits, ensuring your farm thrives throughout the season with professional care, harvesting, and produce delivery.",
+      title: t('commercial.services.2.title'),
+      description: t('commercial.services.2.description'),
     },
     {
       icon: Monitor,
-      title: "Virtual Urban Farming Workshops",
-      description: "Engage tenants and employees with interactive online workshops covering sustainable farming practices, composting, and urban agriculture education.",
+      title: t('commercial.services.3.title'),
+      description: t('commercial.services.3.description'),
     },
     {
       icon: MapPin,
-      title: "Personalized Garden Tours",
-      description: "Offer immersive guided tours of your urban farm, creating memorable experiences for tenants, visitors, and stakeholders that showcase your sustainability commitment.",
+      title: t('commercial.services.4.title'),
+      description: t('commercial.services.4.description'),
     },
     {
       icon: Building2,
-      title: "Innovative Display Kiosks",
-      description: "Install engaging kiosks in common areas that educate visitors about urban farming and your property's environmental initiatives.",
+      title: t('commercial.services.5.title'),
+      description: t('commercial.services.5.description'),
     },
     {
       icon: Users,
-      title: "Portfolio-Wide Urban Farming Rollout",
-      description: "Scale your sustainability program across multiple properties with coordinated implementation, consistent branding, and centralized reporting.",
+      title: t('commercial.services.6.title'),
+      description: t('commercial.services.6.description'),
     },
   ];
 
   const certifications = [
-    { name: "LEED", description: "Leadership in Energy and Environmental Design" },
-    { name: "BOMA BEST", description: "Building Environmental Standards" },
-    { name: "WELL", description: "Health and Wellness Building Standard" },
-    { name: "Fitwel", description: "Healthy Building Certification" },
-    { name: "GRESB", description: "ESG Benchmark for Real Estate" },
+    { name: t('commercial.certifications.leed'), description: t('commercial.certifications.leedDesc') },
+    { name: t('commercial.certifications.boma'), description: t('commercial.certifications.bomaDesc') },
+    { name: t('commercial.certifications.well'), description: t('commercial.certifications.wellDesc') },
+    { name: t('commercial.certifications.fitwel'), description: t('commercial.certifications.fitwelDesc') },
+    { name: t('commercial.certifications.gresb'), description: t('commercial.certifications.gresbDesc') },
   ];
 
   const process = [
-    { step: "1", title: "Book a Demo", description: "Schedule a consultation to discuss your portfolio and sustainability goals." },
-    { step: "2", title: "Free Site Assessment", description: "Our team evaluates your properties for optimal farm placement and design." },
-    { step: "3", title: "Custom Proposal", description: "Receive a tailored program with timeline, investment, and expected returns." },
-    { step: "4", title: "Installation", description: "Professional setup with no permanent modifications to your building." },
-    { step: "5", title: "Ongoing Service", description: "Weekly maintenance, harvesting, activities, and reporting year after year." },
+    { step: "1", title: t('commercial.process.1.title'), description: t('commercial.process.1.description') },
+    { step: "2", title: t('commercial.process.2.title'), description: t('commercial.process.2.description') },
+    { step: "3", title: t('commercial.process.3.title'), description: t('commercial.process.3.description') },
+    { step: "4", title: t('commercial.process.4.title'), description: t('commercial.process.4.description') },
+    { step: "5", title: t('commercial.process.5.title'), description: t('commercial.process.5.description') },
   ];
 
   return (
     <>
-      <SEO {...PAGE_SEO.commercialRealEstate} canonical="/commercial-real-estate" />
+      <SEO
+        title={seo?.metaTitle || 'Commercial Real Estate | MicroHabitat'}
+        description={seo?.metaDescription || 'Urban farming solutions for commercial real estate. Enhance tenant experience, achieve sustainability certifications, and differentiate your property.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">For Commercial Real Estate</p>
+              <p className="label mb-6">{t('commercial.label')}</p>
               <h1 className="heading-display mb-8">
-                Urban Farming for <span className="text-primary">Commercial Real Estate</span>
+                {t('commercial.title')} <span className="text-primary">{t('commercial.titleHighlight')}</span>
               </h1>
               <p className="text-body max-w-3xl mb-10">
-                Transform your properties into sustainable, community-focused assets. Our turnkey
-                urban farming solutions help you achieve green certifications, engage tenants,
-                and differentiate your portfolio.
+                {t('commercial.description')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={onBookDemo}>
-                  Book a Demo
+                  {t('common.bookDemo')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Link to="/contact" className="btn-outline">
-                  Contact Us
+                <Link to={localePath("/contact")} className="btn-outline">
+                  {t('common.contactUs')}
                 </Link>
               </div>
             </div>
@@ -103,34 +121,33 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Your Partner in Green Real Estate</p>
+              <p className="label mb-4">{t('commercial.partner.label')}</p>
               <h2 className="heading-section mb-6">
-                A turnkey amenity that delivers measurable returns
+                {t('commercial.partner.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                MicroHabitat's approach to urban agriculture is designed to be comprehensive,
-                simple, and engaging. Here's what partnering with us means for your portfolio:
+                {t('commercial.partner.description')}
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Differentiate properties in a competitive market</span>
+                  <span>{t('commercial.partner.benefit1')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Achieve green building certification credits</span>
+                  <span>{t('commercial.partner.benefit2')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Enhance tenant satisfaction and retention</span>
+                  <span>{t('commercial.partner.benefit3')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Support ESG reporting requirements</span>
+                  <span>{t('commercial.partner.benefit4')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Zero operational burden—we handle everything</span>
+                  <span>{t('commercial.partner.benefit5')}</span>
                 </li>
               </ul>
             </div>
@@ -159,9 +176,9 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
       {/* Services Section */}
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">What We Offer</p>
+          <p className="label mb-4">{t('commercial.services.label')}</p>
           <h2 className="heading-section mb-12">
-            Our Comprehensive Service Offerings
+            {t('commercial.services.title')}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
@@ -182,17 +199,15 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Certification Support</p>
+              <p className="label mb-4">{t('commercial.certifications.label')}</p>
               <h2 className="heading-section mb-6">
-                Green Building Certifications
+                {t('commercial.certifications.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                Our urban farming programs are designed to support your green building
-                certification efforts. We provide documentation and support for multiple
-                certification systems.
+                {t('commercial.certifications.description')}
               </p>
               <Button onClick={onBookDemo}>
-                Learn More
+                {t('common.learnMore')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -217,9 +232,9 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mb-12">
-            <p className="label mb-4">The Process</p>
+            <p className="label mb-4">{t('commercial.process.label')}</p>
             <h2 className="heading-section mb-6">
-              From concept to harvest
+              {t('commercial.process.title')}
             </h2>
           </div>
           <div className="grid md:grid-cols-5 gap-6">
@@ -243,44 +258,43 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-4">Property Requirements</p>
+              <p className="label mb-4">{t('commercial.suitability.label')}</p>
               <h2 className="heading-section mb-6">
-                Is Your Property Suitable?
+                {t('commercial.suitability.title')}
               </h2>
               <p className="text-muted-foreground text-lg mb-6">
-                Most commercial properties can host an urban farm. We work with:
+                {t('commercial.suitability.description')}
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Office buildings with rooftops or terraces</span>
+                  <span>{t('commercial.suitability.item1')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Shopping centers with outdoor areas</span>
+                  <span>{t('commercial.suitability.item2')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Mixed-use developments</span>
+                  <span>{t('commercial.suitability.item3')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Industrial properties with unused space</span>
+                  <span>{t('commercial.suitability.item4')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
-                  <span>Any property with 200+ sq ft and good sunlight</span>
+                  <span>{t('commercial.suitability.item5')}</span>
                 </li>
               </ul>
             </div>
             <div className="card-minimal bg-card p-8">
-              <h3 className="text-xl font-medium mb-4">Get a Free Assessment</h3>
+              <h3 className="text-xl font-medium mb-4">{t('commercial.suitability.card.title')}</h3>
               <p className="text-muted-foreground mb-6">
-                Our team will evaluate your property and provide recommendations
-                tailored to your space and sustainability goals.
+                {t('commercial.suitability.card.description')}
               </p>
               <Button onClick={onBookDemo} className="w-full">
-                Schedule Assessment
+                {t('commercial.suitability.scheduleAssessment')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -293,9 +307,9 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
       {/* Gallery Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Work</p>
+          <p className="label mb-4">{t('commercial.gallery.label')}</p>
           <h2 className="heading-section mb-12">
-            Properties transformed by urban farming
+            {t('commercial.gallery.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="aspect-square rounded-md overflow-hidden">
@@ -336,23 +350,23 @@ export function CommercialRealEstate({ onBookDemo }: CommercialRealEstateProps) 
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Transform your portfolio with urban farming
+            {t('commercial.cta.title')}
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Join industry leaders already growing with MicroHabitat.
+            {t('commercial.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Book a Demo
+              {t('common.bookDemo')}
             </button>
             <Link
-              to="/partnerships"
+              to={localePath("/partnerships")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              View Partners
+              {t('commercial.cta.viewPartners')}
             </Link>
           </div>
         </div>

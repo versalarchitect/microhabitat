@@ -1,7 +1,10 @@
 import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Leaf, MapPin, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { SEO } from "../components/SEO";
+import { useLocale } from "../lib/locale-context";
+import { getCitySEO, queryKeys } from "../lib/strapi";
 
 interface CityDetailProps {
   onBookDemo: () => void;
@@ -258,19 +261,27 @@ const cityData: Record<string, {
 };
 
 export function CityDetail({ onBookDemo }: CityDetailProps) {
+  const { t, localePath, locale } = useLocale();
   const { citySlug } = useParams<{ citySlug: string }>();
   const city = citySlug ? cityData[citySlug] : null;
+
+  const { data: citySeo } = useQuery({
+    queryKey: queryKeys.citySEO(citySlug || '', locale),
+    queryFn: () => getCitySEO(citySlug || '', locale),
+    staleTime: 5 * 60 * 1000,
+    enabled: !!citySlug,
+  });
 
   if (!city) {
     return (
       <section className="pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
-          <h1 className="heading-display mb-8">City Not Found</h1>
+          <h1 className="heading-display mb-8">{t('cityDetail.notFound.title')}</h1>
           <p className="text-muted-foreground mb-8">
-            Sorry, we couldn't find information about this city.
+            {t('cityDetail.notFound.description')}
           </p>
-          <Link to="/cities" className="btn-outline">
-            View All Cities
+          <Link to={localePath("/cities")} className="btn-outline">
+            {t('cityDetail.viewAllCities')}
           </Link>
         </div>
       </section>
@@ -280,17 +291,20 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
   return (
     <>
       <SEO
-        title={`Urban Farming in ${city.name} | MicroHabitat`}
-        description={`${city.description} Discover MicroHabitat's urban farming solutions in ${city.name}, ${city.region}.`}
-        canonical={`/cities/${citySlug}`}
-        ogImage="/og-images/cities-og.jpg"
-        keywords={[
+        title={citySeo?.metaTitle || `Urban Farming in ${city.name} | MicroHabitat`}
+        description={citySeo?.metaDescription || `${city.description} Discover MicroHabitat's urban farming solutions in ${city.name}, ${city.region}.`}
+        canonical={citySeo?.canonical || `/cities/${citySlug}`}
+        ogImage={citySeo?.ogImage || "/og-images/cities-og.jpg"}
+        twitterImage={citySeo?.twitterImage}
+        keywords={citySeo?.keywords?.split(',').map(k => k.trim()) || [
           `urban farming ${city.name}`,
           `rooftop farming ${city.name}`,
           `urban agriculture ${city.name}`,
           city.name,
           city.region,
         ]}
+        noIndex={citySeo?.noIndex}
+        noFollow={citySeo?.noFollow}
       />
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
@@ -300,18 +314,18 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
             <p className="label">{city.region}, {city.country}</p>
           </div>
           <h1 className="heading-display mb-8">
-            Urban Farming in <span className="text-primary">{city.name}</span>
+            {t('cityDetail.hero.title')} <span className="text-primary">{city.name}</span>
           </h1>
           <p className="text-body max-w-3xl mb-10">
             {city.description}
           </p>
           <div className="flex flex-wrap gap-4">
             <Button onClick={onBookDemo}>
-              Get Started in {city.name}
+              {t('common.getStarted')} {city.name}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
+            <Link to={localePath("/contact")} className="btn-outline">
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>
@@ -322,9 +336,9 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
       {/* Highlights Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">{city.name} Highlights</p>
+          <p className="label mb-4">{city.name} {t('cityDetail.highlights.label')}</p>
           <h2 className="heading-section mb-12">
-            What we offer in {city.name}
+            {t('cityDetail.highlights.title')} {city.name}
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {city.highlights.map((highlight, index) => (
@@ -342,44 +356,44 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
       {/* Services Section */}
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Our Services</p>
+          <p className="label mb-4">{t('cityDetail.services.label')}</p>
           <h2 className="heading-section mb-12">
-            Available in {city.name}
+            {t('cityDetail.services.title')} {city.name}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <Link to="/outdoor-farm" className="card-minimal bg-card p-6 group">
+            <Link to={localePath("/outdoor-farm")} className="card-minimal bg-card p-6 group">
               <h3 className="text-xl font-medium mb-3 group-hover:text-primary transition-colors">
-                Outdoor Farms
+                {t('cityDetail.services.outdoorFarms.title')}
               </h3>
               <p className="text-muted-foreground mb-4">
-                Transform rooftops and terraces into productive urban farms.
+                {t('cityDetail.services.outdoorFarms.description')}
               </p>
               <span className="text-primary inline-flex items-center font-medium">
-                Learn More
+                {t('common.learnMore')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </span>
             </Link>
-            <Link to="/indoor-farm" className="card-minimal bg-card p-6 group">
+            <Link to={localePath("/indoor-farm")} className="card-minimal bg-card p-6 group">
               <h3 className="text-xl font-medium mb-3 group-hover:text-primary transition-colors">
-                Indoor Farms
+                {t('cityDetail.services.indoorFarms.title')}
               </h3>
               <p className="text-muted-foreground mb-4">
-                Year-round growing solutions for interior spaces.
+                {t('cityDetail.services.indoorFarms.description')}
               </p>
               <span className="text-primary inline-flex items-center font-medium">
-                Learn More
+                {t('common.learnMore')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </span>
             </Link>
-            <Link to="/educational-activities" className="card-minimal bg-card p-6 group">
+            <Link to={localePath("/educational-activities")} className="card-minimal bg-card p-6 group">
               <h3 className="text-xl font-medium mb-3 group-hover:text-primary transition-colors">
-                Educational Activities
+                {t('cityDetail.services.educationalActivities.title')}
               </h3>
               <p className="text-muted-foreground mb-4">
-                Workshops, tours, and team building experiences.
+                {t('cityDetail.services.educationalActivities.description')}
               </p>
               <span className="text-primary inline-flex items-center font-medium">
-                Learn More
+                {t('common.learnMore')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </span>
             </Link>
@@ -392,30 +406,30 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
       {/* For Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4">Who We Serve</p>
+          <p className="label mb-4">{t('cityDetail.serve.label')}</p>
           <h2 className="heading-section mb-12">
-            Programs for every organization
+            {t('cityDetail.serve.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <Link to="/commercial-real-estate" className="card-hover p-6 group">
+            <Link to={localePath("/commercial-real-estate")} className="card-hover p-6 group">
               <Users className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Commercial Real Estate</h3>
+              <h3 className="text-xl font-medium mb-3">{t('cityDetail.serve.commercialRealEstate.title')}</h3>
               <p className="text-muted-foreground">
-                Add unique amenities to your properties and achieve green certifications.
+                {t('cityDetail.serve.commercialRealEstate.description')}
               </p>
             </Link>
-            <Link to="/corporations" className="card-hover p-6 group">
+            <Link to={localePath("/corporations")} className="card-hover p-6 group">
               <Users className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Corporations</h3>
+              <h3 className="text-xl font-medium mb-3">{t('cityDetail.serve.corporations.title')}</h3>
               <p className="text-muted-foreground">
-                Engage employees and support CSR goals with workplace urban farming.
+                {t('cityDetail.serve.corporations.description')}
               </p>
             </Link>
-            <Link to="/schools" className="card-hover p-6 group">
+            <Link to={localePath("/schools")} className="card-hover p-6 group">
               <Users className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-medium mb-3">Schools</h3>
+              <h3 className="text-xl font-medium mb-3">{t('cityDetail.serve.schools.title')}</h3>
               <p className="text-muted-foreground">
-                Bring hands-on environmental education to students of all ages.
+                {t('cityDetail.serve.schools.description')}
               </p>
             </Link>
           </div>
@@ -428,23 +442,23 @@ export function CityDetail({ onBookDemo }: CityDetailProps) {
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Ready to grow in {city.name}?
+            {t('cityDetail.cta.title')} {city.name}?
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Let's transform your property with urban farming.
+            {t('cityDetail.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Book a Demo
+              {t('common.bookDemo')}
             </button>
             <Link
-              to="/cities"
+              to={localePath("/cities")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              View All Cities
+              {t('cityDetail.viewAllCities')}
             </Link>
           </div>
         </div>

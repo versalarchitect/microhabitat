@@ -1,0 +1,7 @@
+[
+  { "value": 250, "suffix": "+", "label": "Fermes urbaines", "description": "Fermes actives en Amérique du Nord et en Europe", "order": 1 },
+  { "value": 35, "suffix": "+", "label": "Banques alimentaires", "description": "Banques alimentaires locales partenaires pour les dons", "order": 2 },
+  { "value": 40000, "suffix": "", "label": "Portions données", "description": "Portions de nourriture données aux communautés", "order": 3 },
+  { "value": 13000, "suffix": "", "label": "Repas financés", "description": "Repas financés par nos programmes", "order": 4 },
+  { "value": 59400, "suffix": "", "label": "Lbs récoltées", "description": "Livres de produits récoltés pour les clients", "order": 5 }
+]

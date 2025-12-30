@@ -1,0 +1,23 @@
+[
+  {
+    "icon": "Leaf",
+    "title": "Cuidado del jardín y cosecha",
+    "description": "Nuestro equipo asegura expertamente que su huerto urbano siga siendo un punto focal vibrante y productivo de su propiedad. Nuestro equipo profesional proporciona cuidado integral del jardín, desde la salud de las plantas hasta la cosecha y gestión completa de la producción.",
+    "features": ["Visitas de mantenimiento semanales", "Cultivo profesional", "Gestión de cosecha", "Supervisión completa de producción"],
+    "order": 1
+  },
+  {
+    "icon": "GraduationCap",
+    "title": "Actividades educativas",
+    "description": "Mejore el atractivo de su propiedad con nuestras ofertas educativas dinámicas. Nuestros talleres están disponibles tanto en persona como virtualmente, proporcionando oportunidades de aprendizaje flexibles sobre agricultura urbana sostenible.",
+    "features": ["Talleres presenciales", "Sesiones virtuales", "Tours de granja", "Quioscos interactivos"],
+    "order": 2
+  },
+  {
+    "icon": "Heart",
+    "title": "Distribución de cosecha local",
+    "description": "Fortalezca el espíritu comunitario de su propiedad distribuyendo productos frescos cultivados ecológicamente directamente a sus ocupantes o donándolos a organizaciones benéficas locales.",
+    "features": ["Distribución de productos frescos", "Donaciones a bancos de alimentos", "Participación comunitaria", "Programa Granjas de Solidaridad Urbana"],
+    "order": 3
+  }
+]

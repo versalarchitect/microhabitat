@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Servicios",
+    "links": [
+      { "label": "Granja exterior", "href": "/services/outdoor" },
+      { "label": "Granja interior", "href": "/services/indoor" },
+      { "label": "Actividades educativas", "href": "/services/educational" }
+    ],
+    "order": 1
+  },
+  {
+    "title": "Empresa",
+    "links": [
+      { "label": "Sobre nosotros", "href": "/about" },
+      { "label": "Ciudades", "href": "/cities" },
+      { "label": "Empleo", "href": "/careers" },
+      { "label": "Colaboraciones", "href": "/partnerships" },
+      { "label": "Participación comunitaria", "href": "/community" }
+    ],
+    "order": 2
+  },
+  {
+    "title": "Recursos",
+    "links": [
+      { "label": "Contacto", "href": "/contact" },
+      { "label": "FAQ", "href": "/faq" },
+      { "label": "Blog", "href": "/blog" },
+      { "label": "MyUrbanFarm", "href": "https://myurbanfarm.ai" }
+    ],
+    "order": 3
+  }
+]

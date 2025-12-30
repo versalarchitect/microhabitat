@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Diensten",
+    "links": [
+      { "label": "Buitenboerderij", "href": "/services/outdoor" },
+      { "label": "Binnenboerderij", "href": "/services/indoor" },
+      { "label": "Educatieve activiteiten", "href": "/services/educational" }
+    ],
+    "order": 1
+  },
+  {
+    "title": "Bedrijf",
+    "links": [
+      { "label": "Over ons", "href": "/about" },
+      { "label": "Steden", "href": "/cities" },
+      { "label": "Carrières", "href": "/careers" },
+      { "label": "Partnerschappen", "href": "/partnerships" },
+      { "label": "Gemeenschapsbetrokkenheid", "href": "/community" }
+    ],
+    "order": 2
+  },
+  {
+    "title": "Hulpmiddelen",
+    "links": [
+      { "label": "Contact", "href": "/contact" },
+      { "label": "FAQ", "href": "/faq" },
+      { "label": "Blog", "href": "/blog" },
+      { "label": "MyUrbanFarm", "href": "https://myurbanfarm.ai" }
+    ],
+    "order": 3
+  }
+]

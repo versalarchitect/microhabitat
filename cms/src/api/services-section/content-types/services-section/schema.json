@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "services_section",
+  "info": {
+    "singularName": "services-section",
+    "pluralName": "services-sections",
+    "displayName": "Services Section"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "label": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "heading": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "headingHighlight": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "description": { "type": "text", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaText": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "ctaButtonText": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } }
+  }
+}

@@ -1,10 +1,11 @@
-import type { Partner } from "../../lib/strapi";
+import type { Partner, PartnersSectionContent } from "../../lib/strapi";
 
 interface PartnersProps {
   partners: Partner[];
+  sectionContent: PartnersSectionContent;
 }
 
-export function Partners({ partners }: PartnersProps) {
+export function Partners({ partners, sectionContent }: PartnersProps) {
   // Duplicate for seamless marquee
   const allPartners = [...partners, ...partners];
 
@@ -16,9 +17,9 @@ export function Partners({ partners }: PartnersProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           {/* Section header */}
           <div className="text-center mb-12">
-            <p className="label mb-4">Trusted By</p>
+            <p className="label mb-4">{sectionContent.label}</p>
             <h2 className="text-2xl md:text-3xl font-medium text-foreground">
-              Leading organizations across North America
+              {sectionContent.heading}
             </h2>
           </div>
 

@@ -1,0 +1,7 @@
+[
+  { "label": "Dienstleistungen", "href": "#services", "order": 1 },
+  { "label": "Wirkung", "href": "#impact", "order": 2 },
+  { "label": "Referenzen", "href": "#testimonials", "order": 3 },
+  { "label": "Städte", "href": "#cities", "order": 4 },
+  { "label": "FAQ", "href": "#faq", "order": 5 }
+]

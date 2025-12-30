@@ -1,0 +1,7 @@
+[
+  { "value": 250, "suffix": "+", "label": "Fattorie urbane", "description": "Fattorie attive in Nord America ed Europa", "order": 1 },
+  { "value": 35, "suffix": "+", "label": "Banchi alimentari", "description": "Banchi alimentari locali partner per le donazioni", "order": 2 },
+  { "value": 40000, "suffix": "", "label": "Porzioni donate", "description": "Porzioni di cibo donate alle comunità", "order": 3 },
+  { "value": 13000, "suffix": "", "label": "Pasti finanziati", "description": "Pasti finanziati attraverso i nostri programmi", "order": 4 },
+  { "value": 59400, "suffix": "", "label": "Lbs raccolte", "description": "Libbre di prodotti raccolti per i clienti", "order": 5 }
+]

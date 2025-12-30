@@ -1,0 +1,7 @@
+[
+  { "value": 250, "suffix": "+", "label": "Stadtfarmen", "description": "Aktive Farmen in Nordamerika und Europa", "order": 1 },
+  { "value": 35, "suffix": "+", "label": "Tafeln", "description": "Lokale Tafeln als Spendenpartner", "order": 2 },
+  { "value": 40000, "suffix": "", "label": "Gespendete Portionen", "description": "Portionen für Gemeinschaften gespendet", "order": 3 },
+  { "value": 13000, "suffix": "", "label": "Finanzierte Mahlzeiten", "description": "Durch unsere Programme finanzierte Mahlzeiten", "order": 4 },
+  { "value": 59400, "suffix": "", "label": "Lbs geerntet", "description": "Pfund Produkte für Kunden geerntet", "order": 5 }
+]

@@ -1,38 +1,51 @@
 import { Link } from "react-router-dom";
 import { Linkedin, Instagram, Facebook, ExternalLink } from "lucide-react";
+import { useLocale } from "../../lib/locale-context";
 
-const footerSections = [
+interface FooterLink {
+  labelKey: string;
+  href: string;
+  external?: boolean;
+}
+
+interface FooterSection {
+  titleKey: string;
+  links: FooterLink[];
+}
+
+const footerSections: FooterSection[] = [
   {
-    title: "Services",
+    titleKey: "nav.services",
     links: [
-      { label: "Outdoor Farm", href: "/outdoor-farm" },
-      { label: "Indoor Farm", href: "/indoor-farm" },
-      { label: "Educational Activities", href: "/educational-activities" },
+      { labelKey: "nav.outdoorFarm", href: "/outdoor-farm" },
+      { labelKey: "nav.indoorFarm", href: "/indoor-farm" },
+      { labelKey: "nav.educationalActivities", href: "/educational-activities" },
     ],
   },
   {
-    title: "Company",
+    titleKey: "nav.company",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Cities", href: "/cities" },
-      { label: "Careers", href: "/careers" },
-      { label: "Partnerships", href: "/partnerships" },
-      { label: "Community", href: "/community-engagement" },
+      { labelKey: "nav.about", href: "/about" },
+      { labelKey: "nav.cities", href: "/cities" },
+      { labelKey: "nav.careers", href: "/careers" },
+      { labelKey: "nav.partnerships", href: "/partnerships" },
+      { labelKey: "nav.communityEngagement", href: "/community-engagement" },
     ],
   },
   {
-    title: "Resources",
+    titleKey: "nav.resources",
     links: [
-      { label: "Contact", href: "/contact" },
-      { label: "FAQ", href: "/faq" },
-      { label: "Blog", href: "/blog" },
-      { label: "MyUrbanFarm", href: "https://myurbanfarm.ai", external: true },
+      { labelKey: "nav.contact", href: "/contact" },
+      { labelKey: "nav.faq", href: "/faq" },
+      { labelKey: "nav.blog", href: "/blog" },
+      { labelKey: "footer.myUrbanFarm", href: "https://myurbanfarm.ai", external: true },
     ],
   },
 ];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t, localePath } = useLocale();
 
   return (
     <footer className="bg-card border-t border-border">
@@ -41,7 +54,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4">
+            <Link to={localePath('/')} className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-lg">
                   M
@@ -52,8 +65,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs mb-6">
-              The world's largest urban farming network. Transforming urban
-              spaces into sustainable ecosystems.
+              {t('footer.brandDescription')}
             </p>
 
             {/* Social links */}
@@ -90,29 +102,29 @@ export function Footer() {
 
           {/* Link columns */}
           {footerSections.map((section) => (
-            <div key={section.title}>
+            <div key={section.titleKey}>
               <h3 className="font-medium text-foreground mb-4">
-                {section.title}
+                {t(section.titleKey)}
               </h3>
               <ul className="space-y-3">
                 {section.links.map((link) => (
-                  <li key={link.label}>
-                    {"external" in link && link.external ? (
+                  <li key={link.labelKey}>
+                    {link.external ? (
                       <a
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                       >
-                        {link.label}
+                        {t(link.labelKey)}
                         <ExternalLink className="h-3 w-3" />
                       </a>
                     ) : (
                       <Link
-                        to={link.href}
+                        to={localePath(link.href)}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        {link.label}
+                        {t(link.labelKey)}
                       </Link>
                     )}
                   </li>
@@ -126,19 +138,19 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <h3 className="font-medium text-foreground mb-1">Stay Connected</h3>
+              <h3 className="font-medium text-foreground mb-1">{t('footer.stayConnected')}</h3>
               <p className="text-sm text-muted-foreground">
-                Subscribe to our newsletter for updates and urban farming tips.
+                {t('footer.subscribeDescription')}
               </p>
             </div>
             <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('footer.emailPlaceholder')}
                 className="px-4 py-2 border border-border rounded-md bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full md:w-64"
               />
               <button type="submit" className="btn-primary whitespace-nowrap">
-                Subscribe
+                {t('footer.subscribe')}
               </button>
             </form>
           </div>
@@ -148,14 +160,26 @@ export function Footer() {
         <div className="mt-8 pt-8 border-t border-border">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} MicroHabitat. All rights reserved.
+              © {currentYear} MicroHabitat. {t('footer.allRightsReserved')}
             </p>
             <div className="flex gap-6">
               <Link
-                to="/privacy-policy"
+                to={localePath("/privacy-policy")}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Privacy Policy
+                {t('footer.privacyPolicy')}
+              </Link>
+              <Link
+                to={localePath("/terms-of-service")}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t('footer.termsOfService')}
+              </Link>
+              <Link
+                to={localePath("/cookie-policy")}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t('footer.cookiePolicy')}
               </Link>
             </div>
           </div>

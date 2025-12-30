@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "commercial_real_estate_page",
+  "info": {
+    "singularName": "commercial-real-estate-page",
+    "pluralName": "commercial-real-estate-pages",
+    "displayName": "Commercial Real Estate Page"
+  },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

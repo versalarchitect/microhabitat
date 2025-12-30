@@ -1,0 +1,7 @@
+[
+  { "label": "Servicios", "href": "#services", "order": 1 },
+  { "label": "Impacto", "href": "#impact", "order": 2 },
+  { "label": "Testimonios", "href": "#testimonials", "order": 3 },
+  { "label": "Ciudades", "href": "#cities", "order": 4 },
+  { "label": "FAQ", "href": "#faq", "order": 5 }
+]

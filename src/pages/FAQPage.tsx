@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { getPageSEO, queryKeys } from "../lib/strapi";
+import { useLocale } from "../lib/locale-context";
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +15,18 @@ import {
 interface FAQPageProps {
   onBookDemo: () => void;
 }
+
+// Map category keys to translation keys
+const categoryTranslationKeys: Record<string, string> = {
+  "General Urban Farming Queries": "faqPage.categories.general",
+  "About Us": "faqPage.categories.aboutUs",
+  "Technical": "faqPage.categories.technical",
+  "Products and Services": "faqPage.categories.productsServices",
+  "Engagement": "faqPage.categories.engagement",
+  "Collaboration": "faqPage.categories.collaboration",
+  "Getting Started": "faqPage.categories.gettingStarted",
+  "Safety": "faqPage.categories.safety",
+};
 
 const faqData = {
   "General Urban Farming Queries": [
@@ -145,30 +160,46 @@ const faqData = {
 };
 
 export function FAQPage({ onBookDemo }: FAQPageProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('faq', locale),
+    queryFn: () => getPageSEO('faq', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const categories = Object.keys(faqData);
 
   return (
     <>
-      <SEO {...PAGE_SEO.faq} canonical="/faq" />
+      <SEO
+        title={seo?.metaTitle || 'Frequently Asked Questions | MicroHabitat'}
+        description={seo?.metaDescription || 'Find answers to common questions about urban farming, our programs, installation, and partnership opportunities.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-6">Support</p>
+          <p className="label mb-6">{t('faqPage.label')}</p>
           <h1 className="heading-display mb-8">
-            <span className="text-primary">FAQs</span>
+            <span className="text-primary">{t('faqPage.title')}</span>
           </h1>
           <p className="text-body max-w-3xl mb-10">
-            Find answers to common questions about MicroHabitat's urban farming programs,
-            services, and how to get started.
+            {t('faqPage.description')}
           </p>
           <div className="flex flex-wrap gap-4">
             <Button onClick={onBookDemo}>
-              Book a Demo
+              {t('common.bookDemo')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
+            <Link to={localePath('/contact')} className="btn-outline">
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>
@@ -182,7 +213,7 @@ export function FAQPage({ onBookDemo }: FAQPageProps) {
           <div className="space-y-12">
             {categories.map((category) => (
               <div key={category}>
-                <h2 className="heading-section mb-6">{category}</h2>
+                <h2 className="heading-section mb-6">{t(categoryTranslationKeys[category] || category)}</h2>
                 <Accordion type="single" collapsible className="space-y-2">
                   {faqData[category as keyof typeof faqData].map((faq, index) => (
                     <AccordionItem
@@ -211,19 +242,18 @@ export function FAQPage({ onBookDemo }: FAQPageProps) {
       <section className="section bg-muted/30">
         <div className="max-w-3xl mx-auto px-6 md:px-8 text-center">
           <h2 className="heading-section mb-6">
-            Still have questions?
+            {t('faqPage.stillQuestions.title')}
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Can't find the answer you're looking for? Our team is here to help.
-            Book a demo or contact us directly.
+            {t('faqPage.stillQuestions.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button onClick={onBookDemo}>
-              Book a Demo
+              {t('common.bookDemo')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Link to="/contact" className="btn-outline">
-              Contact Us
+            <Link to={localePath('/contact')} className="btn-outline">
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>

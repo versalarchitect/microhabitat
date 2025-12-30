@@ -37,6 +37,8 @@ export interface SEOProps {
   keywords?: readonly string[];
   /** Disable indexing for this page */
   noIndex?: boolean;
+  /** Disable following links on this page */
+  noFollow?: boolean;
 }
 
 const BASE_URL = 'https://www.microhabitat.com';
@@ -75,6 +77,7 @@ export function SEO({
   twitterCard = 'summary_large_image',
   keywords = [],
   noIndex = false,
+  noFollow = false,
 }: SEOProps) {
   const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
   const canonicalUrl = canonical ? `${BASE_URL}${canonical}` : undefined;
@@ -136,11 +139,11 @@ export function SEO({
     setMeta('keywords', allKeywords.join(', '));
 
     // Robots meta tag
-    if (noIndex) {
-      setMeta('robots', 'noindex, nofollow');
-    } else {
-      setMeta('robots', 'index, follow');
-    }
+    const robotsValue = [
+      noIndex ? 'noindex' : 'index',
+      noFollow ? 'nofollow' : 'follow',
+    ].join(', ');
+    setMeta('robots', robotsValue);
 
     // Canonical URL
     if (canonicalUrl) {
@@ -197,6 +200,7 @@ export function SEO({
     articleAuthor,
     twitterCard,
     noIndex,
+    noFollow,
     allKeywords,
     title,
   ]);

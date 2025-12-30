@@ -1,94 +1,112 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { SEO, PAGE_SEO } from "../components/SEO";
+import { SEO } from "../components/SEO";
+import { useLocale } from "../lib/locale-context";
+import { getPageSEO, queryKeys } from "../lib/strapi";
 
 interface EducationalActivitiesProps {
   onBookDemo: () => void;
 }
 
 export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps) {
+  const { t, localePath, locale } = useLocale();
+
+  const { data: seo } = useQuery({
+    queryKey: queryKeys.pageSEO('educational-activities', locale),
+    queryFn: () => getPageSEO('educational-activities', locale),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const activities = [
     {
-      title: "Garden Visits",
-      subtitle: "Immersive Farm Tours",
-      description: "Take the experience home. Complete your tour with a MicroHabitat tote bag filled with seed packets—your first step toward growing change in your own space.",
+      title: t('educational.gardenVisits.title'),
+      subtitle: t('educational.gardenVisits.subtitle'),
+      description: t('educational.gardenVisits.description'),
       features: [
-        "Guided tours of working urban farms",
-        "Hands-on harvesting experiences",
-        "Take-home seed packets and tote bag",
-        "Perfect for team outings and client events",
+        t('educational.gardenVisits.feature1'),
+        t('educational.gardenVisits.feature2'),
+        t('educational.gardenVisits.feature3'),
+        t('educational.gardenVisits.feature4'),
       ],
       image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg",
     },
     {
-      title: "Kiosks",
-      subtitle: "Interactive Display Stations",
-      description: "Inspire collective action. Spark curiosity and motivate change as guests discover how they can take part in the movement toward greener, more resilient cities.",
+      title: t('educational.kiosks.title'),
+      subtitle: t('educational.kiosks.subtitle'),
+      description: t('educational.kiosks.description'),
       features: [
-        "Self-guided educational stations",
-        "Interactive displays about urban farming",
-        "Seasonal produce tastings",
-        "Perfect for lobbies and common areas",
+        t('educational.kiosks.feature1'),
+        t('educational.kiosks.feature2'),
+        t('educational.kiosks.feature3'),
+        t('educational.kiosks.feature4'),
       ],
       image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c4b9e4e9-eeb4-4408-bd49-492033a12fec/educational-activities.jpg",
     },
     {
-      title: "Workshops",
-      subtitle: "Transformative Learning Sessions",
-      description: "Discover transformative workshops that bridge your community with urban agriculture. In just one hour, our interactive sessions foster meaningful connections with sustainable food practices.",
+      title: t('educational.workshops.title'),
+      subtitle: t('educational.workshops.subtitle'),
+      description: t('educational.workshops.description'),
       features: [
-        "Available in-person or virtually",
-        "Topics: composting, seed saving, ecological farming",
-        "Customizable to your organization's needs",
-        "All age groups welcome",
+        t('educational.workshops.feature1'),
+        t('educational.workshops.feature2'),
+        t('educational.workshops.feature3'),
+        t('educational.workshops.feature4'),
       ],
       image: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5969186f-511a-4d62-a903-bedd8e8e7f85/Enfant+fille+6.jpg",
     },
   ];
 
   const workshopTopics = [
-    "Introduction to Urban Farming",
-    "Composting 101",
-    "Seed Saving Techniques",
-    "Seasonal Planting Guide",
-    "Pollinator Gardens",
-    "Container Gardening",
-    "Herb Growing Basics",
-    "Sustainable Eating",
+    t('educational.topics.intro'),
+    t('educational.topics.composting'),
+    t('educational.topics.seedSaving'),
+    t('educational.topics.seasonalPlanting'),
+    t('educational.topics.pollinatorGardens'),
+    t('educational.topics.containerGardening'),
+    t('educational.topics.herbGrowing'),
+    t('educational.topics.sustainableEating'),
   ];
 
   return (
     <>
-      <SEO {...PAGE_SEO.educationalActivities} canonical="/educational-activities" />
+      <SEO
+        title={seo?.metaTitle || 'Educational Activities | MicroHabitat'}
+        description={seo?.metaDescription || 'Hands-on workshops, garden visits, and educational programs for all ages. Learn about urban agriculture, sustainability, and healthy eating.'}
+        canonical={seo?.canonical}
+        ogImage={seo?.ogImage}
+        twitterImage={seo?.twitterImage}
+        keywords={seo?.keywords?.split(',').map(k => k.trim())}
+        noIndex={seo?.noIndex}
+        noFollow={seo?.noFollow}
+      />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="label mb-6">Services</p>
+              <p className="label mb-6">{t('educational.label')}</p>
               <h1 className="heading-display mb-8">
-                Educational <span className="text-primary">Team Building</span> Activities
+                {t('educational.title')} <span className="text-primary">{t('educational.titleHighlight')}</span>
               </h1>
               <p className="text-body max-w-3xl mb-10">
-                Engage your community with hands-on learning experiences that connect people
-                to sustainable urban agriculture. From guided farm tours to interactive workshops,
-                we bring the joy of growing to everyone.
+                {t('educational.description')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={onBookDemo}>
-                  Book an Activity
+                  {t('educational.bookActivity')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Link to="/contact" className="btn-outline">
-                  Contact Us
+                <Link to={localePath("/contact")} className="btn-outline">
+                  {t('common.contactUs')}
                 </Link>
               </div>
             </div>
             <div className="aspect-video rounded-md overflow-hidden">
               <img
-                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg"
+                src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
                 alt="Educational Activity"
                 className="w-full h-full object-cover"
               />
@@ -120,7 +138,7 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
                     ))}
                   </ul>
                   <Button onClick={onBookDemo}>
-                    Book Now
+                    {t('common.bookDemo')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
@@ -143,13 +161,12 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       <section className="section bg-muted/30">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <p className="label mb-4">Workshop Topics</p>
+            <p className="label mb-4">{t('educational.topics.label')}</p>
             <h2 className="heading-section mb-6">
-              Learn something new
+              {t('educational.topics.title')}
             </h2>
             <p className="text-muted-foreground text-lg">
-              Our workshops cover a range of topics tailored to different interests and
-              experience levels. All sessions are designed to be engaging for all ages.
+              {t('educational.topics.description')}
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -161,10 +178,10 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
           </div>
           <div className="text-center mt-10">
             <p className="text-muted-foreground mb-4">
-              Don't see what you're looking for? We create custom workshops too.
+              {t('educational.topics.custom')}
             </p>
             <Button onClick={onBookDemo} variant="outline">
-              Request Custom Workshop
+              {t('educational.topics.requestCustom')}
             </Button>
           </div>
         </div>
@@ -175,28 +192,28 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       {/* Gallery Section */}
       <section className="section">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <p className="label mb-4 text-center">Our Activities</p>
+          <p className="label mb-4 text-center">{t('educational.gallery.label')}</p>
           <h2 className="heading-section mb-12 text-center">
-            Engaging communities through learning
+            {t('educational.gallery.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <img
-              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/4a74347c-67e8-46ca-8063-9663438bd4dd/8.7.24-West+Hills-66.jpg"
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/ee544728-972c-4b64-9d95-142a579f983c/555-Richmond-W-5323-8-e1650907079985.jpg"
               alt="Educational Activity 1"
               className="w-full aspect-square object-cover rounded-md"
             />
             <img
-              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c4b9e4e9-eeb4-4408-bd49-492033a12fec/educational-activities.jpg"
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg"
               alt="Educational Activity 2"
               className="w-full aspect-square object-cover rounded-md"
             />
             <img
-              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5969186f-511a-4d62-a903-bedd8e8e7f85/Enfant+fille+6.jpg"
+              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/c59af8d9-e1c4-4139-abd8-8002026fa2f4/Starlight_45+Forty+Second+St-1829-Edit_MicroHabitat+2024.jpg"
               alt="Educational Activity 3"
               className="w-full aspect-square object-cover rounded-md"
             />
             <img
-              src="https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg"
+              src="/indoor-farm.webp"
               alt="Educational Activity 4"
               className="w-full aspect-square object-cover rounded-md"
             />
@@ -211,16 +228,16 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-3 gap-8 text-center">
             <div>
-              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">1,000+</p>
-              <p className="text-muted-foreground">Activities per season</p>
+              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">{t('educational.stats.activitiesCount')}</p>
+              <p className="text-muted-foreground">{t('educational.stats.activitiesLabel')}</p>
             </div>
             <div>
-              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">All Ages</p>
-              <p className="text-muted-foreground">Programs for everyone</p>
+              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">{t('educational.stats.allAges')}</p>
+              <p className="text-muted-foreground">{t('educational.stats.allAgesLabel')}</p>
             </div>
             <div>
-              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">Virtual</p>
-              <p className="text-muted-foreground">& In-person options</p>
+              <p className="text-4xl md:text-5xl font-medium text-primary mb-2">{t('educational.stats.virtual')}</p>
+              <p className="text-muted-foreground">{t('educational.stats.virtualLabel')}</p>
             </div>
           </div>
         </div>
@@ -232,23 +249,23 @@ export function EducationalActivities({ onBookDemo }: EducationalActivitiesProps
       <section className="section bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-medium mb-6">
-            Ready to engage your community?
+            {t('educational.cta.title')}
           </h2>
           <p className="text-lg opacity-90 mb-8">
-            Let's plan educational activities that inspire and connect.
+            {t('educational.cta.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={onBookDemo}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-white text-primary hover:bg-transparent hover:text-white transition-colors cursor-pointer"
             >
-              Book an Activity
+              {t('educational.bookActivity')}
             </button>
             <Link
-              to="/contact"
+              to={localePath("/contact")}
               className="inline-block px-6 py-3 font-mono text-xs font-medium uppercase tracking-[0.1em] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary transition-colors"
             >
-              Contact Us
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>
