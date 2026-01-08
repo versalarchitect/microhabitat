@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -8,54 +8,106 @@ import { Button } from "@/components/ui/button";
 import { BookDemoModal } from "@/components/BookDemoModal";
 import { CityCard, CityGrid } from "@/components/ui/city-card";
 import { type Locale, getLocalePath } from "@/lib/i18n";
+import type { City } from "@/lib/strapi";
 
 interface CitiesClientProps {
   locale: Locale;
   translations: Record<string, string>;
+  cities: City[];
 }
 
-export function CitiesClient({ locale, translations }: CitiesClientProps) {
+// Default images for cities if not set in CMS
+const defaultCityImages: Record<string, string> = {
+  montreal: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=640&q=80",
+  toronto: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=640&q=80",
+  vancouver: "https://images.unsplash.com/photo-1609825488888-3a766db05f8c?w=640&q=80",
+  calgary: "https://images.unsplash.com/photo-1569982175971-d92b01cf8694?w=640&q=80",
+  edmonton: "https://images.unsplash.com/photo-1578408079910-50c5d9c5b9a5?w=640&q=80",
+  victoria: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=640&q=80",
+  "new-york": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=640&q=80",
+  chicago: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=640&q=80",
+  dallas: "https://images.unsplash.com/photo-1588416936097-41850ab3d86d?w=640&q=80",
+  "los-angeles": "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=640&q=80",
+  "san-francisco": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=640&q=80",
+  "washington-dc": "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=640&q=80",
+  denver: "https://images.unsplash.com/photo-1619856699906-09e1f58c98b1?w=640&q=80",
+  columbus: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=640&q=80",
+  seattle: "https://images.unsplash.com/photo-1502175353174-a7a70e73b362?w=640&q=80",
+  amsterdam: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=640&q=80",
+  berlin: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=640&q=80",
+  london: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=640&q=80",
+  paris: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=640&q=80",
+  zurich: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=640&q=80",
+};
+
+export function CitiesClient({ locale, translations, cities }: CitiesClientProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const t = (key: string) => translations[key] || key;
   const localePath = (path: string) => getLocalePath(path, locale);
 
-  const regions = [
-    {
-      name: t('citiesPage.regions.canada'),
-      cities: [
-        { name: "Montreal", slug: "montreal", image: "https://images.unsplash.com/photo-1519178614-68673b201f36?w=640&q=80" },
-        { name: "Toronto", slug: "toronto", image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=640&q=80" },
-        { name: "Vancouver", slug: "vancouver", image: "https://images.unsplash.com/photo-1609825488888-3a766db05f8c?w=640&q=80" },
-        { name: "Calgary", slug: "calgary", image: "https://images.unsplash.com/photo-1569982175971-d92b01cf8694?w=640&q=80" },
-        { name: "Edmonton", slug: "edmonton", image: "https://images.unsplash.com/photo-1578408079910-50c5d9c5b9a5?w=640&q=80" },
-        { name: "Victoria", slug: "victoria", image: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=640&q=80" },
-      ],
-    },
-    {
-      name: t('citiesPage.regions.unitedStates'),
-      cities: [
-        { name: "NYC", slug: "new-york", image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=640&q=80" },
-        { name: "Chicago", slug: "chicago", image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=640&q=80" },
-        { name: "Dallas", slug: "dallas", image: "https://images.unsplash.com/photo-1588416936097-41850ab3d86d?w=640&q=80" },
-        { name: "Los Angeles", slug: "los-angeles", image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=640&q=80" },
-        { name: "San Francisco", slug: "san-francisco", image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=640&q=80" },
-        { name: "Washington DC", slug: "washington-dc", image: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=640&q=80" },
-        { name: "Denver", slug: "denver", image: "https://images.unsplash.com/photo-1619856699906-09e1f58c98b1?w=640&q=80" },
-        { name: "Columbus", slug: "columbus", image: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=640&q=80" },
-        { name: "Seattle", slug: "seattle", image: "https://images.unsplash.com/photo-1502175353174-a7a70e73b362?w=640&q=80" },
-      ],
-    },
-    {
-      name: t('citiesPage.regions.europe'),
-      cities: [
-        { name: "Amsterdam", slug: "amsterdam", image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=640&q=80" },
-        { name: "Berlin", slug: "berlin", image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=640&q=80" },
-        { name: "London", slug: "london", image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=640&q=80" },
-        { name: "Paris", slug: "paris", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=640&q=80" },
-        { name: "Zurich", slug: "zurich", image: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=640&q=80" },
-      ],
-    },
-  ];
+  // Group cities by region from CMS data
+  const regions = useMemo(() => {
+    // Separate cities by country/region
+    const canadianCities = cities.filter((c) => c.country === 'Canada' || c.country === 'Kanada' || c.country === 'Canadá');
+    const usCities = cities.filter((c) =>
+      c.country === 'United States' ||
+      c.country === 'États-Unis' ||
+      c.country === 'Vereinigte Staaten' ||
+      c.country === 'Verenigde Staten' ||
+      c.country === 'Stati Uniti' ||
+      c.country === 'Estados Unidos'
+    );
+    const europeanCities = cities.filter((c) => c.region === 'europe');
+
+    const result = [];
+
+    if (canadianCities.length > 0) {
+      result.push({
+        name: t('citiesPage.regions.canada'),
+        cities: canadianCities.map((c) => ({
+          name: c.name,
+          slug: c.slug || c.name.toLowerCase().replace(/\s+/g, '-'),
+          image: c.image || defaultCityImages[c.slug || c.name.toLowerCase().replace(/\s+/g, '-')] || '',
+        })),
+      });
+    }
+
+    if (usCities.length > 0) {
+      result.push({
+        name: t('citiesPage.regions.unitedStates'),
+        cities: usCities.map((c) => ({
+          name: c.name,
+          slug: c.slug || c.name.toLowerCase().replace(/\s+/g, '-'),
+          image: c.image || defaultCityImages[c.slug || c.name.toLowerCase().replace(/\s+/g, '-')] || '',
+        })),
+      });
+    }
+
+    if (europeanCities.length > 0) {
+      result.push({
+        name: t('citiesPage.regions.europe'),
+        cities: europeanCities.map((c) => ({
+          name: c.name,
+          slug: c.slug || c.name.toLowerCase().replace(/\s+/g, '-'),
+          image: c.image || defaultCityImages[c.slug || c.name.toLowerCase().replace(/\s+/g, '-')] || '',
+        })),
+      });
+    }
+
+    return result;
+  }, [cities, t]);
+
+  // Calculate stats from actual data
+  const canadianCount = cities.filter((c) => c.country === 'Canada' || c.country === 'Kanada' || c.country === 'Canadá').length;
+  const usCount = cities.filter((c) =>
+    c.country === 'United States' ||
+    c.country === 'États-Unis' ||
+    c.country === 'Vereinigte Staaten' ||
+    c.country === 'Verenigde Staten' ||
+    c.country === 'Stati Uniti' ||
+    c.country === 'Estados Unidos'
+  ).length;
+  const europeanCount = cities.filter((c) => c.region === 'europe').length;
 
   return (
     <>
@@ -150,15 +202,15 @@ export function CitiesClient({ locale, translations }: CitiesClientProps) {
               </p>
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
-                  <p className="text-3xl font-medium text-primary">6</p>
+                  <p className="text-3xl font-medium text-primary">{canadianCount}</p>
                   <p className="text-sm text-muted-foreground">{t('citiesPage.stats.canadianCities')}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-medium text-primary">9</p>
+                  <p className="text-3xl font-medium text-primary">{usCount}</p>
                   <p className="text-sm text-muted-foreground">{t('citiesPage.stats.usCities')}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-medium text-primary">5</p>
+                  <p className="text-3xl font-medium text-primary">{europeanCount}</p>
                   <p className="text-sm text-muted-foreground">{t('citiesPage.stats.europeanCities')}</p>
                 </div>
               </div>

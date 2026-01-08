@@ -200,6 +200,8 @@ async function _fetchCities(locale: Locale): Promise<City[]> {
     name: doc.name || '',
     country: doc.country || '',
     region: (doc.region as 'north-america' | 'europe') || 'north-america',
+    slug: doc.slug || '',
+    image: getImageUrl(doc.image),
   }));
 }
 

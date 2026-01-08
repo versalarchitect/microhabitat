@@ -25,13 +25,14 @@ export const FAQItems: CollectionConfig = {
       type: 'select',
       required: true,
       options: [
-        { label: 'General', value: 'General' },
-        { label: 'About', value: 'About' },
+        { label: 'General Urban Farming Queries', value: 'General Urban Farming Queries' },
+        { label: 'About Us', value: 'About Us' },
         { label: 'Technical', value: 'Technical' },
-        { label: 'Products', value: 'Products' },
+        { label: 'Products and Services', value: 'Products and Services' },
         { label: 'Engagement', value: 'Engagement' },
+        { label: 'Collaboration', value: 'Collaboration' },
+        { label: 'Getting Started', value: 'Getting Started' },
         { label: 'Safety', value: 'Safety' },
-        { label: 'Sustainability', value: 'Sustainability' },
       ],
       localized: true,
       admin: {

@@ -428,6 +428,10 @@ export interface City {
    */
   slug: string;
   /**
+   * City image (recommended: 640x480px)
+   */
+  image?: (number | null) | Media;
+  /**
    * Display order (lower numbers appear first)
    */
   order?: number | null;
@@ -447,7 +451,15 @@ export interface FaqItem {
   /**
    * FAQ category for grouping
    */
-  category: 'General' | 'About' | 'Technical' | 'Products' | 'Engagement' | 'Safety' | 'Sustainability';
+  category:
+    | 'General Urban Farming Queries'
+    | 'About Us'
+    | 'Technical'
+    | 'Products and Services'
+    | 'Engagement'
+    | 'Collaboration'
+    | 'Getting Started'
+    | 'Safety';
   /**
    * Display order within category (lower numbers appear first)
    */
@@ -790,6 +802,7 @@ export interface CitiesSelect<T extends boolean = true> {
   country?: T;
   region?: T;
   slug?: T;
+  image?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;

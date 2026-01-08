@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { type Locale, locales, ogLocales, getTranslations } from '@/lib/i18n';
-import { getPageSEO } from '@/lib/cms';
+import { getPageSEO, getCities } from '@/lib/cms';
 import { PageStructuredData } from '@/components/JsonLd';
 import { CitiesClient } from './CitiesClient';
 
@@ -61,6 +61,9 @@ export default async function CitiesPage({ params }: PageProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.microhabitat.com';
   const pageUrl = locale === 'en' ? '/cities' : `/${locale}/cities`;
 
+  // Fetch cities from CMS
+  const cities = await getCities(locale as Locale);
+
   return (
     <>
       <PageStructuredData
@@ -75,7 +78,7 @@ export default async function CitiesPage({ params }: PageProps) {
           { name: 'Cities' },
         ]}
       />
-      <CitiesClient locale={locale as Locale} translations={translations} />
+      <CitiesClient locale={locale as Locale} translations={translations} cities={cities} />
     </>
   );
 }

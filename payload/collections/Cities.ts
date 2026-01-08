@@ -48,6 +48,14 @@ export const Cities: CollectionConfig = {
       },
     },
     {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'City image (recommended: 640x480px)',
+      },
+    },
+    {
       name: 'order',
       type: 'number',
       defaultValue: 0,

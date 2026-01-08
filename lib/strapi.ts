@@ -147,6 +147,8 @@ export interface City {
   name: string;
   country: string;
   region: "north-america" | "europe";
+  slug?: string;
+  image?: string;
 }
 
 export interface NavLink {
