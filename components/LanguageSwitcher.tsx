@@ -18,9 +18,10 @@ const languages: { code: Locale; label: string; name: string }[] = [
 interface LanguageSwitcherProps {
   locale: Locale;
   className?: string;
+  popUp?: boolean;
 }
 
-export function LanguageSwitcher({ locale, className }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale, className, popUp = false }: LanguageSwitcherProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +86,10 @@ export function LanguageSwitcher({ locale, className }: LanguageSwitcherProps) {
 
           {/* Dropdown menu */}
           <div
-            className="absolute right-0 top-full mt-2 z-50 min-w-[180px] bg-card border border-border rounded-md shadow-lg py-1"
+            className={cn(
+              "absolute right-0 z-50 min-w-[180px] bg-card border border-border rounded-md shadow-lg py-1",
+              popUp ? "bottom-full mb-2" : "top-full mt-2"
+            )}
             role="listbox"
             aria-label="Select language"
           >

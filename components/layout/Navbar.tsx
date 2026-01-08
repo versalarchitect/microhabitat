@@ -340,7 +340,7 @@ export function Navbar({ locale }: NavbarProps) {
                       {/* Footer with Language Switcher */}
                       <div className="px-6 py-6 space-y-4">
                         <div className="flex justify-center">
-                          <LanguageSwitcher locale={locale} />
+                          <LanguageSwitcher locale={locale} popUp />
                         </div>
                         <Button onClick={() => setShowDemoModal(true)} className="w-full">
                           {t('nav.bookDemo')}

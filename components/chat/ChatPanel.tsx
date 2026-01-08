@@ -277,8 +277,8 @@ export function ChatPanel({
       <div
         className={cn(
           "fixed bottom-24 right-6 z-50",
-          "w-[360px] max-w-[calc(100vw-3rem)]",
-          "h-[500px] max-h-[calc(100vh-8rem)]",
+          "w-[420px] max-w-[calc(100vw-3rem)]",
+          "h-[600px] max-h-[calc(100vh-8rem)]",
           "bg-card border border-border rounded-md",
           "flex flex-col overflow-hidden",
           "animate-in fade-in slide-in-from-bottom-4 duration-200"
@@ -404,8 +404,8 @@ export function ChatPanel({
       <div
         className={cn(
           "fixed bottom-24 right-6 z-50",
-          "w-[360px] max-w-[calc(100vw-3rem)]",
-          "h-[500px] max-h-[calc(100vh-8rem)]",
+          "w-[420px] max-w-[calc(100vw-3rem)]",
+          "h-[600px] max-h-[calc(100vh-8rem)]",
           "bg-card border border-border rounded-md",
           "flex flex-col overflow-hidden",
           "animate-in fade-in slide-in-from-bottom-4 duration-200"
