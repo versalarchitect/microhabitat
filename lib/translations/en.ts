@@ -727,6 +727,32 @@ export const en = {
     'careers.cta.getInTouch': 'Get in Touch',
 
     // ============================================================
+    // JOB LISTINGS
+    // ============================================================
+    'jobs.loading': 'Loading job listings...',
+    'jobs.error': 'Unable to load job listings. Please try again later.',
+    'jobs.viewOnBreezy': 'View all positions on Breezy HR',
+    'jobs.noOpenings': 'No open positions at the moment. Check back soon!',
+    'jobs.sendResume': 'Send your resume to careers@microhabitat.com',
+    'jobs.position': 'Open Position',
+    'jobs.positions': 'Open Positions',
+    'jobs.acrossLocations': 'Across {count} countries',
+    'jobs.viewAll': 'View all on Breezy HR',
+    'jobs.searchPlaceholder': 'Search positions...',
+    'jobs.allCities': 'All Cities',
+    'jobs.allDepartments': 'All Departments',
+    'jobs.byLocation': 'By Location',
+    'jobs.byDepartment': 'By Department',
+    'jobs.opening': 'opening',
+    'jobs.openings': 'openings',
+    'jobs.noResults': 'No positions match your filters.',
+    'jobs.clearFilters': 'Clear all filters',
+    'jobs.updatedAt': 'Last updated: {time}',
+    'jobs.apply': 'Apply Now',
+    'jobs.sectionLabel': 'Open Positions',
+    'jobs.sectionTitle': 'Join our growing team',
+
+    // ============================================================
     // PARTNERSHIPS PAGE
     // ============================================================
     'partnerships.label': 'Partnerships',

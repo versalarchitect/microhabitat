@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Partner, PartnersSectionContent } from "@/lib/strapi";
+import type { Partner, PartnersSectionContent } from "@/lib/cms";
 
 interface PartnersProps {
   partners: Partner[];

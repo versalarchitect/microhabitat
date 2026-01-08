@@ -182,10 +182,11 @@ function getPreferredLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for static files, API routes, and Next.js internals
+  // Skip middleware for static files, API routes, Payload CMS, and Next.js internals
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/admin') || // Payload CMS admin panel
     pathname.startsWith('/static') ||
     pathname.includes('.') || // Files with extensions (images, etc.)
     pathname === '/favicon.ico' ||

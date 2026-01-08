@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import type { CTASectionContent } from "@/lib/strapi";
+import type { CTASectionContent } from "@/lib/cms";
 
 interface CTAProps {
   sectionContent: CTASectionContent;

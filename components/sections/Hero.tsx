@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { ArrowRight } from "lucide-react";
-import type { HeroContent, Stat } from "@/lib/strapi";
+import type { HeroContent, Stat } from "@/lib/cms";
 import { useCountUpAnimation, useSmoothScroll } from "@/lib/hooks";
 
 // Stat item component

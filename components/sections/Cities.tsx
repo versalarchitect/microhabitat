@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import type { City, CitiesSectionContent } from "@/lib/strapi";
+import type { City, CitiesSectionContent } from "@/lib/cms";
 import type { Locale } from "@/lib/i18n";
 import { FilterButtonGroup, type FilterOption } from "@/components/ui/filter-button-group";
 import { CityCard, CityGrid } from "@/components/ui/city-card";

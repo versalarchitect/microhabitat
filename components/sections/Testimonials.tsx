@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import type { Testimonial, TestimonialsSectionContent } from "@/lib/strapi";
+import type { Testimonial, TestimonialsSectionContent } from "@/lib/cms";
 
 function TestimonialCard({
   testimonial,

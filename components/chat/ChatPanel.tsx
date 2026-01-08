@@ -14,6 +14,7 @@ interface ChatPanelProps {
   error: string | null;
   onSendMessage: (message: string) => void;
   onClose: () => void;
+  onClearMessages: () => void;
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -48,6 +49,7 @@ export function ChatPanel({
   error,
   onSendMessage,
   onClose,
+  onClearMessages,
 }: ChatPanelProps) {
   const [input, setInput] = useState("");
   const [showContactForm, setShowContactForm] = useState(false);
@@ -627,13 +629,26 @@ export function ChatPanel({
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background">
         <div className="flex items-center gap-2">
-          <Logo size="sm" />
+          {messages.length > 0 && !isModelLoading ? (
+            <button
+              type="button"
+              onClick={onClearMessages}
+              className="p-1 rounded-sm text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Back to questions"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+          ) : (
+            <Logo size="sm" />
+          )}
           <div>
             <h3 className="text-sm font-medium text-foreground">
               MicroHabitat Assistant
             </h3>
             <p className="text-xs text-muted-foreground">
-              Ask about our urban farming services
+              {messages.length > 0 && !isModelLoading
+                ? "Back to suggested questions"
+                : "Ask about our urban farming services"}
             </p>
           </div>
         </div>

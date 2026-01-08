@@ -1,7 +1,0 @@
-[
-  { "value": 250, "suffix": "+", "label": "Stadsboerderijen", "description": "Actieve boerderijen in Noord-Amerika en Europa", "order": 1 },
-  { "value": 35, "suffix": "+", "label": "Voedselbanken", "description": "Lokale voedselbanken als donatiepartners", "order": 2 },
-  { "value": 40000, "suffix": "", "label": "Gedoneerde porties", "description": "Porties voedsel gedoneerd aan gemeenschappen", "order": 3 },
-  { "value": 13000, "suffix": "", "label": "Gefinancierde maaltijden", "description": "Maaltijden gefinancierd via onze programma's", "order": 4 },
-  { "value": 59400, "suffix": "", "label": "Lbs geoogst", "description": "Pond producten geoogst voor klanten", "order": 5 }
-]

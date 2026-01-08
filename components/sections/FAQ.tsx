@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FilterButtonGroup, type FilterOption } from "@/components/ui/filter-button-group";
-import type { FAQItem, FAQSectionContent } from "@/lib/strapi";
+import type { FAQItem, FAQSectionContent } from "@/lib/cms";
 
 interface FAQProps {
   faq: FAQItem[];

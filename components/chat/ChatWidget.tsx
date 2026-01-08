@@ -19,6 +19,8 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...state, isOpen: !state.isOpen };
     case "CLOSE_CHAT":
       return { ...state, isOpen: false };
+    case "CLEAR_MESSAGES":
+      return { ...state, messages: [], error: null };
     case "START_LOADING_MODEL":
       return { ...state, isModelLoading: true, error: null };
     case "MODEL_LOADED":
@@ -104,6 +106,10 @@ export function ChatWidget() {
     dispatch({ type: "CLOSE_CHAT" });
   }, []);
 
+  const handleClearMessages = useCallback(() => {
+    dispatch({ type: "CLEAR_MESSAGES" });
+  }, []);
+
   return (
     <>
       <ChatButton isOpen={state.isOpen} onClick={handleToggle} />
@@ -115,6 +121,7 @@ export function ChatWidget() {
           error={state.error}
           onSendMessage={handleSendMessage}
           onClose={handleClose}
+          onClearMessages={handleClearMessages}
         />
       )}
     </>

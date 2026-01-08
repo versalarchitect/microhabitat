@@ -1,7 +1,0 @@
-[
-  { "value": 250, "suffix": "+", "label": "Granjas urbanas", "description": "Granjas activas en Norteamérica y Europa", "order": 1 },
-  { "value": 35, "suffix": "+", "label": "Bancos de alimentos", "description": "Bancos de alimentos locales asociados para donaciones", "order": 2 },
-  { "value": 40000, "suffix": "", "label": "Porciones donadas", "description": "Porciones de comida donadas a comunidades", "order": 3 },
-  { "value": 13000, "suffix": "", "label": "Comidas financiadas", "description": "Comidas financiadas a través de nuestros programas", "order": 4 },
-  { "value": 59400, "suffix": "", "label": "Lbs cosechadas", "description": "Libras de productos cosechados para clientes", "order": 5 }
-]

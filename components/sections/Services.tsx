@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Leaf, Building2, GraduationCap, Heart, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Service, ServicesSectionContent } from "@/lib/strapi";
+import type { Service, ServicesSectionContent } from "@/lib/cms";
 import { useIntersectionVisibility } from "@/lib/hooks";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {

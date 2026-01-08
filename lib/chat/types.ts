@@ -17,6 +17,7 @@ export interface ChatState {
 export type ChatAction =
   | { type: 'TOGGLE_CHAT' }
   | { type: 'CLOSE_CHAT' }
+  | { type: 'CLEAR_MESSAGES' }
   | { type: 'START_LOADING_MODEL' }
   | { type: 'MODEL_LOADED' }
   | { type: 'MODEL_ERROR'; error: string }

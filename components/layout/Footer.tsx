@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Linkedin, Instagram, Facebook, ExternalLink } from "lucide-react";
 import { type Locale, getLocalePath, getTranslations } from "@/lib/i18n";
 
@@ -63,14 +64,13 @@ export function Footer({ locale }: FooterProps) {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <Link href={localePath('/')} className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">
-                  M
-                </span>
-              </div>
-              <span className="text-xl font-medium tracking-tight">
-                MicroHabitat
-              </span>
+              <Image
+                src="/logo.png"
+                alt="MicroHabitat"
+                width={160}
+                height={40}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs mb-6">
               {t('footer.brandDescription')}

@@ -1,7 +1,0 @@
-[
-  { "label": "Diensten", "href": "#services", "order": 1 },
-  { "label": "Impact", "href": "#impact", "order": 2 },
-  { "label": "Getuigenissen", "href": "#testimonials", "order": 3 },
-  { "label": "Steden", "href": "#cities", "order": 4 },
-  { "label": "FAQ", "href": "#faq", "order": 5 }
-]

@@ -2753,6 +2753,220 @@ export async function getCitySEO(citySlug: string, locale: Locale = 'en'): Promi
   }
 }
 
+// =============================================================================
+// BLOG POST SEO - Premium CMS-driven SEO for individual blog articles
+// =============================================================================
+
+// Blog post with full SEO from CMS
+export interface BlogPostFromCMS {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  publishedDate: string;
+  categories: string[];
+  featuredImage?: string;
+  seo: SEOData;
+  // Computed fields
+  dateModified?: string;
+}
+
+// Get a single blog post with its SEO data
+export async function getBlogPost(slug: string, locale: Locale = 'en'): Promise<BlogPostFromCMS | null> {
+  if (!STRAPI_URL) {
+    return null;
+  }
+
+  try {
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+
+    if (STRAPI_TOKEN) {
+      headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+    }
+
+    const url = `${STRAPI_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=seo.ogImage,seo.twitterImage,featuredImage&locale=${locale}`;
+
+    const response = await fetch(url, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any[] } = await response.json();
+
+    if (!result.data?.[0]) {
+      return null;
+    }
+
+    const post = result.data[0];
+    const seo = post.seo || {};
+
+    return {
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      excerpt: post.excerpt,
+      content: post.content,
+      author: post.author,
+      publishedDate: post.publishedDate,
+      categories: post.categories || [],
+      featuredImage: getImageUrl(post.featuredImage as StrapiMedia),
+      dateModified: post.updatedAt,
+      seo: {
+        metaTitle: seo.metaTitle || `${post.title} | Microhabitat`,
+        metaDescription: seo.metaDescription || post.excerpt,
+        keywords: seo.keywords,
+        ogImage: getImageUrl(seo.ogImage as StrapiMedia) || getImageUrl(post.featuredImage as StrapiMedia),
+        twitterImage: getImageUrl(seo.twitterImage as StrapiMedia) || getImageUrl(post.featuredImage as StrapiMedia),
+        canonical: seo.canonical,
+        noIndex: seo.noIndex ?? false,
+        noFollow: seo.noFollow ?? false,
+      },
+    };
+  } catch {
+    return null;
+  }
+}
+
+// Get all blog posts with SEO data (for listing and static generation)
+export async function getBlogPosts(locale: Locale = 'en', options?: {
+  page?: number;
+  pageSize?: number;
+  category?: string;
+}): Promise<{ posts: BlogPostFromCMS[]; total: number; pageCount: number }> {
+  const emptyResult = { posts: [], total: 0, pageCount: 0 };
+
+  if (!STRAPI_URL) {
+    return emptyResult;
+  }
+
+  try {
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+
+    if (STRAPI_TOKEN) {
+      headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+    }
+
+    // Build query params
+    const params = new URLSearchParams();
+    params.append('locale', locale);
+    params.append('populate', 'seo.ogImage,seo.twitterImage,featuredImage');
+    params.append('sort', 'publishedDate:desc');
+
+    if (options?.page) {
+      params.append('pagination[page]', String(options.page));
+    }
+    if (options?.pageSize) {
+      params.append('pagination[pageSize]', String(options.pageSize));
+    }
+    if (options?.category) {
+      params.append('filters[categories][$contains]', options.category);
+    }
+
+    const url = `${STRAPI_URL}/api/blog-posts?${params.toString()}`;
+
+    const response = await fetch(url, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) {
+      return emptyResult;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any[]; meta?: { pagination?: { total: number; pageCount: number } } } = await response.json();
+
+    if (!result.data || result.data.length === 0) {
+      return emptyResult;
+    }
+
+    const posts: BlogPostFromCMS[] = result.data.map(post => {
+      const seo = post.seo || {};
+      return {
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt,
+        content: post.content,
+        author: post.author,
+        publishedDate: post.publishedDate,
+        categories: post.categories || [],
+        featuredImage: getImageUrl(post.featuredImage as StrapiMedia),
+        dateModified: post.updatedAt,
+        seo: {
+          metaTitle: seo.metaTitle || `${post.title} | Microhabitat`,
+          metaDescription: seo.metaDescription || post.excerpt,
+          keywords: seo.keywords,
+          ogImage: getImageUrl(seo.ogImage as StrapiMedia) || getImageUrl(post.featuredImage as StrapiMedia),
+          twitterImage: getImageUrl(seo.twitterImage as StrapiMedia) || getImageUrl(post.featuredImage as StrapiMedia),
+          canonical: seo.canonical,
+          noIndex: seo.noIndex ?? false,
+          noFollow: seo.noFollow ?? false,
+        },
+      };
+    });
+
+    return {
+      posts,
+      total: result.meta?.pagination?.total || posts.length,
+      pageCount: result.meta?.pagination?.pageCount || 1,
+    };
+  } catch {
+    return emptyResult;
+  }
+}
+
+// Get all blog post slugs for static generation
+export async function getBlogPostSlugs(locale: Locale = 'en'): Promise<string[]> {
+  if (!STRAPI_URL) {
+    return [];
+  }
+
+  try {
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+
+    if (STRAPI_TOKEN) {
+      headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+    }
+
+    // Only fetch slugs for efficiency
+    const url = `${STRAPI_URL}/api/blog-posts?fields[0]=slug&locale=${locale}&pagination[pageSize]=1000`;
+
+    const response = await fetch(url, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any[] } = await response.json();
+
+    if (!result.data) {
+      return [];
+    }
+
+    return result.data.map(post => post.slug);
+  } catch {
+    return [];
+  }
+}
+
 // Export all content at once
 export interface SiteContent {
   hero: HeroContent;
@@ -3715,3 +3929,204 @@ export async function getContactPageContent(locale: Locale = 'en'): Promise<Cont
   }
 }
 
+// Indoor Farm Page Content
+export interface IndoorFarmPageContent {
+  heroLabel: string;
+  heroTitle: string;
+  heroTitleHighlight: string;
+  heroDescription: string;
+  featuresLabel: string;
+  featuresTitle: string;
+  features: Array<{ title: string; description: string }>;
+  benefitsLabel: string;
+  benefitsTitle: string;
+  benefits: Array<{ title: string; description: string }>;
+  ctaTitle: string;
+  ctaDescription: string;
+}
+
+const fallbackIndoorFarmContent: Record<Locale, IndoorFarmPageContent> = {
+  en: {
+    heroLabel: 'Indoor Farms',
+    heroTitle: 'Bring nature indoors with',
+    heroTitleHighlight: 'vertical farming',
+    heroDescription: 'Transform any interior space into a productive, beautiful vertical farm that provides fresh produce year-round while improving air quality and employee wellbeing.',
+    featuresLabel: 'Our Solutions',
+    featuresTitle: 'Indoor farming technology',
+    features: [
+      { title: 'Vertical Growing Systems', description: 'Space-efficient hydroponic and aeroponic systems that maximize yield in minimal footprint.' },
+      { title: 'Climate Control', description: 'Automated temperature, humidity, and lighting systems for optimal growing conditions.' },
+      { title: 'LED Grow Lighting', description: 'Energy-efficient full-spectrum lighting designed for plant growth and aesthetic appeal.' },
+      { title: 'Smart Monitoring', description: 'IoT sensors and dashboards to track plant health, water usage, and harvest schedules.' }
+    ],
+    benefitsLabel: 'Benefits',
+    benefitsTitle: 'Why indoor farming',
+    benefits: [
+      { title: 'Year-Round Production', description: 'Grow fresh produce regardless of weather or season.' },
+      { title: 'Reduced Water Usage', description: 'Up to 95% less water compared to traditional farming.' },
+      { title: 'No Pesticides', description: 'Controlled environments eliminate the need for harmful chemicals.' },
+      { title: 'Improved Air Quality', description: 'Plants naturally purify indoor air and boost occupant wellbeing.' }
+    ],
+    ctaTitle: 'Ready to grow indoors?',
+    ctaDescription: 'Contact us for a free consultation.'
+  },
+  fr: {
+    heroLabel: 'Fermes Intérieures',
+    heroTitle: 'Apportez la nature à l\'intérieur avec',
+    heroTitleHighlight: 'l\'agriculture verticale',
+    heroDescription: 'Transformez n\'importe quel espace intérieur en une ferme verticale productive et belle qui fournit des produits frais toute l\'année.',
+    featuresLabel: 'Nos Solutions',
+    featuresTitle: 'Technologie de ferme intérieure',
+    features: [
+      { title: 'Systèmes de Culture Verticale', description: 'Systèmes hydroponiques et aéroponiques efficaces en espace.' },
+      { title: 'Contrôle Climatique', description: 'Systèmes automatisés de température, humidité et éclairage.' },
+      { title: 'Éclairage LED', description: 'Éclairage à spectre complet écoénergétique pour la croissance.' },
+      { title: 'Surveillance Intelligente', description: 'Capteurs IoT et tableaux de bord pour suivre la santé des plantes.' }
+    ],
+    benefitsLabel: 'Avantages',
+    benefitsTitle: 'Pourquoi l\'agriculture intérieure',
+    benefits: [
+      { title: 'Production Toute l\'Année', description: 'Cultivez des produits frais peu importe la météo.' },
+      { title: 'Réduction de l\'Eau', description: 'Jusqu\'à 95% moins d\'eau que l\'agriculture traditionnelle.' },
+      { title: 'Sans Pesticides', description: 'Environnements contrôlés sans produits chimiques.' },
+      { title: 'Qualité de l\'Air', description: 'Les plantes purifient l\'air et améliorent le bien-être.' }
+    ],
+    ctaTitle: 'Prêt à cultiver en intérieur?',
+    ctaDescription: 'Contactez-nous pour une consultation gratuite.'
+  },
+  de: {
+    heroLabel: 'Indoor-Farmen',
+    heroTitle: 'Bringen Sie die Natur ins Haus mit',
+    heroTitleHighlight: 'Vertical Farming',
+    heroDescription: 'Verwandeln Sie jeden Innenraum in eine produktive vertikale Farm, die das ganze Jahr über frische Produkte liefert.',
+    featuresLabel: 'Unsere Lösungen',
+    featuresTitle: 'Indoor-Farming-Technologie',
+    features: [
+      { title: 'Vertikale Anbausysteme', description: 'Platzsparende hydroponische und aeroponische Systeme.' },
+      { title: 'Klimakontrolle', description: 'Automatisierte Temperatur-, Feuchtigkeits- und Beleuchtungssysteme.' },
+      { title: 'LED-Wachstumsbeleuchtung', description: 'Energieeffiziente Vollspektrumbeleuchtung für Pflanzenwachstum.' },
+      { title: 'Smart Monitoring', description: 'IoT-Sensoren und Dashboards zur Überwachung der Pflanzengesundheit.' }
+    ],
+    benefitsLabel: 'Vorteile',
+    benefitsTitle: 'Warum Indoor-Farming',
+    benefits: [
+      { title: 'Ganzjährige Produktion', description: 'Frische Produkte unabhängig vom Wetter.' },
+      { title: 'Reduzierter Wasserverbrauch', description: 'Bis zu 95% weniger Wasser als traditionelle Landwirtschaft.' },
+      { title: 'Keine Pestizide', description: 'Kontrollierte Umgebungen ohne schädliche Chemikalien.' },
+      { title: 'Verbesserte Luftqualität', description: 'Pflanzen reinigen die Raumluft natürlich.' }
+    ],
+    ctaTitle: 'Bereit für Indoor-Anbau?',
+    ctaDescription: 'Kontaktieren Sie uns für eine kostenlose Beratung.'
+  },
+  nl: {
+    heroLabel: 'Indoor Farms',
+    heroTitle: 'Breng de natuur binnen met',
+    heroTitleHighlight: 'verticale landbouw',
+    heroDescription: 'Transformeer elke binnenruimte in een productieve verticale boerderij die het hele jaar door verse producten levert.',
+    featuresLabel: 'Onze Oplossingen',
+    featuresTitle: 'Indoor farming technologie',
+    features: [
+      { title: 'Verticale Teeltsystemen', description: 'Ruimtebesparende hydroponische en aeroponische systemen.' },
+      { title: 'Klimaatbeheersing', description: 'Geautomatiseerde temperatuur-, vochtigheids- en verlichtingssystemen.' },
+      { title: 'LED Groeiverlichting', description: 'Energiezuinige full-spectrum verlichting voor plantengroei.' },
+      { title: 'Slimme Monitoring', description: 'IoT-sensoren en dashboards om plantgezondheid te volgen.' }
+    ],
+    benefitsLabel: 'Voordelen',
+    benefitsTitle: 'Waarom indoor farming',
+    benefits: [
+      { title: 'Jaarrond Productie', description: 'Kweek verse producten ongeacht het weer.' },
+      { title: 'Minder Waterverbruik', description: 'Tot 95% minder water dan traditionele landbouw.' },
+      { title: 'Geen Pesticiden', description: 'Gecontroleerde omgevingen zonder schadelijke chemicaliën.' },
+      { title: 'Betere Luchtkwaliteit', description: 'Planten zuiveren de binnenlucht op natuurlijke wijze.' }
+    ],
+    ctaTitle: 'Klaar om binnen te telen?',
+    ctaDescription: 'Neem contact met ons op voor een gratis consult.'
+  },
+  it: {
+    heroLabel: 'Fattorie Indoor',
+    heroTitle: 'Porta la natura all\'interno con',
+    heroTitleHighlight: 'l\'agricoltura verticale',
+    heroDescription: 'Trasforma qualsiasi spazio interno in una fattoria verticale produttiva che fornisce prodotti freschi tutto l\'anno.',
+    featuresLabel: 'Le Nostre Soluzioni',
+    featuresTitle: 'Tecnologia di agricoltura indoor',
+    features: [
+      { title: 'Sistemi di Coltivazione Verticale', description: 'Sistemi idroponici e aeroponici efficienti nello spazio.' },
+      { title: 'Controllo Climatico', description: 'Sistemi automatizzati di temperatura, umidità e illuminazione.' },
+      { title: 'Illuminazione LED', description: 'Illuminazione a spettro completo efficiente per la crescita.' },
+      { title: 'Monitoraggio Smart', description: 'Sensori IoT e dashboard per monitorare la salute delle piante.' }
+    ],
+    benefitsLabel: 'Benefici',
+    benefitsTitle: 'Perché l\'agricoltura indoor',
+    benefits: [
+      { title: 'Produzione Tutto l\'Anno', description: 'Coltiva prodotti freschi indipendentemente dal meteo.' },
+      { title: 'Riduzione dell\'Acqua', description: 'Fino al 95% in meno di acqua rispetto all\'agricoltura tradizionale.' },
+      { title: 'Niente Pesticidi', description: 'Ambienti controllati senza prodotti chimici nocivi.' },
+      { title: 'Qualità dell\'Aria', description: 'Le piante purificano naturalmente l\'aria interna.' }
+    ],
+    ctaTitle: 'Pronto a coltivare indoor?',
+    ctaDescription: 'Contattaci per una consulenza gratuita.'
+  },
+  es: {
+    heroLabel: 'Granjas de Interior',
+    heroTitle: 'Lleva la naturaleza al interior con',
+    heroTitleHighlight: 'agricultura vertical',
+    heroDescription: 'Transforma cualquier espacio interior en una granja vertical productiva que proporciona productos frescos durante todo el año.',
+    featuresLabel: 'Nuestras Soluciones',
+    featuresTitle: 'Tecnología de agricultura indoor',
+    features: [
+      { title: 'Sistemas de Cultivo Vertical', description: 'Sistemas hidropónicos y aeropónicos eficientes en espacio.' },
+      { title: 'Control Climático', description: 'Sistemas automatizados de temperatura, humedad e iluminación.' },
+      { title: 'Iluminación LED', description: 'Iluminación de espectro completo eficiente para el crecimiento.' },
+      { title: 'Monitoreo Inteligente', description: 'Sensores IoT y paneles para seguir la salud de las plantas.' }
+    ],
+    benefitsLabel: 'Beneficios',
+    benefitsTitle: 'Por qué agricultura indoor',
+    benefits: [
+      { title: 'Producción Todo el Año', description: 'Cultiva productos frescos sin importar el clima.' },
+      { title: 'Reducción de Agua', description: 'Hasta 95% menos agua que la agricultura tradicional.' },
+      { title: 'Sin Pesticidas', description: 'Ambientes controlados sin productos químicos dañinos.' },
+      { title: 'Calidad del Aire', description: 'Las plantas purifican el aire interior de forma natural.' }
+    ],
+    ctaTitle: '¿Listo para cultivar en interior?',
+    ctaDescription: 'Contáctanos para una consulta gratuita.'
+  }
+};
+
+export async function getIndoorFarmPageContent(locale: Locale = 'en'): Promise<IndoorFarmPageContent> {
+  const fallback = fallbackIndoorFarmContent[locale] || fallbackIndoorFarmContent.en;
+  if (!STRAPI_URL) return fallback;
+
+  try {
+    const headers: HeadersInit = { "Content-Type": "application/json" };
+    if (STRAPI_TOKEN) headers["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
+
+    const response = await fetch(`${STRAPI_URL}/api/indoor-farm-page?populate=*&locale=${locale}`, {
+      headers,
+      next: { revalidate: REVALIDATE_TIME },
+    });
+
+    if (!response.ok) return fallback;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: { data: any } = await response.json();
+    if (!result.data) return fallback;
+
+    const data = result.data;
+    return {
+      heroLabel: data.heroLabel || fallback.heroLabel,
+      heroTitle: data.heroTitle || fallback.heroTitle,
+      heroTitleHighlight: data.heroTitleHighlight || fallback.heroTitleHighlight,
+      heroDescription: data.heroDescription || fallback.heroDescription,
+      featuresLabel: data.featuresLabel || fallback.featuresLabel,
+      featuresTitle: data.featuresTitle || fallback.featuresTitle,
+      features: data.features?.length > 0 ? data.features : fallback.features,
+      benefitsLabel: data.benefitsLabel || fallback.benefitsLabel,
+      benefitsTitle: data.benefitsTitle || fallback.benefitsTitle,
+      benefits: data.benefits?.length > 0 ? data.benefits : fallback.benefits,
+      ctaTitle: data.ctaTitle || fallback.ctaTitle,
+      ctaDescription: data.ctaDescription || fallback.ctaDescription,
+    };
+  } catch (error) {
+    console.error(`Error fetching indoor farm page content:`, error);
+    return fallback;
+  }
+}

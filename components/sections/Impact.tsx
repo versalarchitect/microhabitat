@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import Image from "next/image";
-import type { Stat, ImpactSectionContent } from "@/lib/strapi";
+import type { Stat, ImpactSectionContent } from "@/lib/cms";
 import { useCountUpAnimation } from "@/lib/hooks";
 
 interface ImpactProps {
