@@ -1,42 +1,15 @@
 "use client";
 
-import { memo } from "react";
 import { ArrowRight } from "lucide-react";
-import type { HeroContent, Stat } from "@/lib/cms";
-import { useCountUpAnimation, useSmoothScroll } from "@/lib/hooks";
-
-// Stat item component
-const StatItem = memo(function StatItem({
-  value,
-  suffix,
-  label,
-}: {
-  value: number;
-  suffix: string;
-  label: string;
-}) {
-  const { count, ref } = useCountUpAnimation(value, { duration: 2000 });
-
-  return (
-    <div ref={ref} className="text-center">
-      <span className="block text-2xl sm:text-3xl md:text-4xl font-medium text-foreground">
-        {count}
-        {suffix}
-      </span>
-      <span className="block text-xs sm:text-sm text-muted-foreground mt-1">
-        {label}
-      </span>
-    </div>
-  );
-});
+import type { HeroContent } from "@/lib/cms";
+import { useSmoothScroll } from "@/lib/hooks";
 
 interface HeroProps {
   content: HeroContent;
-  stats: Stat[];
   onBookDemo: () => void;
 }
 
-export function Hero({ content, stats, onBookDemo }: HeroProps) {
+export function Hero({ content, onBookDemo }: HeroProps) {
   const { handleAnchorClick } = useSmoothScroll({ yOffset: -80 });
 
   return (
@@ -82,28 +55,6 @@ export function Hero({ content, stats, onBookDemo }: HeroProps) {
             >
               {content.ctaSecondary}
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="divider" />
-
-      {/* Stats Section */}
-      <section className="py-12 md:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div
-            className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
-            {stats.map((stat) => (
-              <StatItem
-                key={stat.label}
-                value={stat.value}
-                suffix={stat.suffix}
-                label={stat.label}
-              />
-            ))}
           </div>
         </div>
       </section>

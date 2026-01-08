@@ -70,7 +70,6 @@ export function HomeClient({
       {/* Hero Section */}
       <Hero
         content={hero}
-        stats={stats}
         onBookDemo={() => setShowDemoModal(true)}
       />
 
