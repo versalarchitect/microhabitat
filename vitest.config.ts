@@ -8,6 +8,12 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     setupFiles: ['./tests/setup.ts'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/*-e2e.test.ts',  // E2E tests require live database - run with test:e2e
+      '**/*e2e*.test.ts',  // Also exclude other e2e naming patterns
+    ],
   },
   resolve: {
     alias: {

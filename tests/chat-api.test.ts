@@ -6,6 +6,7 @@ vi.mock('@/lib/chat/supabase', () => ({
   sendWebsiteChatMessage: vi.fn(),
   getWebsiteChatMessages: vi.fn(),
   getSalesTeamEmails: vi.fn(),
+  getWebsiteChat: vi.fn(),
 }));
 
 // Mock resend
@@ -23,6 +24,7 @@ import {
   sendWebsiteChatMessage,
   getWebsiteChatMessages,
   getSalesTeamEmails,
+  getWebsiteChat,
 } from '@/lib/chat/supabase';
 
 describe('Chat API - Start Chat', () => {
@@ -161,6 +163,13 @@ describe('Chat API - Send Message', () => {
   });
 
   it('should send message successfully', async () => {
+    const mockChat = {
+      id: 'chat-123',
+      session_token: 'token-456',
+      visitor_name: 'Test User',
+      visitor_email: 'test@example.com',
+    };
+
     const mockMessage = {
       id: 'msg-123',
       chat_id: 'chat-123',
@@ -169,7 +178,9 @@ describe('Chat API - Send Message', () => {
       created_at: new Date().toISOString(),
     };
 
+    vi.mocked(getWebsiteChat).mockResolvedValue({ chat: mockChat as any, error: null });
     vi.mocked(sendWebsiteChatMessage).mockResolvedValue({ message: mockMessage as any, error: null });
+    vi.mocked(getSalesTeamEmails).mockResolvedValue(['sales@example.com']);
 
     const mockRequest = {
       json: () => Promise.resolve({
@@ -197,7 +208,7 @@ describe('Chat API - Send Message', () => {
   });
 
   it('should handle invalid session', async () => {
-    vi.mocked(sendWebsiteChatMessage).mockResolvedValue({ message: null, error: 'Invalid session' });
+    vi.mocked(getWebsiteChat).mockResolvedValue({ chat: null, error: 'Invalid session' });
 
     const mockRequest = {
       json: () => Promise.resolve({

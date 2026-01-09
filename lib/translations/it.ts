@@ -727,6 +727,32 @@ export const it = {
     'careers.cta.getInTouch': 'Contattaci',
 
     // ============================================================
+    // JOB LISTINGS
+    // ============================================================
+    'jobs.loading': 'Caricamento offerte di lavoro...',
+    'jobs.error': 'Impossibile caricare le offerte di lavoro. Riprova più tardi.',
+    'jobs.viewOnBreezy': 'Vedi tutte le posizioni su Breezy HR',
+    'jobs.noOpenings': 'Nessuna posizione aperta al momento. Torna presto!',
+    'jobs.sendResume': 'Invia il tuo curriculum a careers@microhabitat.com',
+    'jobs.position': 'Posizione aperta',
+    'jobs.positions': 'Posizioni aperte',
+    'jobs.acrossLocations': 'In {count} paesi',
+    'jobs.viewAll': 'Vedi tutto su Breezy HR',
+    'jobs.searchPlaceholder': 'Cerca posizioni...',
+    'jobs.allCities': 'Tutte le città',
+    'jobs.allDepartments': 'Tutti i dipartimenti',
+    'jobs.byLocation': 'Per località',
+    'jobs.byDepartment': 'Per dipartimento',
+    'jobs.opening': 'posizione',
+    'jobs.openings': 'posizioni',
+    'jobs.noResults': 'Nessuna posizione corrisponde ai tuoi filtri.',
+    'jobs.clearFilters': 'Cancella tutti i filtri',
+    'jobs.updatedAt': 'Ultimo aggiornamento: {time}',
+    'jobs.apply': 'Candidati ora',
+    'jobs.sectionLabel': 'Posizioni aperte',
+    'jobs.sectionTitle': 'Unisciti al nostro team in crescita',
+
+    // ============================================================
     // PARTNERSHIPS PAGE
     // ============================================================
     'partnerships.label': 'Partnership',
@@ -1131,8 +1157,31 @@ export const it = {
     'commercial.measurable.6.stat': '2-3 anni',
     'commercial.measurable.6.description': 'Tipico ritorno sull\'investimento',
 
+    // 6 Measurable Benefits Section
+    'commercial.benefits.label': '6 vantaggi misurabili',
+    'commercial.benefits.title': 'Vantaggi quantificabili per il vostro portfolio',
+    'commercial.benefits.retention.title': 'Fidelizzazione inquilini',
+    'commercial.benefits.retention.value': '15-20%',
+    'commercial.benefits.retention.description': 'Riduzione del tasso di turnover grazie ad amenità uniche che migliorano l\'esperienza abitativa',
+    'commercial.benefits.rentPremium.title': 'Premio affitto',
+    'commercial.benefits.rentPremium.value': '3-5%',
+    'commercial.benefits.rentPremium.description': 'Potenziale aumento dell\'affitto per immobili con amenità verdi',
+    'commercial.benefits.energy.title': 'Risparmio energetico',
+    'commercial.benefits.energy.value': '€2K-5K',
+    'commercial.benefits.energy.description': 'Riduzione annuale dei costi energetici grazie al tetto verde e all\'effetto di raffreddamento',
+    'commercial.benefits.propertyValue.title': 'Valore dell\'immobile',
+    'commercial.benefits.propertyValue.value': '5-8%',
+    'commercial.benefits.propertyValue.description': 'Potenziale apprezzamento del valore dell\'immobile con certificazioni verdi',
+    'commercial.benefits.payback.title': 'Periodo di recupero',
+    'commercial.benefits.payback.value': '2-3',
+    'commercial.benefits.payback.description': 'Anni per recuperare l\'investimento iniziale attraverso i benefici combinati',
+    'commercial.benefits.esg.title': 'Conformità ESG',
+    'commercial.benefits.esg.value': '100%',
+    'commercial.benefits.esg.description': 'Allineamento con gli Obiettivi di Sviluppo Sostenibile dell\'ONU e i framework di reporting ESG',
+
     'commercial.testimonial.label': 'Successo clienti',
     'commercial.testimonial.quote': 'L\'agricoltura urbana ha trasformato il nostro approccio alle amenità. I nostri inquilini adorano l\'accesso ai prodotti freschi e abbiamo visto un aumento del 15% nei rinnovi contrattuali.',
+    'commercial.testimonial.attribution': 'Direttore Portfolio, Principale Gestore di Asset Immobiliari',
     'commercial.testimonial.author': 'Direttore Portfolio',
     'commercial.testimonial.company': 'Società Immobiliare Partner',
 

@@ -626,6 +626,32 @@ export const de = {
     'careers.cta.getInTouch': 'Kontakt aufnehmen',
 
     // ============================================================
+    // JOB LISTINGS
+    // ============================================================
+    'jobs.loading': 'Stellenangebote werden geladen...',
+    'jobs.error': 'Stellenangebote konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
+    'jobs.viewOnBreezy': 'Alle Positionen auf Breezy HR ansehen',
+    'jobs.noOpenings': 'Derzeit keine offenen Stellen. Schauen Sie bald wieder vorbei!',
+    'jobs.sendResume': 'Senden Sie Ihren Lebenslauf an careers@microhabitat.com',
+    'jobs.position': 'Offene Stelle',
+    'jobs.positions': 'Offene Stellen',
+    'jobs.acrossLocations': 'In {count} Ländern',
+    'jobs.viewAll': 'Alle auf Breezy HR ansehen',
+    'jobs.searchPlaceholder': 'Stellen suchen...',
+    'jobs.allCities': 'Alle Städte',
+    'jobs.allDepartments': 'Alle Abteilungen',
+    'jobs.byLocation': 'Nach Standort',
+    'jobs.byDepartment': 'Nach Abteilung',
+    'jobs.opening': 'Stelle',
+    'jobs.openings': 'Stellen',
+    'jobs.noResults': 'Keine Stellen entsprechen Ihren Filtern.',
+    'jobs.clearFilters': 'Alle Filter löschen',
+    'jobs.updatedAt': 'Zuletzt aktualisiert: {time}',
+    'jobs.apply': 'Jetzt bewerben',
+    'jobs.sectionLabel': 'Offene Stellen',
+    'jobs.sectionTitle': 'Werden Sie Teil unseres wachsenden Teams',
+
+    // ============================================================
     // PARTNERSHIPS PAGE
     // ============================================================
     'partnerships.label': 'Partnerschaften',
@@ -977,8 +1003,31 @@ export const de = {
     'commercial.measurable.6.stat': '2-3 Jahre',
     'commercial.measurable.6.description': 'Typische Kapitalrendite',
 
+    // 6 Measurable Benefits Section
+    'commercial.benefits.label': '6 messbare Vorteile',
+    'commercial.benefits.title': 'Quantifizierbare Vorteile für Ihr Portfolio',
+    'commercial.benefits.retention.title': 'Mieterbindung',
+    'commercial.benefits.retention.value': '15-20%',
+    'commercial.benefits.retention.description': 'Reduzierung der Fluktuationsrate durch einzigartige Annehmlichkeiten, die das Wohnerlebnis verbessern',
+    'commercial.benefits.rentPremium.title': 'Mietprämie',
+    'commercial.benefits.rentPremium.value': '3-5%',
+    'commercial.benefits.rentPremium.description': 'Potenzielle Mieterhöhung für Immobilien mit grünen Annehmlichkeiten',
+    'commercial.benefits.energy.title': 'Energieeinsparungen',
+    'commercial.benefits.energy.value': '2K-5K€',
+    'commercial.benefits.energy.description': 'Jährliche Energiekosteneinsparung durch Gründach und Kühleffekt',
+    'commercial.benefits.propertyValue.title': 'Immobilienwert',
+    'commercial.benefits.propertyValue.value': '5-8%',
+    'commercial.benefits.propertyValue.description': 'Potenzielle Wertsteigerung der Immobilie mit grünen Zertifizierungen',
+    'commercial.benefits.payback.title': 'Amortisationszeit',
+    'commercial.benefits.payback.value': '2-3',
+    'commercial.benefits.payback.description': 'Jahre, um die Anfangsinvestition durch kombinierte Vorteile zurückzugewinnen',
+    'commercial.benefits.esg.title': 'ESG-Konformität',
+    'commercial.benefits.esg.value': '100%',
+    'commercial.benefits.esg.description': 'Ausrichtung an UN-Nachhaltigkeitszielen und ESG-Berichtsrahmen',
+
     'commercial.testimonial.label': 'Kundenerfolg',
     'commercial.testimonial.quote': 'Urban Farming hat unseren Ansatz für Annehmlichkeiten transformiert. Unsere Mieter lieben den Zugang zu frischen Produkten und wir haben eine 15%ige Steigerung der Mietvertragsverlängerungen gesehen.',
+    'commercial.testimonial.attribution': 'Portfolio-Direktor, Führender Immobilien-Asset-Manager',
     'commercial.testimonial.author': 'Portfolio-Direktor',
     'commercial.testimonial.company': 'Partner-Immobiliengesellschaft',
 

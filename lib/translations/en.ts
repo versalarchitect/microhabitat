@@ -1169,9 +1169,32 @@ export const en = {
     'commercial.measurable.6.stat': '2-3 yrs',
     'commercial.measurable.6.description': 'Typical return on investment',
 
+    // 6 Measurable Benefits Section (used by the component)
+    'commercial.benefits.label': '6 Measurable Benefits',
+    'commercial.benefits.title': 'Quantifiable benefits for your portfolio',
+    'commercial.benefits.retention.title': 'Tenant Retention',
+    'commercial.benefits.retention.value': '15-20%',
+    'commercial.benefits.retention.description': 'Reduction in turnover rate through unique amenities that improve living experience',
+    'commercial.benefits.rentPremium.title': 'Rent Premium',
+    'commercial.benefits.rentPremium.value': '3-5%',
+    'commercial.benefits.rentPremium.description': 'Potential rent increase for properties with green amenities',
+    'commercial.benefits.energy.title': 'Energy Savings',
+    'commercial.benefits.energy.value': '$2K-5K',
+    'commercial.benefits.energy.description': 'Annual energy cost reduction through green roof and cooling effect',
+    'commercial.benefits.propertyValue.title': 'Property Value',
+    'commercial.benefits.propertyValue.value': '5-8%',
+    'commercial.benefits.propertyValue.description': 'Potential property value appreciation with green certifications',
+    'commercial.benefits.payback.title': 'Payback Period',
+    'commercial.benefits.payback.value': '2-3',
+    'commercial.benefits.payback.description': 'Years to recoup initial investment through combined benefits',
+    'commercial.benefits.esg.title': 'ESG Compliance',
+    'commercial.benefits.esg.value': '100%',
+    'commercial.benefits.esg.description': 'Alignment with UN Sustainable Development Goals and ESG reporting frameworks',
+
     // Testimonial Quote
     'commercial.testimonial.label': 'Client Success',
     'commercial.testimonial.quote': "Urban farming has transformed our approach to amenities. Not only do our tenants love the access to fresh produce, but we've seen a 15% increase in lease renewal rates. MicroHabitat handles everything—we simply reap the benefits.",
+    'commercial.testimonial.attribution': 'Portfolio Director, Leading Real Estate Asset Manager',
     'commercial.testimonial.author': 'Portfolio Director',
     'commercial.testimonial.company': 'Partner Real Estate Company',
 

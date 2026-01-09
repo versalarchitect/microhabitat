@@ -124,11 +124,11 @@ export default buildConfig({
   localization: {
     locales: [
       { label: 'English', code: 'en' },
-      { label: 'Francais', code: 'fr' },
+      { label: 'Français', code: 'fr' },
       { label: 'Deutsch', code: 'de' },
       { label: 'Nederlands', code: 'nl' },
       { label: 'Italiano', code: 'it' },
-      { label: 'Espanol', code: 'es' },
+      { label: 'Español', code: 'es' },
     ],
     defaultLocale: 'en',
     fallback: true,

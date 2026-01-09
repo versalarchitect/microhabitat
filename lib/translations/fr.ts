@@ -727,6 +727,32 @@ export const fr = {
     'careers.cta.getInTouch': 'Nous contacter',
 
     // ============================================================
+    // JOB LISTINGS
+    // ============================================================
+    'jobs.loading': 'Chargement des offres d\'emploi...',
+    'jobs.error': 'Impossible de charger les offres d\'emploi. Veuillez réessayer plus tard.',
+    'jobs.viewOnBreezy': 'Voir tous les postes sur Breezy HR',
+    'jobs.noOpenings': 'Aucun poste ouvert pour le moment. Revenez bientôt!',
+    'jobs.sendResume': 'Envoyez votre CV à careers@microhabitat.com',
+    'jobs.position': 'Poste ouvert',
+    'jobs.positions': 'Postes ouverts',
+    'jobs.acrossLocations': 'Dans {count} pays',
+    'jobs.viewAll': 'Voir tout sur Breezy HR',
+    'jobs.searchPlaceholder': 'Rechercher des postes...',
+    'jobs.allCities': 'Toutes les villes',
+    'jobs.allDepartments': 'Tous les départements',
+    'jobs.byLocation': 'Par lieu',
+    'jobs.byDepartment': 'Par département',
+    'jobs.opening': 'poste',
+    'jobs.openings': 'postes',
+    'jobs.noResults': 'Aucun poste ne correspond à vos filtres.',
+    'jobs.clearFilters': 'Effacer tous les filtres',
+    'jobs.updatedAt': 'Dernière mise à jour: {time}',
+    'jobs.apply': 'Postuler maintenant',
+    'jobs.sectionLabel': 'Postes ouverts',
+    'jobs.sectionTitle': 'Rejoignez notre équipe grandissante',
+
+    // ============================================================
     // PARTNERSHIPS PAGE
     // ============================================================
     'partnerships.label': 'Partenariats',
@@ -1143,9 +1169,32 @@ export const fr = {
     'commercial.measurable.6.stat': '2-3 ans',
     'commercial.measurable.6.description': 'Retour sur investissement typique',
 
+    // 6 Measurable Benefits Section
+    'commercial.benefits.label': '6 avantages mesurables',
+    'commercial.benefits.title': 'Avantages quantifiables pour votre portefeuille',
+    'commercial.benefits.retention.title': 'Rétention des locataires',
+    'commercial.benefits.retention.value': '15-20%',
+    'commercial.benefits.retention.description': 'Réduction du taux de rotation grâce à des aménités uniques qui améliorent l\'expérience de vie',
+    'commercial.benefits.rentPremium.title': 'Prime de loyer',
+    'commercial.benefits.rentPremium.value': '3-5%',
+    'commercial.benefits.rentPremium.description': 'Augmentation potentielle du loyer pour les propriétés avec des aménités vertes',
+    'commercial.benefits.energy.title': 'Économies d\'énergie',
+    'commercial.benefits.energy.value': '2K-5K$',
+    'commercial.benefits.energy.description': 'Réduction annuelle des coûts énergétiques grâce au toit vert et à l\'effet de refroidissement',
+    'commercial.benefits.propertyValue.title': 'Valeur de la propriété',
+    'commercial.benefits.propertyValue.value': '5-8%',
+    'commercial.benefits.propertyValue.description': 'Appréciation potentielle de la valeur de la propriété avec des certifications vertes',
+    'commercial.benefits.payback.title': 'Période de récupération',
+    'commercial.benefits.payback.value': '2-3',
+    'commercial.benefits.payback.description': 'Années pour récupérer l\'investissement initial grâce aux avantages combinés',
+    'commercial.benefits.esg.title': 'Conformité ESG',
+    'commercial.benefits.esg.value': '100%',
+    'commercial.benefits.esg.description': 'Alignement avec les Objectifs de développement durable de l\'ONU et les cadres de reporting ESG',
+
     // Testimonial Quote
     'commercial.testimonial.label': 'Succès client',
     'commercial.testimonial.quote': 'L\'agriculture urbaine a transformé notre approche aux amenités. Non seulement nos locataires adorent l\'accès aux produits frais, mais nous avons vu une augmentation de 15% du taux de renouvellement des baux. MicroHabitat gère tout – nous récoltons simplement les bénéfices.',
+    'commercial.testimonial.attribution': 'Directeur de portefeuille, Grand gestionnaire d\'actifs immobiliers',
     'commercial.testimonial.author': 'Directeur de portefeuille',
     'commercial.testimonial.company': 'Société immobilière partenaire',
 

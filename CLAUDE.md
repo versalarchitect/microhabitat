@@ -1,5 +1,25 @@
 # MicroHabitat Website
 
+---
+
+## TOP PRIORITY: CMS Content Migration
+
+**ALL content must come from Payload CMS. Zero hardcoded content allowed.**
+
+See [`docs/CMS-MIGRATION-AUDIT.md`](./docs/CMS-MIGRATION-AUDIT.md) for the complete audit and migration plan.
+
+### Critical Issues (Fix First)
+1. **Blog posts** - 23 posts hardcoded in `lib/blog-data.ts` - DELETE and use CMS
+2. **City data** - 20 cities hardcoded in `CityDetailClient.tsx` - Add fields to Cities collection
+3. **Chatbot knowledge** - 70+ items in `lib/chat/` files - Migrate to CMS or fetch dynamically
+
+### Before Adding Any New Content
+- NEVER hardcode content in components
+- ALWAYS add new content fields to Payload CMS first
+- Use translations ONLY for UI labels, not content
+
+---
+
 MicroHabitat corporate website built with Next.js and Tailwind CSS. Follows the same minimal, typography-first design system as MyUrbanFarm.
 
 **Important**: This project works in tandem with **MyUrbanFarm** (`../myurbanfarm`). Features like the live chat system span both projects - the chat widget lives here, while the admin interface lives in MUF.
