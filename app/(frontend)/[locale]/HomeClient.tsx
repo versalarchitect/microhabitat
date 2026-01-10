@@ -16,9 +16,11 @@ import type {
   CitiesSectionContent,
   FAQSectionContent,
   CTASectionContent,
+  ShowcaseSectionContent,
 } from '@/lib/cms';
 import type { Locale } from '@/lib/i18n';
 import { Hero } from '@/components/sections/Hero';
+import { Showcase } from '@/components/sections/Showcase';
 import { Impact } from '@/components/sections/Impact';
 import { Services } from '@/components/sections/Services';
 import { Partners } from '@/components/sections/Partners';
@@ -44,6 +46,7 @@ interface HomeClientProps {
   citiesSection: CitiesSectionContent;
   faqSection: FAQSectionContent;
   ctaSection: CTASectionContent;
+  showcaseSection: ShowcaseSectionContent;
 }
 
 export function HomeClient({
@@ -62,6 +65,7 @@ export function HomeClient({
   citiesSection,
   faqSection,
   ctaSection,
+  showcaseSection,
 }: HomeClientProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -72,6 +76,10 @@ export function HomeClient({
         content={hero}
         onBookDemo={() => setShowDemoModal(true)}
       />
+
+      {/* Showcase Section - Bento Grid */}
+      <div className="divider" />
+      <Showcase sectionContent={showcaseSection} />
 
       {/* Impact Section */}
       <div className="divider" />

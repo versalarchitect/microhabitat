@@ -16,6 +16,7 @@ import {
   getCitiesSection,
   getFAQSection,
   getCTASection,
+  getShowcaseSection,
 } from '@/lib/cms';
 import { HomeClient } from './HomeClient';
 
@@ -95,6 +96,7 @@ export default async function HomePage({ params }: PageProps) {
     citiesSection,
     faqSection,
     ctaSection,
+    showcaseSection,
   ] = await Promise.all([
     getHeroContent(typedLocale),
     getStats(typedLocale),
@@ -110,6 +112,7 @@ export default async function HomePage({ params }: PageProps) {
     getCitiesSection(typedLocale),
     getFAQSection(typedLocale),
     getCTASection(typedLocale),
+    getShowcaseSection(typedLocale),
   ]);
 
   return (
@@ -129,6 +132,7 @@ export default async function HomePage({ params }: PageProps) {
       citiesSection={citiesSection}
       faqSection={faqSection}
       ctaSection={ctaSection}
+      showcaseSection={showcaseSection}
     />
   );
 }

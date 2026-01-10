@@ -22,6 +22,7 @@ import type {
   CitiesSectionContent,
   FAQSectionContent,
   CTASectionContent,
+  ShowcaseSectionContent,
   SEOData,
   PageSEOKey,
   SiteContent,
@@ -501,6 +502,12 @@ export async function getCTASection(locale: Locale = 'en'): Promise<CTASectionCo
       trustIndicators: [],
     };
   }
+}
+
+export async function getShowcaseSection(locale: Locale = 'en'): Promise<ShowcaseSectionContent> {
+  // Showcase section not yet implemented in Payload CMS - use Strapi fallback
+  const { getShowcaseSection: getStrapiShowcase } = await import('./strapi');
+  return getStrapiShowcase(locale);
 }
 
 // ==========================================

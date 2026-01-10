@@ -21,6 +21,7 @@ export type {
   CitiesSectionContent,
   FAQSectionContent,
   CTASectionContent,
+  ShowcaseSectionContent,
   SEOData,
   PageSEOKey,
   SiteContent,
@@ -124,6 +125,11 @@ export async function getFAQSection(locale?: Parameters<typeof import('./strapi'
 export async function getCTASection(locale?: Parameters<typeof import('./strapi').getCTASection>[0]) {
   const cms = await getCMSClient();
   return cms.getCTASection(locale);
+}
+
+export async function getShowcaseSection(locale?: Parameters<typeof import('./strapi').getShowcaseSection>[0]) {
+  const cms = await getCMSClient();
+  return cms.getShowcaseSection(locale);
 }
 
 export async function getPageSEO(

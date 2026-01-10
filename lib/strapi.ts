@@ -248,6 +248,16 @@ export interface CTASectionContent {
   trustIndicators: string[];
 }
 
+export interface ShowcaseSectionContent {
+  label: string;
+  heading: string;
+  headingHighlight?: string;
+  images: Array<{
+    src: string;
+    alt: string;
+  }>;
+}
+
 // ============================================================
 // FALLBACK DATA - Matches microhabitat.com content exactly
 // ============================================================
@@ -1566,6 +1576,58 @@ const fallbackCTASectionEs: CTASectionContent = {
   trustIndicators: ["Sin compromiso requerido", "Propuestas personalizadas", "Consulta experta"],
 };
 
+// Showcase section images - using Squarespace CDN for high-quality urban farming photos
+const showcaseImages = [
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/ee544728-972c-4b64-9d95-142a579f983c/555-Richmond-W-5323-8-e1650907079985.jpg", alt: "Urban rooftop farm with lush vegetables" },
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg", alt: "MicroHabitat team members working together" },
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg", alt: "Fresh locally grown produce" },
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655614-FD0V9NV0FV0CIWFXPDBG/Castor_Urban+Agriculture+2024-08.jpg", alt: "Community members harvesting vegetables" },
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655661-22LFFUWGMB8UKGB4CZP4/Castor_Urban+Agriculture+2024-10.jpg", alt: "Green vegetables growing in urban garden beds" },
+  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655547-WLZIKFLQ5JBNKM0BSMVN/Castor_Urban+Agriculture+2024-06.jpg", alt: "Sustainable urban farming installation" },
+];
+
+const fallbackShowcaseSectionEn: ShowcaseSectionContent = {
+  label: "Our Work",
+  heading: "Transforming urban spaces into",
+  headingHighlight: "thriving ecosystems",
+  images: showcaseImages,
+};
+
+const fallbackShowcaseSectionFr: ShowcaseSectionContent = {
+  label: "Nos réalisations",
+  heading: "Transformer les espaces urbains en",
+  headingHighlight: "écosystèmes florissants",
+  images: showcaseImages,
+};
+
+const fallbackShowcaseSectionDe: ShowcaseSectionContent = {
+  label: "Unsere Arbeit",
+  heading: "Städtische Räume in",
+  headingHighlight: "blühende Ökosysteme verwandeln",
+  images: showcaseImages,
+};
+
+const fallbackShowcaseSectionNl: ShowcaseSectionContent = {
+  label: "Ons werk",
+  heading: "Stedelijke ruimtes transformeren naar",
+  headingHighlight: "bloeiende ecosystemen",
+  images: showcaseImages,
+};
+
+const fallbackShowcaseSectionIt: ShowcaseSectionContent = {
+  label: "Il nostro lavoro",
+  heading: "Trasformare gli spazi urbani in",
+  headingHighlight: "ecosistemi fiorenti",
+  images: showcaseImages,
+};
+
+const fallbackShowcaseSectionEs: ShowcaseSectionContent = {
+  label: "Nuestro trabajo",
+  heading: "Transformando espacios urbanos en",
+  headingHighlight: "ecosistemas prósperos",
+  images: showcaseImages,
+};
+
 // ============================================================
 // FALLBACK SEO DATA - For all pages in all locales
 // ============================================================
@@ -2619,6 +2681,28 @@ export async function getFAQSection(locale?: Locale): Promise<FAQSectionContent>
 
 export async function getCTASection(locale?: Locale): Promise<CTASectionContent> {
   return fetchFromStrapi("cta-section?populate=*", { en: fallbackCTASectionEn, fr: fallbackCTASectionFr, de: fallbackCTASectionDe, nl: fallbackCTASectionNl, it: fallbackCTASectionIt, es: fallbackCTASectionEs }, locale);
+}
+
+export async function getShowcaseSection(locale?: Locale): Promise<ShowcaseSectionContent> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = await fetchFromStrapi<any>(
+    "showcase-section?populate=images",
+    { en: fallbackShowcaseSectionEn, fr: fallbackShowcaseSectionFr, de: fallbackShowcaseSectionDe, nl: fallbackShowcaseSectionNl, it: fallbackShowcaseSectionIt, es: fallbackShowcaseSectionEs },
+    locale
+  );
+
+  // Transform Strapi media to image objects if needed
+  if (data.images && Array.isArray(data.images) && data.images.length > 0 && typeof data.images[0] === 'object' && 'url' in data.images[0]) {
+    return {
+      ...data,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      images: data.images.map((img: any, idx: number) => ({
+        src: getImageUrl(img as StrapiMedia, 'large') || '',
+        alt: img.alternativeText || `Showcase image ${idx + 1}`,
+      })).filter((img: { src: string; alt: string }) => img.src),
+    };
+  }
+  return data as ShowcaseSectionContent;
 }
 
 // SEO fetching functions
