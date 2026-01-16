@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Database, AlertTriangle } from 'lucide-react';
 
 export interface DataSourceStatus {
@@ -15,17 +15,34 @@ export interface DataSourceStatus {
 }
 
 interface Props {
-  sources: DataSourceStatus;
+  sources?: DataSourceStatus;
 }
 
-export function DevDataSourceBadge({ sources }: Props) {
-  const [expanded, setExpanded] = useState(false);
+const defaultSources: DataSourceStatus = {
+  hero: 'fallback',
+  stats: 'fallback',
+  services: 'fallback',
+  testimonials: 'fallback',
+  partners: 'fallback',
+  cities: 'fallback',
+  faq: 'fallback',
+  showcase: 'fallback',
+};
 
-  // Only show in development
-  if (process.env.NODE_ENV !== 'development') {
+export function DevDataSourceBadge({ sources: initialSources }: Props) {
+  const [expanded, setExpanded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Only show in development and after mount
+  if (process.env.NODE_ENV !== 'development' || !mounted) {
     return null;
   }
 
+  const sources = initialSources || defaultSources;
   const fallbackCount = Object.values(sources).filter((s) => s === 'fallback').length;
   const cmsCount = Object.values(sources).filter((s) => s === 'cms').length;
   const allFallback = fallbackCount === Object.keys(sources).length;

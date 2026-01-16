@@ -217,12 +217,7 @@ export async function getIndoorFarmPageContent(locale?: Parameters<typeof import
 
 // Dev mode: Get data source status for debugging badge
 export async function getHomepageDataWithSources(locale?: Parameters<typeof import('./strapi').getHeroContent>[0]) {
-  if (isPayloadConfigured) {
-    const payloadClient = await import('./payload-client');
-    return payloadClient.getHomepageDataWithSources(locale);
-  }
-  // If using Strapi, all data is from "CMS" (Strapi fallback)
-  return {
+  const fallbackStatus = {
     hero: 'fallback' as const,
     stats: 'fallback' as const,
     services: 'fallback' as const,
@@ -232,4 +227,17 @@ export async function getHomepageDataWithSources(locale?: Parameters<typeof impo
     faq: 'fallback' as const,
     showcase: 'fallback' as const,
   };
+
+  if (isPayloadConfigured) {
+    try {
+      const payloadClient = await import('./payload-client');
+      return await payloadClient.getHomepageDataWithSources(locale);
+    } catch (error) {
+      // Payload may not be fully initialized yet - return fallback status
+      console.error('Error checking data sources:', error);
+      return fallbackStatus;
+    }
+  }
+  // If using Strapi, all data is from fallback
+  return fallbackStatus;
 }
