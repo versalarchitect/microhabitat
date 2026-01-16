@@ -6,8 +6,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ChatWidgetLoader } from '@/components/chat/ChatWidgetLoader';
 import { OrganizationJsonLd } from '@/components/JsonLd';
-import { DevDataSourceBadgeWrapper } from '@/components/DevDataSourceBadgeWrapper';
-import { getHomepageDataWithSources } from '@/lib/cms';
+import { DevDataSourceBadge } from '@/components/DevDataSourceBadge';
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
@@ -95,11 +94,6 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // Fetch data source status for dev badge (only in development)
-  const dataSources = process.env.NODE_ENV === 'development'
-    ? await getHomepageDataWithSources(locale as Locale)
-    : null;
-
   return (
     <div className="min-h-screen bg-background">
       <OrganizationJsonLd />
@@ -136,7 +130,7 @@ export default async function LocaleLayout({
       <main>{children}</main>
       <Footer locale={locale as Locale} />
       <ChatWidgetLoader />
-      {dataSources && <DevDataSourceBadgeWrapper sources={dataSources} />}
+      {process.env.NODE_ENV === 'development' && <DevDataSourceBadge />}
     </div>
   );
 }
