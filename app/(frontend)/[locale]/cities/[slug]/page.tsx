@@ -1,41 +1,39 @@
-import type { Metadata } from 'next';
-import { type Locale, locales, ogLocales, getTranslations } from '@/lib/i18n';
-import { getCitySEO } from '@/lib/cms';
-import { PageStructuredData, CityLocalBusinessJsonLd } from '@/components/JsonLd';
-import { CityDetailClient } from './CityDetailClient';
+import type { Metadata } from "next";
+import {
+  type Locale,
+  locales,
+  ogLocales,
+  getTranslations,
+} from "@/lib/i18n";
+import { getCitySEO, getCityBySlug } from "@/lib/cms";
+import { PageStructuredData, CityLocalBusinessJsonLd } from "@/components/JsonLd";
+import { CityDetailClient, type CityData } from "./CityDetailClient";
+import {
+  ALL_CITY_SLUGS,
+  getCityFallback,
+} from "@/lib/data/city-fallback-data";
+
+// ============================================
+// TYPES
+// ============================================
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-const citySlugs = [
-  'montreal',
-  'toronto',
-  'vancouver',
-  'calgary',
-  'edmonton',
-  'victoria',
-  'new-york',
-  'chicago',
-  'dallas',
-  'los-angeles',
-  'san-francisco',
-  'washington-dc',
-  'denver',
-  'columbus',
-  'seattle',
-  'amsterdam',
-  'berlin',
-  'london',
-  'paris',
-  'zurich',
-];
+// ============================================
+// STATIC GENERATION
+// ============================================
 
+/**
+ * Generate static params for all city/locale combinations
+ * Uses fallback data as source of truth for available cities
+ */
 export function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];
 
   for (const locale of locales) {
-    for (const slug of citySlugs) {
+    for (const slug of ALL_CITY_SLUGS) {
       params.push({ locale, slug });
     }
   }
@@ -43,47 +41,110 @@ export function generateStaticParams() {
   return params;
 }
 
+// ============================================
+// DATA FETCHING
+// ============================================
+
+/**
+ * Fetch city data from CMS with fallback support
+ * Returns normalized CityData or null if not found
+ */
+async function getCityData(
+  slug: string,
+  locale: Locale
+): Promise<CityData | null> {
+  try {
+    // Attempt to fetch from CMS
+    const cmsCity = await getCityBySlug(slug, locale);
+
+    if (cmsCity) {
+      // Normalize CMS data to component interface
+      return {
+        name: cmsCity.name,
+        country: cmsCity.country,
+        region: cmsCity.region,
+        regionName: cmsCity.regionName || "",
+        slug: cmsCity.slug || slug,
+        description: cmsCity.description || "",
+        highlights: cmsCity.highlights || [],
+        image: cmsCity.image,
+      };
+    }
+  } catch (error) {
+    console.warn(`[CityDetail] CMS fetch failed for ${slug}:`, error);
+  }
+
+  // Fall back to static data
+  const fallback = getCityFallback(slug);
+  return fallback;
+}
+
+/**
+ * Format city name from slug for display
+ */
+function formatCityName(slug: string): string {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// ============================================
+// METADATA
+// ============================================
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
-  const citySeo = await getCitySEO(slug, locale as Locale);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.microhabitat.com';
-  const canonicalUrl = locale === 'en' ? `${siteUrl}/cities/${slug}` : `${siteUrl}/${locale}/cities/${slug}`;
+  const typedLocale = locale as Locale;
 
-  // Fallback city name from slug
-  const cityName = slug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  const [citySeo, cityData] = await Promise.all([
+    getCitySEO(slug, typedLocale),
+    getCityData(slug, typedLocale),
+  ]);
 
-  const title = citySeo?.metaTitle || `Urban Farming in ${cityName} | Microhabitat`;
-  const description = citySeo?.metaDescription || `Discover MicroHabitat's urban farming solutions in ${cityName}. Rooftop farms, community gardens, and sustainable agriculture programs.`;
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.microhabitat.com";
+  const canonicalUrl =
+    locale === "en"
+      ? `${siteUrl}/cities/${slug}`
+      : `${siteUrl}/${locale}/cities/${slug}`;
+
+  const cityName = cityData?.name || formatCityName(slug);
+  const title =
+    citySeo?.metaTitle || `Urban Farming in ${cityName} | Microhabitat`;
+  const description =
+    citySeo?.metaDescription ||
+    cityData?.description ||
+    `Discover MicroHabitat's urban farming solutions in ${cityName}. Rooftop farms, community gardens, and sustainable agriculture programs.`;
 
   return {
     title,
     description,
-    keywords: citySeo?.keywords?.split(',').map(k => k.trim()),
+    keywords: citySeo?.keywords?.split(",").map((k) => k.trim()),
     alternates: {
       canonical: citySeo?.canonical || canonicalUrl,
       languages: {
-        'en': `${siteUrl}/cities/${slug}`,
-        'fr': `${siteUrl}/fr/villes/${slug}`,
-        'de': `${siteUrl}/de/staedte/${slug}`,
-        'nl': `${siteUrl}/nl/steden/${slug}`,
-        'it': `${siteUrl}/it/citta/${slug}`,
-        'es': `${siteUrl}/es/ciudades/${slug}`,
+        en: `${siteUrl}/cities/${slug}`,
+        fr: `${siteUrl}/fr/villes/${slug}`,
+        de: `${siteUrl}/de/staedte/${slug}`,
+        nl: `${siteUrl}/nl/steden/${slug}`,
+        it: `${siteUrl}/it/citta/${slug}`,
+        es: `${siteUrl}/es/ciudades/${slug}`,
       },
     },
     openGraph: {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'Microhabitat',
-      locale: ogLocales[locale as Locale] || 'en_CA',
-      type: 'website',
-      images: citySeo?.ogImage ? [{ url: citySeo.ogImage, width: 1200, height: 630 }] : undefined,
+      siteName: "Microhabitat",
+      locale: ogLocales[typedLocale] || "en_CA",
+      type: "website",
+      images: citySeo?.ogImage
+        ? [{ url: citySeo.ogImage, width: 1200, height: 630 }]
+        : undefined,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: citySeo?.twitterImage ? [citySeo.twitterImage] : undefined,
@@ -95,17 +156,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+// ============================================
+// PAGE COMPONENT
+// ============================================
+
 export default async function CityDetailPage({ params }: PageProps) {
   const { locale, slug } = await params;
-  const translations = getTranslations(locale as Locale);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.microhabitat.com';
-  const pageUrl = locale === 'en' ? `/cities/${slug}` : `/${locale}/cities/${slug}`;
+  const typedLocale = locale as Locale;
 
-  // Format city name from slug
-  const cityName = slug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  // Parallel data fetching
+  const [translations, cityData] = await Promise.all([
+    Promise.resolve(getTranslations(typedLocale)),
+    getCityData(slug, typedLocale),
+  ]);
+
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.microhabitat.com";
+  const pageUrl =
+    locale === "en" ? `/cities/${slug}` : `/${locale}/cities/${slug}`;
+
+  const cityName = cityData?.name || formatCityName(slug);
+  const cityDescription =
+    cityData?.description ||
+    `Microhabitat urban farming services in ${cityName}. We transform rooftops and outdoor spaces into thriving urban farms.`;
 
   return (
     <>
@@ -113,12 +186,19 @@ export default async function CityDetailPage({ params }: PageProps) {
         page={{
           url: pageUrl,
           name: `Urban Farming in ${cityName} | Microhabitat`,
-          description: `Discover Microhabitat's urban farming solutions in ${cityName}. Rooftop farms, community gardens, and sustainable agriculture programs.`,
+          description: cityDescription,
           locale: locale,
         }}
         breadcrumbs={[
-          { name: 'Home', url: locale === 'en' ? siteUrl : `${siteUrl}/${locale}` },
-          { name: 'Cities', url: locale === 'en' ? `${siteUrl}/cities` : `${siteUrl}/${locale}/cities` },
+          {
+            name: "Home",
+            url: locale === "en" ? siteUrl : `${siteUrl}/${locale}`,
+          },
+          {
+            name: "Cities",
+            url:
+              locale === "en" ? `${siteUrl}/cities` : `${siteUrl}/${locale}/cities`,
+          },
           { name: cityName },
         ]}
       />
@@ -126,11 +206,15 @@ export default async function CityDetailPage({ params }: PageProps) {
         city={{
           slug,
           name: cityName,
-          description: `Microhabitat urban farming services in ${cityName}. We transform rooftops and outdoor spaces into thriving urban farms.`,
+          description: cityDescription,
           locale,
         }}
       />
-      <CityDetailClient locale={locale as Locale} slug={slug} translations={translations} />
+      <CityDetailClient
+        locale={typedLocale}
+        city={cityData}
+        translations={translations}
+      />
     </>
   );
 }

@@ -148,6 +148,19 @@ export async function getCitySEO(
   return cms.getCitySEO(citySlug, locale);
 }
 
+export async function getCityBySlug(
+  slug: string,
+  locale?: Parameters<typeof import('./strapi').getCities>[0]
+) {
+  const cms = await getCMSClient();
+  if ('getCityBySlug' in cms) {
+    return (cms as { getCityBySlug: (slug: string, locale?: string) => Promise<import('./strapi').City | null> }).getCityBySlug(slug, locale);
+  }
+  // Fallback for Strapi - filter from all cities
+  const cities = await cms.getCities(locale);
+  return cities.find(c => c.slug === slug) || null;
+}
+
 export async function getBlogPost(
   slug: Parameters<typeof import('./strapi').getBlogPost>[0],
   locale?: Parameters<typeof import('./strapi').getBlogPost>[1]

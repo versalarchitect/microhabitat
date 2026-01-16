@@ -19,7 +19,12 @@ A comprehensive audit revealed **significant hardcoded content** throughout the 
 - **Issue:** 23 complete blog posts with full HTML content hardcoded in TypeScript
 - **Impact:** Cannot update blog without code deployment
 - **Solution:** Delete file, ensure all posts exist in Payload `BlogPosts` collection
-- **Status:** [ ] Not Started
+- **Status:** [x] DONE
+  - Types extracted to `lib/data/blog-fallback-data.ts`
+  - `payload-client.ts` updated with full fallback support
+  - Seed script with HTML→Lexical conversion: `scripts/seed-cms-data.ts --blog-only`
+  - Blog pages use CMS first, fallback to hardcoded data
+  - **Next step:** Run seed script, verify posts in CMS, optionally delete fallback data
 
 ### 2. City Detail Data - 20 Cities Hardcoded
 - **File:** `app/(frontend)/[locale]/cities/[slug]/CityDetailClient.tsx` (lines 17-264)
@@ -28,7 +33,13 @@ A comprehensive audit revealed **significant hardcoded content** throughout the 
 - **Solution:** Extend Payload `Cities` collection:
   - Add `description` (rich text, localized)
   - Add `highlights` (array of strings, localized)
-- **Status:** [ ] Not Started
+- **Status:** [x] DONE
+  - Schema updated in `payload/collections/Cities.ts`
+  - Fallback data created in `lib/data/city-fallback-data.ts`
+  - CityDetailClient refactored as pure presentational component
+  - page.tsx fetches from CMS with fallback support
+  - Seed script created: `scripts/seed-cms-data.ts`
+  - **Next step:** Run database migration, then run seed script
 
 ### 3. AI Chatbot Knowledge Base - 70+ Items Hardcoded
 - **Files:**
@@ -220,13 +231,45 @@ Cities (collection)
 
 ---
 
+## How to Run Migration
+
+### Step 1: Database Migration
+After updating the Payload schema, run the migration:
+```bash
+# The schema will auto-migrate on next Payload startup
+bun dev  # or bun run payload migrate:create
+```
+
+### Step 2: Seed Data
+Run the seed script to populate CMS with hardcoded data:
+```bash
+# Preview what will be created (no changes made)
+bun run scripts/seed-cms-data.ts --dry-run
+
+# Migrate cities only
+bun run scripts/seed-cms-data.ts --cities-only
+
+# Migrate blog posts only
+bun run scripts/seed-cms-data.ts --blog-only
+
+# Migrate everything
+bun run scripts/seed-cms-data.ts
+```
+
+### Step 3: Verify & Cleanup
+1. Check CMS admin panel to verify data
+2. Test city detail pages and blog pages
+3. Delete `lib/blog-data.ts` after verifying blog migration
+
+---
+
 ## Migration Checklist
 
-### Phase 1: Critical (Week 1)
-- [ ] Create schema changes in Payload
-- [ ] Migrate blog posts to CMS
-- [ ] Add city descriptions and highlights to CMS
-- [ ] Update components to fetch from CMS
+### Phase 1: Critical
+- [x] Create schema changes in Payload (Cities collection)
+- [~] Migrate blog posts to CMS (seed script ready)
+- [x] Add city descriptions and highlights to CMS (seed script ready)
+- [x] Update components to fetch from CMS (with fallback)
 
 ### Phase 2: High Priority (Week 2)
 - [ ] Create SocialLinks global

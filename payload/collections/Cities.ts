@@ -27,6 +27,14 @@ export const Cities: CollectionConfig = {
       },
     },
     {
+      name: 'regionName',
+      type: 'text',
+      localized: true,
+      admin: {
+        description: 'State/Province/Region name (e.g., "Quebec", "Ontario", "California")',
+      },
+    },
+    {
       name: 'region',
       type: 'select',
       required: true,
@@ -46,6 +54,29 @@ export const Cities: CollectionConfig = {
       admin: {
         description: 'URL-friendly identifier (e.g., "montreal", "new-york")',
       },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      localized: true,
+      admin: {
+        description: 'City page description - what MicroHabitat offers in this city',
+      },
+    },
+    {
+      name: 'highlights',
+      type: 'array',
+      localized: true,
+      admin: {
+        description: 'Key highlights for this city (4 recommended)',
+      },
+      fields: [
+        {
+          name: 'text',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'image',

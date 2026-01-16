@@ -34,6 +34,10 @@ import type {
   BlogPostFromCMS,
 } from './strapi';
 
+// Import fallback data for graceful degradation
+import { blogPosts as fallbackBlogPosts, getBlogPostBySlug as getFallbackBlogPost } from './blog-data';
+import { getAllCitiesFallback } from './data/city-fallback-data';
+
 // Re-export types and constants
 export { locales, defaultLocale } from './strapi';
 export type { Locale, PageSEOKey };
@@ -201,9 +205,38 @@ async function _fetchCities(locale: Locale): Promise<City[]> {
     name: doc.name || '',
     country: doc.country || '',
     region: (doc.region as 'north-america' | 'europe') || 'north-america',
+    regionName: (doc as { regionName?: string }).regionName || '',
     slug: doc.slug || '',
     image: getImageUrl(doc.image),
+    description: (doc as { description?: string }).description || '',
+    highlights: ((doc as { highlights?: Array<{ text: string }> }).highlights || []).map(h => h.text),
   }));
+}
+
+async function _fetchCityBySlug(slug: string, locale: Locale): Promise<City | null> {
+  const payload = await getPayloadClient();
+  const { docs } = await payload.find({
+    collection: 'cities',
+    locale,
+    where: {
+      slug: { equals: slug },
+    },
+    limit: 1,
+  });
+
+  if (!docs.length) return null;
+
+  const doc = docs[0];
+  return {
+    name: doc.name || '',
+    country: doc.country || '',
+    region: (doc.region as 'north-america' | 'europe') || 'north-america',
+    regionName: (doc as { regionName?: string }).regionName || '',
+    slug: doc.slug || '',
+    image: getImageUrl(doc.image),
+    description: (doc as { description?: string }).description || '',
+    highlights: ((doc as { highlights?: Array<{ text: string }> }).highlights || []).map(h => h.text),
+  };
 }
 
 async function _fetchFAQ(locale: Locale): Promise<FAQItem[]> {
@@ -286,10 +319,12 @@ export async function getCities(locale: Locale = 'en'): Promise<City[]> {
       [`cities-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.cities] }
     );
-    return await cachedFetch();
+    const cities = await cachedFetch();
+    // If CMS returns cities, use them; otherwise return fallback
+    return cities.length > 0 ? cities : getAllCitiesFallback();
   } catch (error) {
-    console.error('Error fetching cities:', error);
-    return [];
+    console.error('Error fetching cities, using fallback:', error);
+    return getAllCitiesFallback();
   }
 }
 
@@ -662,11 +697,28 @@ function getDefaultSEO(pageKey: PageSEOKey): SEOData {
 }
 
 export async function getCitySEO(
-  citySlug: string,
-  locale: Locale = 'en'
+  _citySlug: string,
+  _locale: Locale = 'en'
 ): Promise<SEOData | null> {
   // Cities don't have individual SEO in Payload - return null to use defaults
   return null;
+}
+
+export async function getCityBySlug(
+  slug: string,
+  locale: Locale = 'en'
+): Promise<City | null> {
+  try {
+    const cachedFetch = unstable_cache(
+      () => _fetchCityBySlug(slug, locale),
+      [`city-${slug}-${locale}`],
+      { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.cities] }
+    );
+    return await cachedFetch();
+  } catch (error) {
+    console.error('Error fetching city:', error);
+    return null;
+  }
 }
 
 // ==========================================
@@ -715,7 +767,26 @@ export async function getBlogPost(
       },
     };
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error('Error fetching blog post from CMS, trying fallback:', error);
+    // Try fallback data
+    const fallbackPost = getFallbackBlogPost(slug);
+    if (fallbackPost) {
+      return {
+        id: 0,
+        title: fallbackPost.title,
+        slug: fallbackPost.slug,
+        excerpt: fallbackPost.excerpt,
+        content: fallbackPost.content || '',
+        author: fallbackPost.author,
+        publishedDate: fallbackPost.date,
+        categories: fallbackPost.categories,
+        featuredImage: fallbackPost.image,
+        seo: {
+          metaTitle: fallbackPost.title,
+          metaDescription: fallbackPost.excerpt,
+        },
+      };
+    }
     return null;
   }
 }
@@ -775,8 +846,28 @@ export async function getBlogPosts(
       pageCount: totalPages,
     };
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
-    return { posts: [], total: 0, pageCount: 0 };
+    console.error('Error fetching blog posts from CMS, using fallback:', error);
+    // Return fallback data transformed to match CMS format
+    const fallbackPosts: BlogPostFromCMS[] = fallbackBlogPosts.map((post, idx) => ({
+      id: idx + 1,
+      title: post.title,
+      slug: post.slug,
+      excerpt: post.excerpt,
+      content: post.content || '',
+      author: post.author,
+      publishedDate: post.date,
+      categories: post.categories,
+      featuredImage: post.image,
+      seo: {
+        metaTitle: post.title,
+        metaDescription: post.excerpt,
+      },
+    }));
+    return {
+      posts: fallbackPosts.slice(0, options?.pageSize || 10),
+      total: fallbackPosts.length,
+      pageCount: Math.ceil(fallbackPosts.length / (options?.pageSize || 10)),
+    };
   }
 }
 
@@ -793,10 +884,12 @@ export async function getBlogPostSlugs(locale: Locale = 'en'): Promise<string[]>
       },
     });
 
-    return docs.map((doc) => doc.slug || '').filter(Boolean);
+    const slugs = docs.map((doc) => doc.slug || '').filter(Boolean);
+    // If CMS has posts, return those; otherwise return fallback slugs
+    return slugs.length > 0 ? slugs : fallbackBlogPosts.map(p => p.slug);
   } catch (error) {
-    console.error('Error fetching blog post slugs:', error);
-    return [];
+    console.error('Error fetching blog post slugs, using fallback:', error);
+    return fallbackBlogPosts.map(p => p.slug);
   }
 }
 

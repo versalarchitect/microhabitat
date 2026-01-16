@@ -420,6 +420,10 @@ export interface City {
    */
   country: string;
   /**
+   * State/Province/Region name (e.g., "Quebec", "Ontario", "California")
+   */
+  regionName?: string | null;
+  /**
    * Geographic region for filtering
    */
   region: 'north-america' | 'europe';
@@ -427,6 +431,19 @@ export interface City {
    * URL-friendly identifier (e.g., "montreal", "new-york")
    */
   slug: string;
+  /**
+   * City page description - what MicroHabitat offers in this city
+   */
+  description?: string | null;
+  /**
+   * Key highlights for this city (4 recommended)
+   */
+  highlights?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * City image (recommended: 640x480px)
    */
@@ -800,8 +817,16 @@ export interface PartnersSelect<T extends boolean = true> {
 export interface CitiesSelect<T extends boolean = true> {
   name?: T;
   country?: T;
+  regionName?: T;
   region?: T;
   slug?: T;
+  description?: T;
+  highlights?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   image?: T;
   order?: T;
   updatedAt?: T;

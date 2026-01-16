@@ -1,14 +1,25 @@
-// Blog posts data - shared between blog listing and detail pages
-export interface BlogPost {
-  title: string;
-  excerpt: string;
-  content?: string;
-  categories: string[];
-  author: string;
-  date: string;
-  slug: string;
-  image: string;
-}
+/**
+ * Blog Posts Fallback Data
+ *
+ * This file contains hardcoded blog posts as fallback when CMS is unavailable.
+ * After full CMS migration, this file can be deleted.
+ *
+ * Types and utilities are defined in lib/data/blog-fallback-data.ts
+ */
+
+// Re-export types and utilities
+export {
+  type BlogPost,
+  type BlogPostFromCMS,
+  type BlogCategoryKey,
+  categoryKeys,
+  normalizeCMSPost,
+  mapLegacyCategory,
+  getAllBlogSlugs,
+  findPostBySlug,
+} from './data/blog-fallback-data';
+
+import type { BlogPost } from './data/blog-fallback-data';
 
 export const blogPosts: BlogPost[] = [
   {
@@ -543,27 +554,9 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-export const categoryKeys = [
-  "sustainability",
-  "csr",
-  "esg",
-  "brand",
-  "leed",
-  "well",
-  "fitwel",
-  "breeam",
-  "boma",
-  "bcorp",
-  "farming",
-  "gardening",
-  "innovation",
-  "certification",
-  "greenCertifications",
-  "clientHighlight",
-  "caseStudy",
-  "unitedNations",
-];
-
+/**
+ * Get blog post by slug from fallback data
+ */
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug);
 }
