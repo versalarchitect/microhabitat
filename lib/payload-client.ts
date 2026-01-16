@@ -37,6 +37,14 @@ import type {
 // Import fallback data for graceful degradation
 import { blogPosts as fallbackBlogPosts, getBlogPostBySlug as getFallbackBlogPost } from './blog-data';
 import { getAllCitiesFallback } from './data/city-fallback-data';
+import {
+  getStats as getStrapiStats,
+  getServices as getStrapiServices,
+  getTestimonials as getStrapiTestimonials,
+  getPartners as getStrapiPartners,
+  getFAQ as getStrapiFAQ,
+  getHeroContent as getStrapiHero,
+} from './strapi';
 
 // Re-export types and constants
 export { locales, defaultLocale } from './strapi';
@@ -107,17 +115,15 @@ export async function getHeroContent(locale: Locale = 'en'): Promise<HeroContent
       [`hero-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.hero] }
     );
-    return await cachedFetch();
+    const hero = await cachedFetch();
+    // If hero title is empty, use fallback
+    if (!hero.title) {
+      return getStrapiHero(locale);
+    }
+    return hero;
   } catch (error) {
     console.error('Error fetching hero content:', error);
-    // Return default content
-    return {
-      title: 'Transform Your Space',
-      titleHighlight: 'Into a Living Ecosystem',
-      subtitle: 'We design and maintain urban farms that reconnect communities with nature.',
-      ctaPrimary: 'Book a Demo',
-      ctaSecondary: 'Learn More',
-    };
+    return getStrapiHero(locale);
   }
 }
 
@@ -255,7 +261,7 @@ async function _fetchFAQ(locale: Locale): Promise<FAQItem[]> {
   }));
 }
 
-// Cached collection fetchers
+// Cached collection fetchers with fallback to strapi data
 export async function getStats(locale: Locale = 'en'): Promise<Stat[]> {
   try {
     const cachedFetch = unstable_cache(
@@ -263,10 +269,11 @@ export async function getStats(locale: Locale = 'en'): Promise<Stat[]> {
       [`stats-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.stats] }
     );
-    return await cachedFetch();
+    const stats = await cachedFetch();
+    return stats.length > 0 ? stats : getStrapiStats(locale);
   } catch (error) {
     console.error('Error fetching stats:', error);
-    return [];
+    return getStrapiStats(locale);
   }
 }
 
@@ -277,10 +284,11 @@ export async function getServices(locale: Locale = 'en'): Promise<Service[]> {
       [`services-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.services] }
     );
-    return await cachedFetch();
+    const services = await cachedFetch();
+    return services.length > 0 ? services : getStrapiServices(locale);
   } catch (error) {
     console.error('Error fetching services:', error);
-    return [];
+    return getStrapiServices(locale);
   }
 }
 
@@ -291,10 +299,11 @@ export async function getTestimonials(locale: Locale = 'en'): Promise<Testimonia
       [`testimonials-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.testimonials] }
     );
-    return await cachedFetch();
+    const testimonials = await cachedFetch();
+    return testimonials.length > 0 ? testimonials : getStrapiTestimonials(locale);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
-    return [];
+    return getStrapiTestimonials(locale);
   }
 }
 
@@ -305,10 +314,11 @@ export async function getPartners(locale: Locale = 'en'): Promise<Partner[]> {
       [`partners-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.partners] }
     );
-    return await cachedFetch();
+    const partners = await cachedFetch();
+    return partners.length > 0 ? partners : getStrapiPartners(locale);
   } catch (error) {
     console.error('Error fetching partners:', error);
-    return [];
+    return getStrapiPartners(locale);
   }
 }
 
@@ -335,10 +345,11 @@ export async function getFAQ(locale: Locale = 'en'): Promise<FAQItem[]> {
       [`faq-${locale}`],
       { revalidate: CACHE_REVALIDATE_SECONDS, tags: [CACHE_TAGS.faq] }
     );
-    return await cachedFetch();
+    const faq = await cachedFetch();
+    return faq.length > 0 ? faq : getStrapiFAQ(locale);
   } catch (error) {
     console.error('Error fetching FAQ:', error);
-    return [];
+    return getStrapiFAQ(locale);
   }
 }
 
