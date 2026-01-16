@@ -434,6 +434,11 @@ Edit `lib/chat/knowledge-base.ts` to add or modify content. The knowledge base i
 8. **Cross-project awareness** - Changes may need updates in MUF too
 9. **Download images locally** - NEVER point to external CDN URLs for images. Always download images to `public/images/` and reference them locally. External URLs can break without warning.
 
+## Claude Code Guidelines
+
+- **Parallel execution** - Always run as many parallel streams/tasks as necessary to maximize efficiency. Use multiple tool calls in a single message when operations are independent.
+- **Extended thinking** - Use extended thinking (ultrathink) for complex architectural decisions, debugging difficult issues, or planning multi-step implementations.
+
 ## About MicroHabitat
 
 MicroHabitat was founded in 2016 by **Orlane** and **Alexandre**, two childhood friends from Montreal. The company operates the largest network of urban farms in the world, transforming underused urban spaces into productive ecological farms across North America and Europe.
