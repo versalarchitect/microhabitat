@@ -26,6 +26,7 @@ import { TestimonialsSection } from './payload/globals/TestimonialsSection';
 import { CitiesSection } from './payload/globals/CitiesSection';
 import { FAQSection } from './payload/globals/FAQSection';
 import { CTASection } from './payload/globals/CTASection';
+import { ShowcaseSection } from './payload/globals/ShowcaseSection';
 import { AboutPage } from './payload/globals/AboutPage';
 import { OutdoorFarmPage } from './payload/globals/OutdoorFarmPage';
 import { IndoorFarmPage } from './payload/globals/IndoorFarmPage';
@@ -100,6 +101,7 @@ export default buildConfig({
     CitiesSection,
     FAQSection,
     CTASection,
+    ShowcaseSection,
     // Page content
     AboutPage,
     OutdoorFarmPage,

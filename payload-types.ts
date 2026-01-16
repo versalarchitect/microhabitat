@@ -115,6 +115,7 @@ export interface Config {
     'cities-section': CitiesSection;
     'faq-section': FaqSection;
     'cta-section': CtaSection;
+    'showcase-section': ShowcaseSection;
     'about-page': AboutPage;
     'outdoor-farm-page': OutdoorFarmPage;
     'indoor-farm-page': IndoorFarmPage;
@@ -142,6 +143,7 @@ export interface Config {
     'cities-section': CitiesSectionSelect<false> | CitiesSectionSelect<true>;
     'faq-section': FaqSectionSelect<false> | FaqSectionSelect<true>;
     'cta-section': CtaSectionSelect<false> | CtaSectionSelect<true>;
+    'showcase-section': ShowcaseSectionSelect<false> | ShowcaseSectionSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'outdoor-farm-page': OutdoorFarmPageSelect<false> | OutdoorFarmPageSelect<true>;
     'indoor-farm-page': IndoorFarmPageSelect<false> | IndoorFarmPageSelect<true>;
@@ -1174,6 +1176,40 @@ export interface CtaSection {
   createdAt?: string | null;
 }
 /**
+ * Image showcase / bento grid section on the homepage
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "showcase-section".
+ */
+export interface ShowcaseSection {
+  id: number;
+  /**
+   * Section label (displayed above heading)
+   */
+  label: string;
+  /**
+   * Main heading text
+   */
+  heading: string;
+  /**
+   * Highlighted part of heading (displayed in accent color)
+   */
+  headingHighlight?: string | null;
+  /**
+   * Showcase images (4-6 images for bento grid layout)
+   */
+  images: {
+    image: number | Media;
+    /**
+     * Alt text for accessibility
+     */
+    alt: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * About page content and SEO
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2165,6 +2201,25 @@ export interface CtaSectionSelect<T extends boolean = true> {
     | T
     | {
         indicator?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "showcase-section_select".
+ */
+export interface ShowcaseSectionSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  headingHighlight?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        alt?: T;
         id?: T;
       };
   updatedAt?: T;

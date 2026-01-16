@@ -540,9 +540,40 @@ export async function getCTASection(locale: Locale = 'en'): Promise<CTASectionCo
 }
 
 export async function getShowcaseSection(locale: Locale = 'en'): Promise<ShowcaseSectionContent> {
-  // Showcase section not yet implemented in Payload CMS - use Strapi fallback
-  const { getShowcaseSection: getStrapiShowcase } = await import('./strapi');
-  return getStrapiShowcase(locale);
+  try {
+    const payload = await getPayloadClient();
+    const data = await payload.findGlobal({
+      slug: 'showcase-section',
+      locale,
+    });
+
+    if (!data) {
+      throw new Error('Showcase section not found');
+    }
+
+    // Transform the Payload data to match the expected format
+    const images = ((data.images as Array<{ image?: { url?: string } | number; alt?: string }>) || [])
+      .map((item) => {
+        const imageUrl = typeof item.image === 'object' && item.image?.url ? item.image.url : null;
+        return {
+          src: imageUrl || '',
+          alt: item.alt || 'Showcase image',
+        };
+      })
+      .filter((img) => img.src);
+
+    return {
+      label: (data.label as string) || 'Our Work',
+      heading: (data.heading as string) || 'Transforming urban spaces into',
+      headingHighlight: (data.headingHighlight as string) || 'thriving ecosystems',
+      images,
+    };
+  } catch (error) {
+    console.error('Error fetching showcase section from Payload:', error);
+    // Fallback to Strapi data
+    const { getShowcaseSection: getStrapiShowcase } = await import('./strapi');
+    return getStrapiShowcase(locale);
+  }
 }
 
 // ==========================================

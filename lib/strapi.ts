@@ -1579,14 +1579,14 @@ const fallbackCTASectionEs: CTASectionContent = {
   trustIndicators: ["Sin compromiso requerido", "Propuestas personalizadas", "Consulta experta"],
 };
 
-// Showcase section images - using Squarespace CDN for high-quality urban farming photos
+// Showcase section images - local high-quality urban farming photos
 const showcaseImages = [
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/ee544728-972c-4b64-9d95-142a579f983c/555-Richmond-W-5323-8-e1650907079985.jpg", alt: "Urban rooftop farm with lush vegetables" },
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/21e1af91-426e-4d14-937c-db9f51b817aa/Team+smile+%281%29.jpg", alt: "MicroHabitat team members working together" },
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/5c71ed03-e569-4cf2-b217-b4cd0b3f501a/grown-locally.jpg", alt: "Fresh locally grown produce" },
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655614-FD0V9NV0FV0CIWFXPDBG/Castor_Urban+Agriculture+2024-08.jpg", alt: "Community members harvesting vegetables" },
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655661-22LFFUWGMB8UKGB4CZP4/Castor_Urban+Agriculture+2024-10.jpg", alt: "Green vegetables growing in urban garden beds" },
-  { src: "https://images.squarespace-cdn.com/content/v1/68127a796aa8cb650bef6990/1731331655547-WLZIKFLQ5JBNKM0BSMVN/Castor_Urban+Agriculture+2024-06.jpg", alt: "Sustainable urban farming installation" },
+  { src: "/images/showcase/urban-rooftop-farm.webp", alt: "Urban rooftop farm with lush vegetables" },
+  { src: "/images/showcase/team-photo.webp", alt: "MicroHabitat team members working together" },
+  { src: "/images/showcase/fresh-produce.webp", alt: "Fresh locally grown produce" },
+  { src: "/images/showcase/community-engagement.webp", alt: "Community engagement activity on Toronto rooftop" },
+  { src: "/images/showcase/toronto-rooftop.webp", alt: "Rooftop urban farm in Toronto" },
+  { src: "/images/showcase/educational-activities.webp", alt: "Educational urban farming activities" },
 ];
 
 const fallbackShowcaseSectionEn: ShowcaseSectionContent = {

@@ -5,11 +5,13 @@
  * Migrates hardcoded content to Payload CMS:
  * - Cities with descriptions and highlights
  * - Blog posts with full content
+ * - Showcase section with images
  *
  * Usage:
  *   npx tsx scripts/seed-cms-data.ts
  *   npx tsx scripts/seed-cms-data.ts --cities-only
  *   npx tsx scripts/seed-cms-data.ts --blog-only
+ *   npx tsx scripts/seed-cms-data.ts --showcase-only
  *   npx tsx scripts/seed-cms-data.ts --dry-run
  *
  * Prerequisites:
@@ -19,6 +21,8 @@
 
 import { getPayload } from 'payload';
 import config from '../payload.config';
+import fs from 'fs';
+import path from 'path';
 
 // ============================================
 // CLI ARGUMENTS
@@ -28,6 +32,7 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const CITIES_ONLY = args.includes('--cities-only');
 const BLOG_ONLY = args.includes('--blog-only');
+const SHOWCASE_ONLY = args.includes('--showcase-only');
 
 // ============================================
 // LOGGING
@@ -497,6 +502,182 @@ async function seedBlogPosts(payload: Awaited<ReturnType<typeof getPayload>>) {
 }
 
 // ============================================
+// SHOWCASE SECTION SEEDING
+// ============================================
+
+interface ShowcaseImage {
+  filename: string;
+  alt: string;
+}
+
+const SHOWCASE_IMAGES: ShowcaseImage[] = [
+  { filename: 'urban-rooftop-farm.webp', alt: 'Urban rooftop farm with lush vegetables' },
+  { filename: 'team-photo.webp', alt: 'MicroHabitat team members working together' },
+  { filename: 'fresh-produce.webp', alt: 'Fresh locally grown produce' },
+  { filename: 'community-engagement.webp', alt: 'Community engagement activity on Toronto rooftop' },
+  { filename: 'toronto-rooftop.webp', alt: 'Rooftop urban farm in Toronto' },
+  { filename: 'educational-activities.webp', alt: 'Educational urban farming activities' },
+];
+
+const SHOWCASE_CONTENT = {
+  en: {
+    label: 'Our Work',
+    heading: 'Transforming urban spaces into',
+    headingHighlight: 'thriving ecosystems',
+  },
+  fr: {
+    label: 'Nos réalisations',
+    heading: 'Transformer les espaces urbains en',
+    headingHighlight: 'écosystèmes florissants',
+  },
+  de: {
+    label: 'Unsere Arbeit',
+    heading: 'Städtische Räume in',
+    headingHighlight: 'blühende Ökosysteme verwandeln',
+  },
+  nl: {
+    label: 'Ons werk',
+    heading: 'Stedelijke ruimtes transformeren naar',
+    headingHighlight: 'bloeiende ecosystemen',
+  },
+  it: {
+    label: 'Il nostro lavoro',
+    heading: 'Trasformare gli spazi urbani in',
+    headingHighlight: 'ecosistemi fiorenti',
+  },
+  es: {
+    label: 'Nuestro trabajo',
+    heading: 'Transformando espacios urbanos en',
+    headingHighlight: 'ecosistemas prósperos',
+  },
+};
+
+async function seedShowcaseSection(payload: Awaited<ReturnType<typeof getPayload>>) {
+  log.info('Starting showcase section migration...');
+  log.divider();
+
+  const showcaseDir = path.join(process.cwd(), 'public', 'images', 'showcase');
+
+  // Check if showcase images directory exists
+  if (!fs.existsSync(showcaseDir)) {
+    log.error(`Showcase images directory not found: ${showcaseDir}`);
+    log.info('Run this command first to download images:');
+    log.info('  mkdir -p public/images/showcase && cd public/images/showcase');
+    return;
+  }
+
+  // Upload images to media collection
+  const uploadedImages: Array<{ id: number; alt: string }> = [];
+
+  for (const image of SHOWCASE_IMAGES) {
+    const imagePath = path.join(showcaseDir, image.filename);
+
+    if (!fs.existsSync(imagePath)) {
+      log.warn(`Image not found: ${imagePath}`);
+      continue;
+    }
+
+    try {
+      // Check if image already exists in media
+      const existing = await payload.find({
+        collection: 'media',
+        where: { filename: { equals: image.filename } },
+        limit: 1,
+      });
+
+      if (existing.docs.length > 0) {
+        log.info(`Image exists: ${image.filename} (id: ${existing.docs[0].id})`);
+        uploadedImages.push({ id: existing.docs[0].id as number, alt: image.alt });
+        continue;
+      }
+
+      if (DRY_RUN) {
+        log.dry(`Would upload: ${image.filename}`);
+        continue;
+      }
+
+      // Read the file and create a buffer
+      const fileBuffer = fs.readFileSync(imagePath);
+      const fileStats = fs.statSync(imagePath);
+
+      // Create the media entry
+      const uploaded = await payload.create({
+        collection: 'media',
+        data: {
+          alt: image.alt,
+        },
+        file: {
+          data: fileBuffer,
+          mimetype: 'image/webp',
+          name: image.filename,
+          size: fileStats.size,
+        },
+      });
+
+      log.success(`Uploaded: ${image.filename} (id: ${uploaded.id})`);
+      uploadedImages.push({ id: uploaded.id as number, alt: image.alt });
+    } catch (error) {
+      log.error(`Failed to upload ${image.filename}: ${error}`);
+    }
+  }
+
+  if (DRY_RUN) {
+    log.dry('Would update showcase section global with images');
+    return;
+  }
+
+  if (uploadedImages.length === 0) {
+    log.warn('No images were uploaded, skipping showcase section update');
+    return;
+  }
+
+  // Update the showcase section global
+  try {
+    const enContent = SHOWCASE_CONTENT.en;
+
+    await payload.updateGlobal({
+      slug: 'showcase-section',
+      data: {
+        label: enContent.label,
+        heading: enContent.heading,
+        headingHighlight: enContent.headingHighlight,
+        images: uploadedImages.map((img) => ({
+          image: img.id,
+          alt: img.alt,
+        })),
+      },
+    });
+
+    log.success('Updated showcase section with images');
+
+    // Update localized versions
+    for (const [locale, content] of Object.entries(SHOWCASE_CONTENT)) {
+      if (locale === 'en') continue;
+
+      try {
+        await payload.updateGlobal({
+          slug: 'showcase-section',
+          locale,
+          data: {
+            label: content.label,
+            heading: content.heading,
+            headingHighlight: content.headingHighlight,
+          },
+        });
+        log.success(`Updated showcase section for locale: ${locale}`);
+      } catch (localeError) {
+        log.warn(`Failed to update locale ${locale}: ${localeError}`);
+      }
+    }
+  } catch (error) {
+    log.error(`Failed to update showcase section: ${error}`);
+  }
+
+  log.divider();
+  log.info(`Showcase: ${uploadedImages.length} images processed`);
+}
+
+// ============================================
 // MAIN
 // ============================================
 
@@ -516,13 +697,18 @@ async function main() {
     const payload = await getPayload({ config });
     log.success('Connected!\n');
 
-    if (!BLOG_ONLY) {
+    if (!BLOG_ONLY && !SHOWCASE_ONLY) {
       await seedCities(payload);
       console.log('\n');
     }
 
-    if (!CITIES_ONLY) {
+    if (!CITIES_ONLY && !SHOWCASE_ONLY) {
       await seedBlogPosts(payload);
+      console.log('\n');
+    }
+
+    if (!CITIES_ONLY && !BLOG_ONLY) {
+      await seedShowcaseSection(payload);
       console.log('\n');
     }
 

@@ -432,6 +432,7 @@ Edit `lib/chat/knowledge-base.ts` to add or modify content. The knowledge base i
 6. **i18n everywhere** - All user-facing text must be translatable
 7. **SEO on every page** - All pages must have CMS-managed SEO with fallbacks
 8. **Cross-project awareness** - Changes may need updates in MUF too
+9. **Download images locally** - NEVER point to external CDN URLs for images. Always download images to `public/images/` and reference them locally. External URLs can break without warning.
 
 ## About MicroHabitat
 
