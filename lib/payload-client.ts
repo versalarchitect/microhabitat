@@ -50,6 +50,19 @@ import {
 export { locales, defaultLocale } from './strapi';
 export type { Locale, PageSEOKey };
 
+// Data source tracking for dev mode
+export type DataSource = 'cms' | 'fallback';
+export interface DataSourceStatus {
+  hero: DataSource;
+  stats: DataSource;
+  services: DataSource;
+  testimonials: DataSource;
+  partners: DataSource;
+  cities: DataSource;
+  faq: DataSource;
+  showcase: DataSource;
+}
+
 // Cache configuration
 const CACHE_REVALIDATE_SECONDS = 300; // 5 minutes - revalidate cached data
 const CACHE_TAGS = {
@@ -1503,4 +1516,79 @@ export async function getAllContent(locale: Locale = 'en'): Promise<SiteContent>
     faqSection,
     ctaSection,
   };
+}
+
+// ==========================================
+// DATA SOURCE TRACKING (DEV MODE)
+// ==========================================
+
+/**
+ * Fetches homepage data with source tracking for dev mode debugging
+ * Returns both the data and whether each piece came from CMS or fallback
+ */
+export async function getHomepageDataWithSources(locale: Locale = 'en') {
+  const payload = await getPayloadClient();
+
+  // Check each data source
+  const sources: DataSourceStatus = {
+    hero: 'fallback',
+    stats: 'fallback',
+    services: 'fallback',
+    testimonials: 'fallback',
+    partners: 'fallback',
+    cities: 'fallback',
+    faq: 'fallback',
+    showcase: 'fallback',
+  };
+
+  // Check hero
+  try {
+    const hero = await payload.findGlobal({ slug: 'hero', locale });
+    if (hero?.title) sources.hero = 'cms';
+  } catch { /* fallback */ }
+
+  // Check stats
+  try {
+    const { docs: stats } = await payload.find({ collection: 'stats', locale, limit: 1 });
+    if (stats.length > 0) sources.stats = 'cms';
+  } catch { /* fallback */ }
+
+  // Check services
+  try {
+    const { docs: services } = await payload.find({ collection: 'services', locale, limit: 1 });
+    if (services.length > 0) sources.services = 'cms';
+  } catch { /* fallback */ }
+
+  // Check testimonials
+  try {
+    const { docs: testimonials } = await payload.find({ collection: 'testimonials', locale, limit: 1 });
+    if (testimonials.length > 0) sources.testimonials = 'cms';
+  } catch { /* fallback */ }
+
+  // Check partners
+  try {
+    const { docs: partners } = await payload.find({ collection: 'partners', locale, limit: 1 });
+    if (partners.length > 0) sources.partners = 'cms';
+  } catch { /* fallback */ }
+
+  // Check cities
+  try {
+    const { docs: cities } = await payload.find({ collection: 'cities', locale, limit: 1 });
+    if (cities.length > 0) sources.cities = 'cms';
+  } catch { /* fallback */ }
+
+  // Check FAQ
+  try {
+    const { docs: faq } = await payload.find({ collection: 'faq-items', locale, limit: 1 });
+    if (faq.length > 0) sources.faq = 'cms';
+  } catch { /* fallback */ }
+
+  // Check showcase
+  try {
+    const showcase = await payload.findGlobal({ slug: 'showcase-section', locale });
+    const images = showcase?.images as Array<unknown> | undefined;
+    if (images && images.length > 0) sources.showcase = 'cms';
+  } catch { /* fallback */ }
+
+  return sources;
 }

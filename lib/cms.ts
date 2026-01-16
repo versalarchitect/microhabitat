@@ -35,6 +35,9 @@ export type {
 
 export { locales, defaultLocale } from './strapi';
 
+// Re-export data source types for dev mode badge
+export type { DataSource, DataSourceStatus } from './payload-client';
+
 // Check if Payload is configured
 const isPayloadConfigured = Boolean(process.env.POSTGRES_URL && process.env.PAYLOAD_SECRET);
 
@@ -210,4 +213,23 @@ export async function getContactPageContent(locale?: Parameters<typeof import('.
 export async function getIndoorFarmPageContent(locale?: Parameters<typeof import('./strapi').getIndoorFarmPageContent>[0]) {
   const cms = await getCMSClient();
   return cms.getIndoorFarmPageContent(locale);
+}
+
+// Dev mode: Get data source status for debugging badge
+export async function getHomepageDataWithSources(locale?: Parameters<typeof import('./strapi').getHeroContent>[0]) {
+  if (isPayloadConfigured) {
+    const payloadClient = await import('./payload-client');
+    return payloadClient.getHomepageDataWithSources(locale);
+  }
+  // If using Strapi, all data is from "CMS" (Strapi fallback)
+  return {
+    hero: 'fallback' as const,
+    stats: 'fallback' as const,
+    services: 'fallback' as const,
+    testimonials: 'fallback' as const,
+    partners: 'fallback' as const,
+    cities: 'fallback' as const,
+    faq: 'fallback' as const,
+    showcase: 'fallback' as const,
+  };
 }
