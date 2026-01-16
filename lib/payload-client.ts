@@ -539,6 +539,25 @@ export async function getCTASection(locale: Locale = 'en'): Promise<CTASectionCo
   }
 }
 
+// Local fallback showcase data
+const fallbackShowcaseImages = [
+  { src: '/images/showcase/urban-rooftop-farm.webp', alt: 'Urban rooftop farm with lush vegetables' },
+  { src: '/images/showcase/team-photo.webp', alt: 'MicroHabitat team members working together' },
+  { src: '/images/showcase/fresh-produce.webp', alt: 'Fresh locally grown produce' },
+  { src: '/images/showcase/community-engagement.webp', alt: 'Community engagement activity on Toronto rooftop' },
+  { src: '/images/showcase/toronto-rooftop.webp', alt: 'Rooftop urban farm in Toronto' },
+  { src: '/images/showcase/educational-activities.webp', alt: 'Educational urban farming activities' },
+];
+
+const fallbackShowcaseContent: Record<Locale, { label: string; heading: string; headingHighlight: string }> = {
+  en: { label: 'Our Work', heading: 'Transforming urban spaces into', headingHighlight: 'thriving ecosystems' },
+  fr: { label: 'Nos réalisations', heading: 'Transformer les espaces urbains en', headingHighlight: 'écosystèmes florissants' },
+  de: { label: 'Unsere Arbeit', heading: 'Städtische Räume in', headingHighlight: 'blühende Ökosysteme verwandeln' },
+  nl: { label: 'Ons werk', heading: 'Stedelijke ruimtes transformeren naar', headingHighlight: 'bloeiende ecosystemen' },
+  it: { label: 'Il nostro lavoro', heading: 'Trasformare gli spazi urbani in', headingHighlight: 'ecosistemi fiorenti' },
+  es: { label: 'Nuestro trabajo', heading: 'Transformando espacios urbanos en', headingHighlight: 'ecosistemas prósperos' },
+};
+
 export async function getShowcaseSection(locale: Locale = 'en'): Promise<ShowcaseSectionContent> {
   try {
     const payload = await getPayloadClient();
@@ -547,12 +566,14 @@ export async function getShowcaseSection(locale: Locale = 'en'): Promise<Showcas
       locale,
     });
 
-    if (!data) {
-      throw new Error('Showcase section not found');
+    // Check if we have valid data with images
+    const images = data?.images as Array<{ image?: { url?: string } | number; alt?: string }> | undefined;
+    if (!images || images.length === 0) {
+      throw new Error('No showcase images found');
     }
 
     // Transform the Payload data to match the expected format
-    const images = ((data.images as Array<{ image?: { url?: string } | number; alt?: string }>) || [])
+    const transformedImages = images
       .map((item) => {
         const imageUrl = typeof item.image === 'object' && item.image?.url ? item.image.url : null;
         return {
@@ -562,17 +583,23 @@ export async function getShowcaseSection(locale: Locale = 'en'): Promise<Showcas
       })
       .filter((img) => img.src);
 
+    if (transformedImages.length === 0) {
+      throw new Error('No valid showcase images');
+    }
+
     return {
-      label: (data.label as string) || 'Our Work',
-      heading: (data.heading as string) || 'Transforming urban spaces into',
-      headingHighlight: (data.headingHighlight as string) || 'thriving ecosystems',
-      images,
+      label: (data.label as string) || fallbackShowcaseContent[locale].label,
+      heading: (data.heading as string) || fallbackShowcaseContent[locale].heading,
+      headingHighlight: (data.headingHighlight as string) || fallbackShowcaseContent[locale].headingHighlight,
+      images: transformedImages,
     };
-  } catch (error) {
-    console.error('Error fetching showcase section from Payload:', error);
-    // Fallback to Strapi data
-    const { getShowcaseSection: getStrapiShowcase } = await import('./strapi');
-    return getStrapiShowcase(locale);
+  } catch {
+    // Return local fallback data when Payload global doesn't exist or has no data
+    const content = fallbackShowcaseContent[locale] || fallbackShowcaseContent.en;
+    return {
+      ...content,
+      images: fallbackShowcaseImages,
+    };
   }
 }
 
